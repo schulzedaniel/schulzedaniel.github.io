@@ -1,7 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Über Mich</title>
+    
+    <!-- Schriftart: Atkinson Hyperlegible -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            background-color: #3A86FF;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        section {
+            padding: 2rem 0;
+        }
+
+        .about {
+            background-color: #FFBE0B;
+        }
+
+        .skills {
+            background-color: #8338EC;
+            color: white;
+        }
+
+        .contact {
+            background-color: #FB5607;
+            color: white;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 2rem;
+            font-size: 1.2rem;
+            background-color: #3A86FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2b6cba;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #3A86FF;
+            color: white;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+    <header>
+        <h1>Über Mich</h1>
+    </header>
+
+    <div class="container">
+        <section class="about">
+            <h2>Wer bin ich?</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+        </section>
+
+        <section class="skills">
+            <h2>Fähigkeiten</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat massa quis enim.</p>
+        </section>
+
+        <section class="contact">
+            <h2>Kontakt</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quam felis, ultricies nec, pellentesque eu.</p>
+            <a href="mailto:example@example.com" class="btn">Kontaktieren Sie mich</a>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Mein Name</p>
+    </footer>
+
 </body>
 </html>

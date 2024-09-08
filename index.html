@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Über Mich</title>
-    
-    <!-- Schriftart: Atkinson Hyperlegible -->
+    <title>About Me</title>
+
+    <!-- Font: Atkinson Hyperlegible -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 
     <style>
+        /* Base Styles */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Atkinson Hyperlegible', sans-serif;
-            background-color: #ffffff;
-            color: #333333;
+            background-color: #1d1e22; /* Dark background for retro-futuristic feel */
+            color: #cdd1d5; /* Light gray text */
             line-height: 1.6;
         }
 
@@ -27,39 +28,40 @@
 
         header {
             text-align: center;
-            background-color: #3A86FF;
-            color: white;
+            background-color: #292b2f;
+            color: #FFFFFF;
             padding: 4rem 0;
+            border-bottom: 2px solid #3e4249;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         header h1 {
             font-size: 3rem;
             margin: 0;
+            color: #ff6361; /* Retro accent color */
         }
 
         section {
-            padding: 2rem 0;
+            padding: 3rem 0;
         }
 
-        .about {
-            background-color: #FFBE0B;
-        }
-
-        .skills {
-            background-color: #8338EC;
-            color: white;
-        }
-
+        .about,
+        .skills,
         .contact {
-            background-color: #FB5607;
-            color: white;
-            text-align: center;
+            background-color: #222326; /* Subtle dark background */
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         h2 {
             font-size: 2.5rem;
             text-align: center;
             margin-bottom: 1.5rem;
+            color: #ff6361; /* Accent color */
         }
 
         p {
@@ -67,6 +69,7 @@
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto;
+            color: #cdd1d5;
         }
 
         .btn {
@@ -74,52 +77,55 @@
             margin-top: 2rem;
             padding: 0.75rem 2rem;
             font-size: 1.2rem;
-            background-color: #3A86FF;
-            color: white;
+            background-color: #ff6361;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            transition: background-color 0.3s ease;
         }
 
         .btn:hover {
-            background-color: #2b6cba;
+            background-color: #d4504d;
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: #3A86FF;
-            color: white;
+            background-color: #292b2f;
+            color: #cdd1d5;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Über Mich</h1>
+        <h1>John Doe</h1>
+        <p>A Journey into the Future</p>
     </header>
 
     <div class="container">
         <section class="about">
-            <h2>Wer bin ich?</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+            <h2>About Me</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
         </section>
 
         <section class="skills">
-            <h2>Fähigkeiten</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat massa quis enim.</p>
+            <h2>Skills</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat massa quis enim. Fusce nec felis volutpat, consectetur magna eu, efficitur urna.</p>
         </section>
 
         <section class="contact">
-            <h2>Kontakt</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quam felis, ultricies nec, pellentesque eu.</p>
-            <a href="mailto:example@example.com" class="btn">Kontaktieren Sie mich</a>
+            <h2>Contact</h2>
+            <p>Feel free to reach out to me!</p>
+            <a href="mailto:example@example.com" class="btn">Contact Me</a>
         </section>
     </div>
 
     <footer>
-        <p>&copy; 2024 Mein Name</p>
+        <p>&copy; 2024 John Doe | All Rights Reserved</p>
     </footer>
 
 </body>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projekt — Landing</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <!-- Header (fixed) -->
+  <header class="site-header" id="top" role="banner">
+    <nav class="nav container" role="navigation" aria-label="Hauptnavigation">
+      <!-- Logo: PNG responsive (place your PNG in ./assets/logo.png) -->
+      <a class="logo" href="index.html" aria-label="Zur Startseite">
+        <img id="site-logo" src="./assets/logos/logo.png" alt="Projekt Logo" width="1176" height="252">
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" role="menubar">
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="team.html">TEAM</a></li>
+        <li><a href="sponsors.html">SPONSORS</a></li>
+        <li><a href="watch.html">WATCH</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+      </ul>
+
+      <!-- Controls: theme toggle + hamburger -->
+      <div class="controls">
+        <!-- Theme toggle: sun (left) / moon (right) visible in track -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Umschalten Tag/Nacht" aria-pressed="false">
+          <span class="theme-track" aria-hidden="true">
+            <span class="theme-icon theme-sun" aria-hidden="true">☀️</span>
+            <span class="theme-icon theme-moon" aria-hidden="true">🌙</span>
+            <span class="theme-thumb" aria-hidden="true"></span>
+          </span>
+        </button>
+
+        <button class="hamburger" id="hamburger" aria-label="Navigation öffnen" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="about.html">ABOUT</a>
+      <a href="team.html">TEAM</a>
+      <a href="sponsors.html">SPONSORS</a>
+      <a href="watch.html">WATCH</a>
+      <a href="contact.html">CONTACT</a>
+    </div>
+  </header>
+
+  <!-- Social floating strip: put your platform logos inside the <img> tags -->
+  <aside class="social-strip" id="socialStrip" aria-label="Social Media Links">
+    <a class="social" href="https://www.instagram.com/tedxki/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <img src="assets/logos/social/Instagram_Glyph_Gradient.png" alt="" class="social-logo" />
+      <span class="label">Instagram</span>
+    </a>
+    <a class="social" href="https://www.tiktok.com/@tedxki" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+      <img src="assets/logos/social/TikTok_Icon_Black_Circle.png" alt="" class="social-logo" />
+      <span class="label">TikTok</span>
+    </a>
+    <a class="social" href="https://www.linkedin.com/company/tedxki/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <img src="assets/logos/social/LI-In-Bug.png" alt="" class="social-logo" />
+      <span class="label">LinkedIn</span>
+    </a>
+    <a class="social" href="https://www.facebook.com/people/TEDx-KI/61560876282016/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <img src="assets/logos/social/Facebook_Logo_Primary.png" alt="" class="social-logo" />
+      <span class="label">Facebook</span>
+    </a>
+  </aside>
+
+  <main>
+    <!-- Hero -->
+    <section id="hero" class="hero" aria-label="Hero Bereich">
+      <img class="hero-image" src="assets/images/HeroFiller2.jpg" alt="Hero-Bild (ersetzen)" />
+      <div class="hero-overlay container">
+        <h1 class="hero-text">
+          <span id="line1" class="typing-line" aria-hidden="true"></span><br/>
+          <span id="line2" class="typing-line" aria-hidden="true"></span>
+        </h1>
+        <p class="hero-sub">A short subline that supports the mission and invites visitors to explore.</p>
+      </div>
+      <!-- smooth bottom blend: implemented via CSS mask on .hero-image -->
+    </section>
+
+    <!-- Content / example sections -->
+    <section class="container content-list">
+      <article class="content-section">
+        <div class="content-inner">
+          <div class="content-media"><img src="assets/images/5.jpg" alt="Beispielbild 1" /></div>
+          <div class="content-body">
+            <h2>About — Wissenschaft vernetzen</h2>
+            <p>Kurze Einleitung: Zweck des Projekts, in 2–3 Sätzen.</p>
+            <a class="cta" href="team.html">Mehr über das Team</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sponsor marquee -->
+      <section class="sponsor-band" aria-label="Partner & Sponsoren">
+        <div class="marquee" id="marquee">
+          <div class="marquee-track" id="marqueeTrack" aria-hidden="true">
+            <div class="logo"><img src="assets/logos/logo1.png" alt="Partner 1"></div>
+            <div class="logo"><img src="assets/logos/logo2.png" alt="Partner 2"></div>
+            <div class="logo"><img src="assets/logos/logo3.png" alt="Partner 3"></div>
+            <div class="logo"><img src="assets/logos/logo4.png" alt="Partner 4"></div>
+            <div class="logo"><img src="assets/logos/logo5.png" alt="Partner 5"></div>
+            <!-- duplicate for seamless loop -->
+            <div class="logo"><img src="assets/logos/logo1.png" alt="Partner 1"></div>
+            <div class="logo"><img src="assets/logos/logo2.png" alt="Partner 2"></div>
+            <div class="logo"><img src="assets/logos/logo3.png" alt="Partner 3"></div>
+            <div class="logo"><img src="assets/logos/logo4.png" alt="Partner 4"></div>
+            <div class="logo"><img src="assets/logos/logo5.png" alt="Partner 5"></div>
+          </div>
+        </div>
+        <p class="marquee-hint">Klicke, um das Band anzuhalten; ein weiterer Klick führt zu <a class="hyper-link" href="sponsors.html">Sponsors</a>.</p>
+      </section>
+
+      <!-- more content -->
+      <article class="content-section reverse">
+        <div class="content-inner">
+          <div class="content-media"><img src="assets/images/5.jpg" alt="Beispielbild 2" /></div>
+          <div class="content-body">
+            <h2>Team — Gemeinsam stärker</h2>
+            <p>Vorstellung: Wer steckt dahinter? Kurz & prägnant.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container contact">
+      <h2>Kontakt</h2>
+      <form class="contact-form" action="#" method="post" aria-label="Kontaktformular">
+        <label><span>Name</span><input type="text" name="name" required></label>
+        <label><span>Email</span><input type="email" name="email" required></label>
+        <label><span>Nachricht</span><textarea name="message" rows="4" required></textarea></label>
+        <button type="submit" class="btn">Senden</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Projektname. Alle Rechte vorbehalten.</p>
+      <nav aria-label="Footer Links">
+        <a href="index.html#top">Top</a>
+        <a href="contact.html">Kontakt</a>
+        <a href="sponsors.html">Sponsoren</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

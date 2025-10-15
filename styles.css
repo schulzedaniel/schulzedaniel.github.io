@@ -98,6 +98,7 @@ main{ padding-top: calc(var(--nav-height) + 12px); }
   /* center logo and hamburger on very small screens */
   .nav{ justify-content:center; }
   .logo img{ height:40px; }
+  .sponsor-logo img{ height:40px; }
 }
 
 /* Standard (Light Mode) */
@@ -112,6 +113,12 @@ html[data-theme="dark"] .logo img {
   content: url("./assets/logos/logo_dark.png");
 }
 
+/* Sponsoring Logos */
+.sponsor-logo img {
+  height: auto;
+  width: 160px;
+  transition: opacity 0.3s ease;
+}
 /* nav-links (desktop) */
 .nav-links{ list-style:none; display:flex; gap:1.1rem; margin:0; padding:0; align-items:center; }
 .nav-links a{ text-decoration:none; letter-spacing:0.06em; color:var(--text); font-weight:600; font-size:.95rem; padding:.45rem .6rem; border-radius:8px; }
@@ -173,8 +180,8 @@ html[data-theme="dark"] .theme-sun{ opacity:0.03; }
 .sponsor-band{ margin:2.5rem 0; padding:1rem 0; }
 .marquee{ overflow:hidden; position:relative; }
 .marquee-track{ display:flex; gap:1.6rem; align-items:center; padding:12px 0; transform:translate3d(0,0,0); will-change:transform; }
-.marquee-track .logo{ flex:0 0 auto; display:flex; align-items:center; justify-content:center; width:160px; height:72px; background:var(--surface); border-radius:10px; padding:8px; box-shadow:var(--shadow); }
-.marquee-track .logo img{ max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.marquee-track .sponsor-logo{ flex:0 0 auto; display:flex; align-items:center; justify-content:center; width:160px; height:72px; background:var(--surface); border-radius:10px; padding:8px; box-shadow:var(--shadow); }
+.marquee-track .sponsor-logo img{ max-width:100%; max-height:100%; object-fit:contain; display:block; }
 
 /* social strip */
 .social-strip{
@@ -210,7 +217,7 @@ html[data-theme="dark"] .theme-sun{ opacity:0.03; }
   .label{ display:none !important; }
   .hero-overlay{ padding:2.25rem 1rem; }
   .content-inner{ grid-template-columns:1fr; }
-  .marquee-track .logo{ width:120px; height:60px; }
+  .marquee-track .sponsor-logo{ width:120px; height:60px; }
 }
 
 /* very narrow screens: center logo + hamburger */

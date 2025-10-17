@@ -1,19 +1,36 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Projekt — Landing</title>
+  <title>Project — Landing</title>
+  <!-- place this at the very top of <head> BEFORE styles.css to avoid FOUC -->
+  <script>
+    (function(){
+      try {
+        var saved = localStorage.getItem('site-theme'); // 'dark'|'light' or null
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme','dark');
+        } else if (saved === 'light') {
+          document.documentElement.removeAttribute('data-theme');
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme','dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch (e) { /* ignore errors */ }
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css" />
   <script defer src="app.js"></script>
 </head>
 <body>
   <!-- Header (fixed) -->
   <header class="site-header" id="top" role="banner">
-    <nav class="nav container" role="navigation" aria-label="Hauptnavigation">
-      <!-- Logo: PNG responsive (place your PNG in ./assets/logo.png) -->
-      <a class="logo" href="index.html" aria-label="Zur Startseite">
-        <img id="site-logo" src="./assets/logos/logo.png" alt="Projekt Logo" width="1176" height="252">
+    <nav class="nav container" role="navigation" aria-label="Main navigation">
+      <!-- Logo: PNG responsive -->
+      <a class="logo" href="index.html" aria-label="Go to homepage">
+        <img id="site-logo" src="./assets/logos/logo.png" alt="Project Logo" width="1176" height="252">
       </a>
 
       <!-- Desktop links -->
@@ -27,23 +44,34 @@
 
       <!-- Controls: theme toggle + hamburger -->
       <div class="controls">
-        <!-- Theme toggle: sun (left) / moon (right) visible in track -->
-        <button id="theme-toggle" class="theme-toggle" aria-label="Umschalten Tag/Nacht" aria-pressed="false">
+        <!-- Theme toggle: uses images sized to the track -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light / dark" aria-pressed="false" title="Toggle theme">
           <span class="theme-track" aria-hidden="true">
-            <span class="theme-icon theme-sun" aria-hidden="true">☀️</span>
-            <span class="theme-icon theme-moon" aria-hidden="true">🌙</span>
+            <img src="./assets/icons/sun.png" alt="" class="theme-img theme-img-sun" />
+            <img src="./assets/icons/moon.png" alt="" class="theme-img theme-img-moon" />
             <span class="theme-thumb" aria-hidden="true"></span>
           </span>
         </button>
 
-        <button class="hamburger" id="hamburger" aria-label="Navigation öffnen" aria-expanded="false">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" >
           <span></span><span></span><span></span>
         </button>
       </div>
     </nav>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobileMenu" hidden>
+    <!-- Mobile menu: initially closed. JS toggles .open -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <div class="mobile-top">
+        <button id="mobile-theme-toggle" class="theme-toggle small" aria-label="Toggle theme (mobile)" aria-pressed="false" title="Toggle theme">
+          <span class="theme-track" aria-hidden="true">
+            <img src="./assets/icons/sun.png" alt="" class="theme-img theme-img-sun" />
+            <img src="./assets/icons/moon.png" alt="" class="theme-img theme-img-moon" />
+            <span class="theme-thumb" aria-hidden="true"></span>
+          </span>
+        </button>
+        <button id="mobileClose" class="mobile-close" aria-label="Close menu">Close</button>
+      </div>
+
       <a href="about.html">ABOUT</a>
       <a href="team.html">TEAM</a>
       <a href="sponsors.html">SPONSORS</a>
@@ -52,7 +80,7 @@
     </div>
   </header>
 
-  <!-- Social floating strip: put your platform logos inside the <img> tags -->
+  <!-- Social floating strip -->
   <aside class="social-strip" id="socialStrip" aria-label="Social Media Links">
     <a class="social" href="https://www.instagram.com/tedxki/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
       <img src="assets/logos/social/Instagram_Glyph_Gradient.png" alt="" class="social-logo" />
@@ -74,41 +102,41 @@
 
   <main>
     <!-- Hero -->
-    <section id="hero" class="hero" aria-label="Hero Bereich">
-      <img class="hero-image" src="assets/images/HeroFiller2.jpg" alt="Hero-Bild (ersetzen)" />
+    <section id="hero" class="hero" aria-label="Hero section">
+      <img class="hero-image" src="assets/images/HeroFiller2.jpg" alt="Hero image (replace)" />
       <div class="hero-overlay container">
         <h1 class="hero-text">
           <span id="line1" class="typing-line" aria-hidden="true"></span><br/>
           <span id="line2" class="typing-line" aria-hidden="true"></span>
         </h1>
-        <p class="hero-sub">A short subline that supports the mission and invites visitors to explore.</p>
+        <p class="hero-sub">A brief subline supporting the mission and inviting visitors to explore.</p>
       </div>
-      <!-- smooth bottom blend: implemented via CSS mask on .hero-image -->
     </section>
 
     <!-- Content / example sections -->
     <section class="container content-list">
-      <article class="content-section">
+      <article class="content-section scroll-fade">
         <div class="content-inner">
-          <div class="content-media"><img src="assets/images/5.jpg" alt="Beispielbild 1" /></div>
+          <div class="content-media"><img src="assets/images/5.jpg" alt="Example image 1" /></div>
           <div class="content-body">
-            <h2>About — Wissenschaft vernetzen</h2>
-            <p>Kurze Einleitung: Zweck des Projekts, in 2–3 Sätzen.</p>
-            <a class="cta" href="team.html">Mehr über das Team</a>
+            <h2>About — Connecting science</h2>
+            <p>Short intro: purpose of the project in 2–3 sentences.</p>
+            <a class="cta" href="team.html">Meet the team</a>
           </div>
         </div>
       </article>
 
       <!-- Sponsor marquee -->
-      <section class="sponsor-band" aria-label="Partner & Sponsoren">
+      <section class="sponsor-band" aria-label="Partners & sponsors">
         <div class="marquee" id="marquee">
           <div class="marquee-track" id="marqueeTrack" aria-hidden="true">
+            <!-- real sponsor logos -->
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 1"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 2"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 3"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 4"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 5"></div>
-            <!-- duplicate for seamless loop -->
+            <!-- duplicate for seamless loop (JS also duplicates if needed) -->
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 1"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 2"></div>
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 3"></div>
@@ -116,40 +144,60 @@
             <div class="sponsor-logo"><img src="assets/logos/MEME.jpeg" alt="Partner 5"></div>
           </div>
         </div>
-        <p class="marquee-hint">Klicke, um das Band anzuhalten; ein weiterer Klick führt zu <a class="hyper-link" href="sponsors.html">Sponsors</a>.</p>
+        <p class="marquee-hint">Click to pause the band; click again to resume or go to <a class="hyper-link" href="sponsors.html">Sponsors</a>.</p>
       </section>
 
       <!-- more content -->
-      <article class="content-section reverse">
+      <article class="content-section reverse scroll-fade">
         <div class="content-inner">
-          <div class="content-media"><img src="assets/images/5.jpg" alt="Beispielbild 2" /></div>
+          <div class="content-media"><img src="assets/images/5.jpg" alt="Example image 2" /></div>
           <div class="content-body">
-            <h2>Team — Gemeinsam stärker</h2>
-            <p>Vorstellung: Wer steckt dahinter? Kurz & prägnant.</p>
+            <h2>Team — Stronger together</h2>
+            <p>Quick overview of who drives this project.</p>
           </div>
         </div>
       </article>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="container contact">
-      <h2>Kontakt</h2>
-      <form class="contact-form" action="#" method="post" aria-label="Kontaktformular">
-        <label><span>Name</span><input type="text" name="name" required></label>
-        <label><span>Email</span><input type="email" name="email" required></label>
-        <label><span>Nachricht</span><textarea name="message" rows="4" required></textarea></label>
-        <button type="submit" class="btn">Senden</button>
+    <section id="contact" class="container contact scroll-fade">
+      <h2>Contact</h2>
+      <!--
+        NOTE: We provide an example Formspree flow here.
+        Replace the `data-form-endpoint` value with your own serverless endpoint (recommended)
+        or your Formspree endpoint. For privacy you should not embed any private inbox address
+        in public HTML. Use a server-side endpoint that holds the real recipient address.
+      -->
+      <form id="contactForm" class="contact-form" action="#" method="post" aria-label="Contact form" data-form-endpoint="">
+        <label class="form-row">
+          <span class="visually-hidden">Name</span>
+          <input type="text" name="name" placeholder="Your name" required>
+        </label>
+        <label class="form-row">
+          <span class="visually-hidden">Email</span>
+          <input type="email" name="email" placeholder="Your email" required>
+        </label>
+        <label class="form-row">
+          <span class="visually-hidden">Message</span>
+          <textarea name="message" rows="5" placeholder="Your message" required></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Send message</button>
+          <div id="formStatus" role="status" aria-live="polite" class="form-status" hidden></div>
+        </div>
       </form>
+
+      <p class="privacy-note">We recommend using a serverless function or Formspree so the recipient address is not exposed in client-side code. See comments in app.js.</p>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>© <span id="year"></span> TEDxKI. All rights reversed.</p>
+      <p>© <span id="year"></span> TEDxKI. All rights reserved.</p>
       <nav aria-label="Footer Links">
         <a href="index.html#top">Top</a>
-        <a href="contact.html">Kontakt</a>
-        <a href="sponsors.html">Sponsoren</a>
+        <a href="contact.html">Contact</a>
+        <a href="sponsors.html">Sponsors</a>
       </nav>
     </div>
   </footer>

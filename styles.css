@@ -1,10 +1,9 @@
-/* styles.css (UPDATED)
-   - Removed hero image gradient mask
-   - Responsive theme-toggle fixes (icons / thumb)
-   - Hero text size increase on small screens
-   - Contact area replaced by CTA card markup (HTML change below)
-   - Hamburger X fixed to center intersection
-   - Minimal visual changes only; animations preserved
+/* styles.css (UPDATED v2)
+   Fixes:
+   - social icons centering on mobile
+   - hamburger "X" intersection centered across viewports
+   - contact card button full-width on mobile + removal of second dark frame effect
+   - small mobile polish (spacing)
 */
 
 /* ------------------ font ------------------ */
@@ -21,7 +20,7 @@
   --surface: #f7f7f8;
   --text: #0f1720;
   --muted: #556070;
-  --accent: #EB0028; /* main red accent */
+  --accent: #EB0028;
   --glass: rgba(255,255,255,0.6);
   --nav-height: 68px;
   --shadow: 0 6px 18px rgba(16,24,40,0.06);
@@ -147,14 +146,41 @@ html[data-theme="dark"] .theme-img-sun{ opacity:0.95; }
 .theme-toggle.small .theme-thumb{ width:18px; height:18px; left:4px; }
 html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px - 18px); }
 
-/* hamburger */
-.hamburger{ display:none; flex-direction:column; gap:6px; width:42px; height:42px; justify-content:center; background:transparent;border:0;padding:6px;cursor:pointer;border-radius:10px;}
-.hamburger span{ display:block; height:3px; width:22px; background:var(--text); border-radius:3px; transition: transform 180ms ease, opacity 160ms ease; transform-origin:center; }
+/* hamburger
+   Reworked to use absolute-positioned spans so rotations meet exactly at center.
+*/
+.hamburger{ display:none; position:relative; width:48px; height:48px; background:transparent;border:0;padding:6px;cursor:pointer;border-radius:10px; }
+.hamburger span{
+  position:absolute;
+  left:50%;
+  transform-origin:center;
+  transform: translateX(-50%);
+  height:3px;
+  width:22px;
+  background:var(--text);
+  border-radius:3px;
+  transition: transform 180ms ease, opacity 160ms ease, top 180ms ease;
+}
+/* initial vertical positions */
+.hamburger span:nth-child(1){ top: calc(50% - 7px); }
+.hamburger span:nth-child(2){ top: 50%; transform: translateX(-50%) translateY(-50%); }
+.hamburger span:nth-child(3){ top: calc(50% + 7px); }
 
-/* hamburger open state: center the X intersection by using zero Y translate and rotate */
-.hamburger.open span:nth-child(1){ transform: rotate(45deg); }
-.hamburger.open span:nth-child(2){ opacity:0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3){ transform: rotate(-45deg); }
+/* open state:
+   - collapse middle line
+   - move top & bottom to exact center (top:50%) then rotate oppositely
+*/
+.hamburger.open span:nth-child(1){
+  top:50%;
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+.hamburger.open span:nth-child(2){
+  opacity:0; transform: translateX(-50%) scaleX(0);
+}
+.hamburger.open span:nth-child(3){
+  top:50%;
+  transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+}
 
 /* mobile nav (hidden by default, toggled by .open) */
 .mobile-menu{
@@ -176,10 +202,8 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
   transition: transform 600ms cubic-bezier(.2,.9,.2,1);
   /* removed mask-image/gradient to keep hero image unmodified per request */
-  /* previous mask removed intentionally */
 }
 .hero-overlay{ position:relative; z-index:2; padding:5.0rem 1rem; max-width:var(--hero-max-width); color:white; }
-/* subtle text-shadow to preserve readability without overlaying the image */
 .hero-text{
   font-weight:800; font-size: clamp(2.4rem, 6.6vw, 5.2rem); line-height:0.95; margin:0 0 1rem 0; text-align:left; color: #fff;
   letter-spacing:-0.02em;
@@ -231,15 +255,12 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
 .marquee-track .sponsor-logo{ flex:0 0 auto; display:flex; align-items:center; justify-content:center; width:160px; height:72px; background:var(--surface); border-radius:10px; padding:8px; box-shadow:var(--shadow); transition: transform 220ms ease; overflow:hidden; }
 .marquee-track .sponsor-logo img{ max-width:100%; max-height:100%; object-fit:contain; display:block; margin:auto; }
 
-
 /* Ensure cloned marquee sets lay out logos horizontally */
 .marquee-set {
   display: flex;
   gap: 1.6rem;
   align-items: center;
-  /* inherit height behavior from .sponsor-logo (no extra padding) */
 }
-
 
 /* on hover pause visual */
 .marquee:hover .sponsor-logo{ transform: translateY(-4px); }
@@ -250,10 +271,13 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
   display:flex; flex-direction:column; gap:.6rem;
 }
 .social{
-  display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--text); background:var(--surface); padding:.5rem .7rem; border-radius:999px; box-shadow:var(--shadow); transition: transform 220ms cubic-bezier(.2,.9,.2,1), background 160ms ease;
+  display:flex; align-items:center; justify-content:center; gap:.6rem; text-decoration:none; color:var(--text); background:var(--surface); padding:.5rem .7rem; border-radius:999px; box-shadow:var(--shadow); transition: transform 220ms cubic-bezier(.2,.9,.2,1), background 160ms ease;
   overflow:visible; position:relative;
+  min-width:44px; min-height:44px;
 }
-.social-logo{ width:20px; height:20px; object-fit:contain; display:block; transition: transform 220ms ease; }
+.social-logo{ width:20px; height:20px; object-fit:contain; display:block; transition: transform 220ms ease; margin:0 auto; }
+
+/* label hidden on mobile by default */
 .label{ display:none; white-space:nowrap; font-weight:700; color:var(--text); margin-left:4px; }
 
 /* social hover: glow + subtle 3D lift + reveal label */
@@ -277,19 +301,26 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
 }
 
 /* contact & footer
-   NOTE: contact form in HTML replaced by a modern CTA card (see HTML snippet)
+   NOTE: contact form replaced by a modern CTA card (HTML)
 */
-.contact{ padding:2.5rem 1rem; background:var(--surface); border-radius:12px; margin:2rem auto; max-width:900px; }
+.contact{ padding:2.5rem 1rem; background:transparent; border-radius:12px; margin:2rem auto; max-width:900px; }
 .contact-card{
   display:flex; flex-direction:column; gap:1rem; padding:1.4rem; border-radius:12px; align-items:flex-start;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
   box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+html[data-theme="dark"] .contact-card{
+  border: 1px solid rgba(255,255,255,0.03);
 }
 .contact-card h3{ margin:0; font-size:1.35rem; }
 .contact-card p{ margin:0; color:var(--muted); }
+
+/* Mailto CTA (button-like) */
 .contact-card .mailto{
   margin-top:0.6rem; display:inline-flex; gap:.6rem; align-items:center; text-decoration:none; padding:.65rem .9rem; border-radius:10px; font-weight:800;
   background: linear-gradient(90deg,var(--accent), #ff6b3c); color:#fff;
+  box-shadow: 0 8px 22px rgba(235,0,40,0.12);
 }
 
 /* privacy note */
@@ -303,15 +334,32 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
 @media (max-width:900px){
   .nav-links{ display:none; }
   .hamburger{ display:flex; }
-  /* hide theme toggle in header on mobile (we show variant inside mobile menu) */
+  /* show theme toggle variant in mobile menu; hide header one (if desired) */
   .controls > .theme-toggle { display:none; }
   /* social strip adapt bottom layout on small screens */
   .social-strip{ right:8px; top:auto; bottom:12px; transform:none; flex-direction:row; }
-  .social{ padding:.45rem; min-width:44px; border-radius:8px; }
+  .social{
+    padding:.45rem; min-width:44px; border-radius:8px;
+    /* ensure icons centered tightly */
+    justify-content:center;
+    align-items:center;
+  }
+  .social-logo{ width:20px; height:20px; }
   .label{ display:none !important; }
   .hero-overlay{ padding:2.25rem 1rem; }
   .content-inner{ grid-template-columns:1fr; }
   .marquee-track .sponsor-logo{ width:120px; height:60px; }
+
+  /* contact card mobile polish:
+     - collapse outer background effect (avoid double framed look)
+     - make mailto full width and centered
+  */
+  .contact{ padding:1.4rem 0; margin:1.2rem auto; }
+  .contact-card{ width:100%; border-radius:10px; padding:0.95rem; box-shadow: 0 8px 18px rgba(0,0,0,0.06); }
+  .contact-card .mailto{
+    display:flex; width:100%; justify-content:center; padding:.8rem 1rem; font-size:1rem;
+  }
+  .contact-card .privacy-note{ font-size:.88rem; padding-top:0.4rem; }
 }
 
 /* very narrow screens: center logo + hamburger
@@ -322,6 +370,9 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
   .logo{ order:0; margin:0; }
   .controls{ position:absolute; right:10px; top:10px; }
   .hero-text{ font-size: clamp(2.0rem, 9.6vw, 3.6rem); } /* increased compared to previous */
+  /* tighten hamburger clickable area slightly on smallest screens */
+  .hamburger{ width:44px; height:44px; }
+  .hamburger span{ width:20px; height:3px; }
 }
 
 /* small polish */

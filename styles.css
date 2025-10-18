@@ -1,9 +1,7 @@
-/* styles.css (UPDATED v2)
-   Fixes:
-   - social icons centering on mobile
-   - hamburger "X" intersection centered across viewports
-   - contact card button full-width on mobile + removal of second dark frame effect
-   - small mobile polish (spacing)
+/* styles.css (UPDATED v3)
+   - Fix: hamburger closed-state spacing exact + robust open-state
+   - Fix: contact heading spacing on mobile matches other headings
+   - Preserves previous v2 structure & animations
 */
 
 /* ------------------ font ------------------ */
@@ -27,6 +25,11 @@
   --transition: 220ms ease;
   --hero-max-width: 1100px;
   --btn-radius: 12px;
+
+  /* hamburger tuning */
+  --hb-width: 22px;
+  --hb-thickness: 3px;
+  --hb-gap: 7px; /* visual gap between center and top/bottom lines */
 }
 
 /* Dark theme variables applied via html[data-theme="dark"] */
@@ -109,13 +112,7 @@ html[data-theme="dark"] .logo img{
 /* controls */
 .controls{ display:flex; align-items:center; gap:.6rem; }
 
-/* theme toggle: image-based track
-   Made more robust:
-   - icon sizes responsive via clamp()
-   - icon positions in percent so they don't overlap on narrow tracks
-   - thumb move uses calc() so it adapts to track width
-   - overflow hidden to prevent icons from bleeding out
-*/
+/* theme toggle: image-based track (unchanged) */
 .theme-toggle{ background:none; border:0; padding:6px; cursor:pointer; display:inline-flex; align-items:center; }
 .theme-track{
   display:inline-grid; align-items:center; position:relative;
@@ -135,7 +132,6 @@ html[data-theme="dark"] .logo img{
   transition: left 220ms cubic-bezier(.2,.9,.2,1), background 220ms ease;
   z-index:2;
 }
-/* thumb position computed responsively using calc so it won't overflow on narrow tracks */
 html[data-theme="dark"] .theme-track{ background:rgba(255,255,255,0.06); }
 html[data-theme="dark"] .theme-thumb{ left: calc(100% - 6px - 22px); background:var(--accent); }
 html[data-theme="dark"] .theme-img-moon{ opacity:1; }
@@ -147,39 +143,40 @@ html[data-theme="dark"] .theme-img-sun{ opacity:0.95; }
 html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px - 18px); }
 
 /* hamburger
-   Reworked to use absolute-positioned spans so rotations meet exactly at center.
+   Reworked to always derive spacing from center:
+   - uses CSS variables for easy tuning (--hb-gap)
+   - closed state: top/middle/bottom are same top + translateY offsets
+   - open state: both rotating bars moved to center and rotated
 */
 .hamburger{ display:none; position:relative; width:48px; height:48px; background:transparent;border:0;padding:6px;cursor:pointer;border-radius:10px; }
 .hamburger span{
   position:absolute;
   left:50%;
+  top:50%;
   transform-origin:center;
-  transform: translateX(-50%);
-  height:3px;
-  width:22px;
+  /* initial transform sets horizontal centering and vertical offset */
+  transform: translateX(-50%) translateY(0);
+  height:var(--hb-thickness);
+  width:var(--hb-width);
   background:var(--text);
   border-radius:3px;
-  transition: transform 180ms ease, opacity 160ms ease, top 180ms ease;
+  transition: transform 180ms ease, opacity 160ms ease;
+  will-change:transform,opacity;
 }
-/* initial vertical positions */
-.hamburger span:nth-child(1){ top: calc(50% - 7px); }
-.hamburger span:nth-child(2){ top: 50%; transform: translateX(-50%) translateY(-50%); }
-.hamburger span:nth-child(3){ top: calc(50% + 7px); }
+/* closed state offsets */
+.hamburger span:nth-child(1){ transform: translateX(-50%) translateY(calc(-1 * var(--hb-gap))); }
+.hamburger span:nth-child(2){ transform: translateX(-50%) translateY(0); }
+.hamburger span:nth-child(3){ transform: translateX(-50%) translateY(var(--hb-gap)); }
 
-/* open state:
-   - collapse middle line
-   - move top & bottom to exact center (top:50%) then rotate oppositely
-*/
+/* open state: middle line disappears; top/bottom collapse to center and rotate */
 .hamburger.open span:nth-child(1){
-  top:50%;
-  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(0) rotate(45deg);
 }
 .hamburger.open span:nth-child(2){
-  opacity:0; transform: translateX(-50%) scaleX(0);
+  opacity:0; transform: translateX(-50%) translateY(0) scaleX(0);
 }
 .hamburger.open span:nth-child(3){
-  top:50%;
-  transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+  transform: translateX(-50%) translateY(0) rotate(-45deg);
 }
 
 /* mobile nav (hidden by default, toggled by .open) */
@@ -201,7 +198,7 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
 .hero-image{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
   transition: transform 600ms cubic-bezier(.2,.9,.2,1);
-  /* removed mask-image/gradient to keep hero image unmodified per request */
+  /* no gradient overlay per request */
 }
 .hero-overlay{ position:relative; z-index:2; padding:5.0rem 1rem; max-width:var(--hero-max-width); color:white; }
 .hero-text{
@@ -304,6 +301,20 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
    NOTE: contact form replaced by a modern CTA card (HTML)
 */
 .contact{ padding:2.5rem 1rem; background:transparent; border-radius:12px; margin:2rem auto; max-width:900px; }
+
+/* --- FIX: ensure contact section heading aligns with other headings ---
+   We specifically target the contact section's h2 to match spacing used across the site.
+   This avoids changing other headings globally.
+*/
+.contact > h2 {
+  margin: 0 0 0.85rem 0;
+  padding: 0;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+/* contact card */
 .contact-card{
   display:flex; flex-direction:column; gap:1rem; padding:1.4rem; border-radius:12px; align-items:flex-start;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
@@ -334,13 +345,10 @@ html[data-theme="dark"] .contact-card{
 @media (max-width:900px){
   .nav-links{ display:none; }
   .hamburger{ display:flex; }
-  /* show theme toggle variant in mobile menu; hide header one (if desired) */
   .controls > .theme-toggle { display:none; }
-  /* social strip adapt bottom layout on small screens */
   .social-strip{ right:8px; top:auto; bottom:12px; transform:none; flex-direction:row; }
   .social{
     padding:.45rem; min-width:44px; border-radius:8px;
-    /* ensure icons centered tightly */
     justify-content:center;
     align-items:center;
   }
@@ -369,10 +377,12 @@ html[data-theme="dark"] .contact-card{
   .nav{ justify-content:center; }
   .logo{ order:0; margin:0; }
   .controls{ position:absolute; right:10px; top:10px; }
-  .hero-text{ font-size: clamp(2.0rem, 9.6vw, 3.6rem); } /* increased compared to previous */
-  /* tighten hamburger clickable area slightly on smallest screens */
+  .hero-text{ font-size: clamp(2.0rem, 9.6vw, 3.6rem); }
   .hamburger{ width:44px; height:44px; }
+  /* scale hamburger to fit */
   .hamburger span{ width:20px; height:3px; }
+  /* ensure gap scales nicely on tiny screens */
+  :root { --hb-gap: 6px; }
 }
 
 /* small polish */

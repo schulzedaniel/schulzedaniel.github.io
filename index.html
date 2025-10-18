@@ -164,33 +164,20 @@
     <!-- Contact -->
     <section id="contact" class="container contact scroll-fade">
       <h2>Contact</h2>
-      <!--
-        NOTE: We provide an example Formspree flow here.
-        Replace the `data-form-endpoint` value with your own serverless endpoint (recommended)
-        or your Formspree endpoint. For privacy you should not embed any private inbox address
-        in public HTML. Use a server-side endpoint that holds the real recipient address.
-      -->
-      <form id="contactForm" class="contact-form" action="#" method="post" aria-label="Contact form" data-form-endpoint="">
-        <label class="form-row">
-          <span class="visually-hidden">Name</span>
-          <input type="text" name="name" placeholder="Your name" required>
-        </label>
-        <label class="form-row">
-          <span class="visually-hidden">Email</span>
-          <input type="email" name="email" placeholder="Your email" required>
-        </label>
-        <label class="form-row">
-          <span class="visually-hidden">Message</span>
-          <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-        </label>
-        <div class="form-actions">
-          <button type="submit" class="btn primary">Send message</button>
-          <div id="formStatus" role="status" aria-live="polite" class="form-status" hidden></div>
-        </div>
-      </form>
 
-      <p class="privacy-note">We recommend using a serverless function or Formspree so the recipient address is not exposed in client-side code. See comments in app.js.</p>
+      <div class="contact-card" role="region" aria-labelledby="contact-head">
+        <h3 id="contact-head">Want to get in touch?</h3>
+        <p>We'd love to hear from you — whether it's a question, partnership idea or press inquiry. Click the button to open your mail client.</p>
+
+        <!-- mailto CTA -->
+        <a class="mailto" href="mailto:dummy@provider.com?subject=Contact%20via%20Website" aria-label="Send an email to dummy at provider dot com">
+          ✉️ dummy@provider.com
+        </a>
+
+        <p class="privacy-note">Note: This placeholder opens your mail client. Replace with your serverless endpoint or Formspree if you later want in-site submission handling.</p>
+      </div>
     </section>
+
   </main>
 
   <footer class="site-footer">

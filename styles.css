@@ -1,11 +1,10 @@
-/* styles.css
-   - Inter variable font local
-   - responsive logo
-   - hero bottom blend (~1/6)
-   - theme toggle with sun/moon images sized to track
-   - social strip hover effects
-   - marquee styling + improved continuous animation hooks
-   - scroll-fade animations (IntersectionObserver)
+/* styles.css (UPDATED)
+   - Removed hero image gradient mask
+   - Responsive theme-toggle fixes (icons / thumb)
+   - Hero text size increase on small screens
+   - Contact area replaced by CTA card markup (HTML change below)
+   - Hamburger X fixed to center intersection
+   - Minimal visual changes only; animations preserved
 */
 
 /* ------------------ font ------------------ */
@@ -111,42 +110,51 @@ html[data-theme="dark"] .logo img{
 /* controls */
 .controls{ display:flex; align-items:center; gap:.6rem; }
 
-/* theme toggle: image-based track */
+/* theme toggle: image-based track
+   Made more robust:
+   - icon sizes responsive via clamp()
+   - icon positions in percent so they don't overlap on narrow tracks
+   - thumb move uses calc() so it adapts to track width
+   - overflow hidden to prevent icons from bleeding out
+*/
 .theme-toggle{ background:none; border:0; padding:6px; cursor:pointer; display:inline-flex; align-items:center; }
 .theme-track{
   display:inline-grid; align-items:center; position:relative;
   width:64px; height:34px; border-radius:999px; background:rgba(0,0,0,0.06); padding:6px;
+  overflow:hidden;
 }
 .theme-img{
   position:absolute; top:50%; transform:translateY(-50%);
-  width:18px; height:18px; object-fit:contain; pointer-events:none;
+  width: clamp(14px, 2.6vw, 18px); height:auto; object-fit:contain; pointer-events:none;
   transition: opacity 160ms ease, transform 220ms ease;
+  z-index:1;
 }
-.theme-img-sun{ left:8px; }
-.theme-img-moon{ right:8px; opacity:0.55; }
+.theme-img-sun{ left:8%; transform: translateY(-50%); }
+.theme-img-moon{ right:8%; transform: translateY(-50%); opacity:0.6; }
 .theme-thumb{
   position:absolute; width:22px; height:22px; border-radius:50%; background:#fff; left:6px; top:50%; transform:translateY(-50%); box-shadow:0 6px 14px rgba(2,6,23,0.12);
   transition: left 220ms cubic-bezier(.2,.9,.2,1), background 220ms ease;
+  z-index:2;
 }
-/* when dark is active move thumb right and adjust visuals */
+/* thumb position computed responsively using calc so it won't overflow on narrow tracks */
 html[data-theme="dark"] .theme-track{ background:rgba(255,255,255,0.06); }
-html[data-theme="dark"] .theme-thumb{ left:36px; background:var(--accent); }
+html[data-theme="dark"] .theme-thumb{ left: calc(100% - 6px - 22px); background:var(--accent); }
 html[data-theme="dark"] .theme-img-moon{ opacity:1; }
-html[data-theme="dark"] .theme-img-sun{ opacity:1; }
+html[data-theme="dark"] .theme-img-sun{ opacity:0.95; }
 
 /* small variant for mobile menu placement */
 .theme-toggle.small .theme-track{ width:46px; height:26px; padding:4px; }
 .theme-toggle.small .theme-thumb{ width:18px; height:18px; left:4px; }
-html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left:24px; }
+html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px - 18px); }
 
 /* hamburger */
 .hamburger{ display:none; flex-direction:column; gap:6px; width:42px; height:42px; justify-content:center; background:transparent;border:0;padding:6px;cursor:pointer;border-radius:10px;}
 .hamburger span{ display:block; height:3px; width:22px; background:var(--text); border-radius:3px; transition: transform 180ms ease, opacity 160ms ease; transform-origin:center; }
 
-/* hamburger open state */
-.hamburger.open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+/* hamburger open state: center the X intersection by using zero Y translate and rotate */
+.hamburger.open span:nth-child(1){ transform: rotate(45deg); }
 .hamburger.open span:nth-child(2){ opacity:0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+.hamburger.open span:nth-child(3){ transform: rotate(-45deg); }
 
 /* mobile nav (hidden by default, toggled by .open) */
 .mobile-menu{
@@ -167,17 +175,19 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left:24px; }
 .hero-image{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
   transition: transform 600ms cubic-bezier(.2,.9,.2,1);
-  /* smooth bottom fade occupying ~1/6 of height -> mask-image */
-  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 78%, rgba(0,0,0,0) 100%);
-  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 78%, rgba(0,0,0,0) 100%);
+  /* removed mask-image/gradient to keep hero image unmodified per request */
+  /* previous mask removed intentionally */
 }
 .hero-overlay{ position:relative; z-index:2; padding:5.0rem 1rem; max-width:var(--hero-max-width); color:white; }
+/* subtle text-shadow to preserve readability without overlaying the image */
 .hero-text{
   font-weight:800; font-size: clamp(2.4rem, 6.6vw, 5.2rem); line-height:0.95; margin:0 0 1rem 0; text-align:left; color: #fff;
   letter-spacing:-0.02em;
+  text-shadow: 0 10px 26px rgba(0,0,0,0.45);
 }
-.hero-sub{ margin-top:0.6rem; color:rgba(255,255,255,0.85); font-weight:500; text-align:left; }
+.hero-sub{ margin-top:0.6rem; color:rgba(255,255,255,0.9); font-weight:500; text-align:left; }
 
+/* ensure line reveal animation unaffected */
 .line-inner {
   display:inline-block;
   transform: translateX(-100%);
@@ -266,19 +276,21 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left:24px; }
   box-shadow: 0 8px 28px rgba(235,0,40,0.14);
 }
 
-/* contact & footer */
+/* contact & footer
+   NOTE: contact form in HTML replaced by a modern CTA card (see HTML snippet)
+*/
 .contact{ padding:2.5rem 1rem; background:var(--surface); border-radius:12px; margin:2rem auto; max-width:900px; }
-.contact-form{ display:grid; gap:1rem; }
-.form-row input, .form-row textarea{
-  width:100%; padding:.9rem 1rem; border-radius:10px; border:1px solid rgba(0,0,0,0.06); background: transparent; color:var(--text);
-  transition: box-shadow 160ms ease, border-color 160ms ease, transform 160ms ease;
-  font-size:1rem;
+.contact-card{
+  display:flex; flex-direction:column; gap:1rem; padding:1.4rem; border-radius:12px; align-items:flex-start;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  box-shadow: var(--shadow);
 }
-.form-row input:focus, .form-row textarea:focus{
-  outline:none; border-color:var(--accent); box-shadow: 0 6px 20px rgba(235,0,40,0.08); transform: translateY(-2px);
+.contact-card h3{ margin:0; font-size:1.35rem; }
+.contact-card p{ margin:0; color:var(--muted); }
+.contact-card .mailto{
+  margin-top:0.6rem; display:inline-flex; gap:.6rem; align-items:center; text-decoration:none; padding:.65rem .9rem; border-radius:10px; font-weight:800;
+  background: linear-gradient(90deg,var(--accent), #ff6b3c); color:#fff;
 }
-.form-actions{ display:flex; gap:1rem; align-items:center; }
-.form-status{ font-weight:700; color:var(--muted); }
 
 /* privacy note */
 .privacy-note{ font-size:.9rem; color:var(--muted); margin-top:.6rem; }
@@ -302,12 +314,14 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left:24px; }
   .marquee-track .sponsor-logo{ width:120px; height:60px; }
 }
 
-/* very narrow screens: center logo + hamburger */
+/* very narrow screens: center logo + hamburger
+   Also bump the hero text min-size on very small screens (user requested larger on smartphone)
+*/
 @media (max-width:420px){
   .nav{ justify-content:center; }
   .logo{ order:0; margin:0; }
   .controls{ position:absolute; right:10px; top:10px; }
-  .hero-text{ font-size: clamp(1.6rem, 8.4vw, 3.2rem); }
+  .hero-text{ font-size: clamp(2.0rem, 9.6vw, 3.6rem); } /* increased compared to previous */
 }
 
 /* small polish */

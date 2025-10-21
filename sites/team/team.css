@@ -1,190 +1,285 @@
-/* team.css — styles specific for the team page
-   - uses --accent from main styles.css
-   - implements floating rect, overlapping hero image, parallax heading
-   - grid with 4 columns (responsive), vertical offsets, and different scroll speeds
-*/
+/* team.css - updated */
 
-/* ensure variables available (inherited from global styles.css) */
-:root {
-    --team-rect-height: 140px;
-    --team-rect-width: min(72%, 980px);
-    --team-rect-radius: 12px;
-    --team-img-overhang: 20%; /* fraction of the image height that sticks out */
-  }
-  
-  /* hero stack region — keep plenty of top spacing below fixed header */
-  .team-hero { padding-top: calc(var(--nav-height) + 30px); padding-bottom: 2.4rem; position:relative; overflow:visible; }
-  .team-hero .hero-stack{ position:relative; display:flex; flex-direction:column; gap:0.9rem; align-items:flex-start; }
-  
-  /* floating accent rectangle */
-  .accent-rect{
-    width: var(--team-rect-width);
-    height: var(--team-rect-height);
+
+  /* Accent rect sits in the grid and is bottom-aligned via align-items:end above */
+  .accent-rect {
+    width: min(80%, 980px);
+    height: var(--rect-h);
+    border-radius: 12px;
     background: var(--accent);
-    border-radius: var(--team-rect-radius);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
-    transform: translateY(0);
-    position: relative;
+    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
+    align-self: end;   /* ensures its bottom is at the grid baseline */
     z-index: 2;
-    margin-left: auto;
-    margin-right: auto;
   }
-  
-  /* center the rect within container but not flush to edges */
-  .team-hero .container { display:block; position:relative; }
-  .accent-rect { margin-left: calc((100% - var(--team-rect-width))/2); }
-  
-  /* hero image that overlaps the rectangle:
-     - we place it in absolute positioning relative to the rect for consistent overlap
-     - image should be responsive and cast a shadow onto the rect
-  */
-  .hero-media{
-    position: relative;
-    width: var(--team-rect-width);
-    margin-left: calc((100% - var(--team-rect-width))/2);
-    z-index:4;
-    margin-top: calc(-1 * (var(--team-rect-height) * 0.35)); /* slightly pull image upward to overlap */
-    display:flex;
-    justify-content:center;
-  }
-  .hero-media .hero-img{
-    display:block;
-    width: clamp(140px, 22vw, 280px);
-    height: auto;
-    transform: translateY(calc(-1 * var(--team-img-overhang)));
-    filter: drop-shadow(0 22px 36px rgba(0,0,0,0.35));
-  }
-  
-  /* the heading: accent color, superscript x, parallax applied by JS */
-  .team-title{
-    margin: 0.4rem 0 0 0;
-    font-size: clamp(2.0rem, 6vw, 3.4rem);
-    color: var(--accent);
+
+  /* Title and intro */
+  .team-title {
     font-weight: 900;
-    letter-spacing: -0.02em;
-    z-index:6;
-    position: relative;
-    transform: translateZ(0);
+    font-size: clamp(2rem, 5.6vw, 3.2rem);
+    color: var(--accent);
+    margin: 0.8rem 0 0.2rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
+    z-index: 8;
   }
-  .team-title .sup{
-    font-size: 0.55em;
+  .team-title .sup {
+    font-size: 0.52em;
     vertical-align: super;
+    display: inline-block;
+    margin-left: 0.06em;
     position: relative;
-    /* shift slightly so top edge aligns with other caps */
-    top: -0.12em;
-    transform-origin: center top;
-    margin-left:0.08em;
-    display:inline-block;
+    top: -0.08em;
   }
   
   /* intro paragraph */
-  .team-intro{
-    max-width: 70ch;
-    margin-top: 0.6rem;
+  .team-intro {
+    max-width: 68ch;
+    margin: 0.6rem auto 1.6rem;
     color: var(--muted);
-    z-index:6;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
+    z-index: 8;
   }
   
-  /* Grid of team cards */
-  .team-grid{ margin-top: 2rem; padding-bottom: 4rem; }
-  .team-row{
-    display:grid;
+  /* visible states added by JS */
+  .team-title.is-visible { opacity:1; transform: translateY(0); }
+  .team-intro.is-visible { opacity:1; transform: translateY(0); }
+  
+  /* ---------- GRID / COLUMNS ---------- */
+  .team-grid { padding: 2rem 0 4rem; position: relative; z-index: 1; }
+  .cols {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
-    margin: 2.0rem 0;
     align-items: start;
-    position: relative;
+  }
+  
+  /* Each column stacks its items vertically */
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     will-change: transform;
   }
   
-  /* portrait card */
-  .team-card{
-    display:block;
-    width:100%;
-  }
-  .portrait-wrap{
-    position:relative;
-    overflow:visible;
+  /* portrait card - the fade-in now applies to the whole .portrait-wrap */
+  .team-card { width: 100%; }
+  .portrait-wrap {
+    position: relative;
+    overflow: hidden;
     border-radius: 14px;
+    background: var(--surface);
     box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-    transition: transform 320ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+    transform: translateY(14px);   /* starting offset (mosaic is applied via column offsets too) */
+    opacity: 0;                    /* initial hidden state */
+    transition: transform .62s cubic-bezier(.2,.9,.2,1), opacity .62s ease, box-shadow .24s ease;
   }
-  .portrait-wrap:hover{ transform: translateY(-6px); box-shadow: 0 20px 44px rgba(2,6,23,0.12); }
+  .portrait-wrap:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(2,6,23,0.12); }
   
-  /* image itself */
-  .portrait{
-    display:block;
-    width:100%;
-    height: auto;
-    border-radius: 12px;
-    object-fit: cover;
+  /* the image itself no longer controls the reveal — it is visible but uses object-fit */
+  .portrait {
+    width: 100%;
     aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    height: auto;
+    transform: none;
+    opacity: 1;
+    transition: none;
   }
   
-  /* label overlay on bottom-left area inside the portrait */
-  .card-label{
-    position:absolute;
-    left:14px;
-    bottom:12px;
-    z-index:8;
-    color: var(--accent);
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
-    padding:0.28rem .45rem;
-    border-radius:8px;
-    display:flex;
-    gap:.5rem;
-    align-items:baseline;
-    backdrop-filter: blur(4px);
+  /* When JS reveals: the whole card fades up into place */
+  .portrait-wrap.revealed {
+    opacity: 1;
+    transform: translateY(0) !important;
   }
-  .card-label .name{ font-weight:800; font-size:0.98rem; }
-  .card-label .name .sup{ font-size:0.55em; margin-left:0.08em; top:-0.06em; display:inline-block; vertical-align:super; }
-  .card-label .role{ color: var(--muted); font-weight:700; margin-left:0.35rem; font-size:0.86rem; }
+  
+  /* card label: modern background (glass pill) with left accent stripe */
+  .card-label {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    z-index: 8;
+
+  
+    /* modern glassy gradient + subtle border */
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+  }
+  
+  /* small colored accent bar on the left (pseudo element) */
+  .card-label::before {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 70%;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-right: 8px;
+    align-self: center;
+  }
+  
+  /* typography inside the pill */
+  .card-label .name { font-weight: 900; font-size: 0.95rem; color: var(--accent); }
+  .card-label .name .sup { font-size: 0.56em; margin-left: 0.06em; vertical-align: super; display:inline-block; position:relative; top:-0.06em; color: var(--accent); }
+  .card-label .role { color: var(--muted); font-weight:700; font-size:0.82rem; margin-left: 0.2rem; }
   
   /* LinkedIn icon bottom-right */
-  .portrait-wrap .linkedin{
-    position:absolute;
-    right:8px;
-    bottom:8px;
-    z-index:9;
-    width:36px;
-    height:36px;
-    display:grid;
-    place-items:center;
-    background: rgba(255,255,255,0.08);
-    border-radius:8px;
-    padding:6px;
-    transition: transform 180ms ease, background 180ms ease;
+  .portrait-wrap .linkedin {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    transition: transform .18s ease, background .18s ease;
+    z-index: 8;
   }
-  .portrait-wrap .linkedin img{ width:18px; height:18px; display:block; }
+  .portrait-wrap .linkedin img { width: 20px; height: 20px; object-fit: contain; }
+  .portrait-wrap .linkedin:hover, .portrait-wrap .linkedin:focus { transform: translateY(-2px); background: rgba(255,255,255,0.10); }
   
-  /* Heights offset: card-h1 vs card-h2
-     card-h1 taller, card-h2 slightly shorter so we get the stepped mosaic look
-  */
-  .card-h1 .portrait{ aspect-ratio: 3/4; }
-  .card-h2 .portrait{ aspect-ratio: 4/5; transform: translateY(0); }
+  /* subtle column-based resting offsets to create the mosaic (these are overridden by .revealed on reveal) */
+  .col-1 .portrait-wrap:nth-child(odd) { transform: translateY(0); }
+  .col-1 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
+  .col-2 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
+  .col-2 .portrait-wrap:nth-child(even) { transform: translateY(0); }
+  .col-3 .portrait-wrap:nth-child(odd) { transform: translateY(0); }
+  .col-3 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
+  .col-4 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
+  .col-4 .portrait-wrap:nth-child(even) { transform: translateY(0); }
   
-  /* responsive breakpoints */
-  @media (max-width:1100px){
-    .team-row{ grid-template-columns: repeat(3,1fr); }
+  /* RESPONSIVE */
+  @media (max-width: 1200px) {
+    .cols { grid-template-columns: repeat(3,1fr); }
   }
-  
-  @media (max-width:820px){
-    .team-row{ grid-template-columns: repeat(2,1fr); gap:1.2rem; }
-    .hero-media .hero-img{ width: clamp(120px, 28vw, 220px); }
-    .accent-rect{ height: 120px; }
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: repeat(2,1fr); }
   }
-  
-  @media (max-width:480px){
-    .team-row{ grid-template-columns: repeat(1,1fr); }
-    .accent-rect{ width: calc(100% - 2rem); margin-left:1rem; margin-right:1rem; }
-    .hero-media{ margin-left:1rem; margin-right:1rem; }
-    .team-title{ font-size: 1.8rem; }
-    .card-label{ left:10px; bottom:8px; }
-    .portrait-wrap .linkedin{ width:34px; height:34px; right:10px; bottom:10px; }
+  @media (max-width: 520px) {
+    .cols { grid-template-columns: 1fr; }
+    /* optionally restore natural spacing on single column */
+    .col { gap: 1.25rem; }
+    .portrait-wrap { transform: translateY(0); } /* easier UX on mobile */
   }
   
-  /* small accessibility/touch hit area polish */
-  .portrait-wrap .linkedin:active,
-  .portrait-wrap .linkedin:focus{ transform: translateY(-2px); }
+  /* small helpers */
+  .is-visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+
+ /* =========================
+   TEAM SHOWCASE (Hero section)
+   clean, isolated – no global hero conflicts
+   ========================= */
+
+/* =========================
+   TEAM SHOWCASE (robust, namespaced)
+   - rect + image bottom-aligned, image above rect
+   - title + intro sit in a second row under the stack
+   ========================= */
+
+   .team-showcase {
+    --rect-h: clamp(120px, 12vw, 160px);
+    --overhang: 20%;
+    --img-max-w: min(80%, 420px);
+  
+    /* two-row grid:
+       - row 1: stack where rect + image share same baseline
+       - row 2: content (title + intro) below
+    */
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    position: relative;
+    padding-top: calc(var(--nav-height) + 20px);
+    padding-bottom: calc(var(--rect-h) * 0.6);
+    overflow: visible;
+    text-align: center;
+  }
+  
+  /* Put the visual stack in the first grid row */
+  .team-showcase > .team-stack {
+    grid-row: 1;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: end; /* bottom-aligned children -> bottoms coincide */
+    position: relative;
+    pointer-events: none;
+  }
+  
+  /* the rect (red box) — bottom aligned inside .team-stack */
+  .team-stack > .team-bg-rect {
+    width: min(80%, 980px);
+    height: var(--rect-h);
+    background: var(--accent);
+    border-radius: 12px;
+    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
+    align-self: end; /* bottoms aligned with stack baseline */
+    z-index: 2;
+  }
+  
+  /* the image wrapper — same grid cell (stack), but one layer above */
+  .team-stack > .team-image-wrap {
+    align-self: end; /* bottom aligned */
+    z-index: 3;      /* above the rect */
+    transform: translateY(calc(-1 * var(--overhang))); /* lifts image upwards */
+    will-change: transform;
+  }
+  
+  /* image sizing - responsive */
+  .team-image {
+    width: var(--img-max-w);
+    max-width: 92vw;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 28px 42px rgba(0,0,0,0.35));
+  }
+  
+  /* Title + intro go into second grid row (below the stack) */
+  .team-showcase > .team-title,
+  .team-showcase > .team-intro {
+    grid-row: 2;
+    z-index: 4;
+  }
+  
+  /* reveal styles (unchanged) */
+  .team-title {
+    font-weight: 900;
+    font-size: clamp(2rem, 5.6vw, 3.2rem);
+    color: var(--accent);
+    margin: 0.8rem 0 0.2rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
+  }
+  .team-intro {
+    max-width: 68ch;
+    margin: 0.6rem auto 1.6rem;
+    color: var(--muted);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
+  }
+  
+  /* reveal state */
+  .team-title.is-visible,
+  .team-intro.is-visible { opacity: 1; transform: translateY(0); }
+  
+  /* smaller screens: reduce overhang to avoid clipping */
+  @media (max-width: 600px) {
+    .team-showcase { --overhang: 12%; padding-bottom: calc(var(--rect-h) * 0.4); }
+    .team-image { width: min(84%, 340px); }
+  }
   

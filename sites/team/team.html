@@ -4,192 +4,653 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Team — TEDxKI</title>
-
-  <!-- global styles (bestehende) -->
-  <link rel="stylesheet" href="/styles.css"/>
-  <!-- page specific -->
-  <link rel="stylesheet" href="/sites/team/team.css"/>
-
-  <!-- favicon etc. -->
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/sites/team/team.css" />
+  <link rel="icon" href="/assets/favicon.ico" />
 </head>
 <body>
-
-  <!-- HEADER: wiederverwenden deiner existierenden header/nav markup -->
-  <!-- Achte darauf, dass hier die selben Klassen verwendet werden wie auf der Hauptseite -->
-  <header class="site-header">
-    <div class="container nav">
-      <div class="logo">
-        <a href="/"><img src="/assets/logos/logo.png" alt="Logo"></a>
-      </div>
-
-      <nav class="nav-right">
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/team.html" aria-current="page">Team</a></li>
-          <li><a href="/about.html">About</a></li>
+    <!-- Header (fixed) -->
+    <header class="site-header" id="top" role="banner">
+      <nav class="nav container" role="navigation" aria-label="Main navigation">
+        <!-- Logo: PNG responsive -->
+        <a class="logo" href="/index.html" aria-label="Go to homepage">
+          <img id="site-logo" src="/assets/logos/logo.png" alt="Project Logo" width="1176" height="252">
+        </a>
+  
+        <!-- Desktop links -->
+        <ul class="nav-links" role="menubar">
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="/sites/team/team.html">TEAM</a></li>
+          <li><a href="sponsors.html">SPONSORS</a></li>
+          <li><a href="watch.html">WATCH</a></li>
+          <li><a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">CONTACT</a></li>
         </ul>
-
+  
+        <!-- Controls: theme toggle + hamburger -->
         <div class="controls">
-          <!-- Theme toggle (same structure as main site) -->
-          <button class="theme-toggle" aria-label="Toggle theme">
-            <span class="theme-track">
-              <img class="theme-img theme-img-sun" src="/assets/icons/sun.png" alt="">
-              <img class="theme-img theme-img-moon" src="/assets/icons/moon.png" alt="">
+          <!-- Theme toggle: uses images sized to the track -->
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light / dark" aria-pressed="false" title="Toggle theme">
+            <span class="theme-track" aria-hidden="true">
+              <img src="/assets/icons/sun.png" alt="" class="theme-img theme-img-sun" />
+              <img src="/assets/icons/moon.png" alt="" class="theme-img theme-img-moon" />
               <span class="theme-thumb" aria-hidden="true"></span>
             </span>
           </button>
-
-          <!-- hamburger (uses same markup / classes so CSS toggles work) -->
-          <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+  
+          <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" >
             <span></span><span></span><span></span>
           </button>
         </div>
+      </nav>
+  
+      <!-- Mobile menu: initially closed. JS toggles .open -->
+      <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <div class="mobile-top">
+          <button id="mobile-theme-toggle" class="theme-toggle small" aria-label="Toggle theme (mobile)" aria-pressed="false" title="Toggle theme">
+            <span class="theme-track" aria-hidden="true">
+              <img src="/assets/icons/sun.png" alt="" class="theme-img theme-img-sun" />
+              <img src="/assets/icons/moon.png" alt="" class="theme-img theme-img-moon" />
+              <span class="theme-thumb" aria-hidden="true"></span>
+            </span>
+          </button>
+          <button id="mobileClose" class="mobile-close" aria-label="Close menu">Close</button>
+        </div>
+  
+        <a href="about.html">ABOUT</a>
+        <a href="/sites/team/team.html">TEAM</a>
+        <a href="sponsors.html">SPONSORS</a>
+        <a href="watch.html">WATCH</a>
+        <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">CONTACT</a>
       </div>
-    </div>
-
-    <!-- mobile menu placeholder (same structure as main site if used) -->
-    <div id="mobileMenu" class="mobile-menu" hidden>
-      <div class="mobile-top">
-        <div class="logo"><a href="/"><img src="/assets/logos/logo_light.png" alt="Logo"></a></div>
-        <button class="mobile-close" aria-label="Close menu">Close</button>
-      </div>
-      <a href="/">Home</a>
-      <a href="/team.html" aria-current="page">Team</a>
-      <a href="/about.html">About</a>
-    </div>
-  </header>
+    </header>
+  
+    <!-- Social floating strip -->
+    <aside class="social-strip" id="socialStrip" aria-label="Social Media Links">
+      <a class="social" href="https://www.instagram.com/tedxki/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <img src="/assets/logos/social/Instagram_Glyph_Gradient.png" alt="" class="social-logo" />
+        <span class="label">Instagram</span>
+      </a>
+      <a class="social" href="https://www.tiktok.com/@tedxki" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <img src="/assets/logos/social/TikTok_Icon_Black_Circle.png" alt="" class="social-logo" />
+        <span class="label">TikTok</span>
+      </a>
+      <a class="social" href="https://www.linkedin.com/company/tedxki/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <img src="/assets/logos/social/LI-In-Bug.png" alt="" class="social-logo" />
+        <span class="label">LinkedIn</span>
+      </a>
+      <a class="social" href="https://www.facebook.com/people/TEDx-KI/61560876282016/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <img src="/assets/logos/social/Facebook_Logo_Primary.png" alt="" class="social-logo" />
+        <span class="label">Facebook</span>
+      </a>
+    </aside>
 
   <main>
-
-    <!-- Floating accent rectangle + overlapping team image + heading -->
-    <section class="team-hero">
-      <div class="container">
-        <div class="hero-stack">
-
-          <!-- floating accent rectangle -->
-          <div class="accent-rect" aria-hidden="true"></div>
-
-          <!-- the overlapping image (PNG with transparency) -->
-          <div class="hero-media">
-            <img src="/assets/images/team/team_dummy.png" alt="Team hero" class="hero-img" />
+    <!-- ========== TEAM SHOWCASE (Hero Replacement) ========== -->
+    <section class="team-showcase">
+        <!-- stack row: both children in the same baseline grid -->
+        <div class="team-stack">
+          <div class="team-bg-rect" aria-hidden="true"></div>
+          <div class="team-image-wrap" aria-hidden="true">
+            <img src="/assets/images/team/team_dummy.png" alt="Team hero" class="team-image" />
           </div>
-
-          <!-- stacked heading (parallax) -->
-          <h1 class="team-title">TEAM<span class="sup">x</span></h1>
-
-          <!-- short intro paragraph -->
-          <p class="team-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
         </div>
-      </div>
-    </section>
+      
+        <!-- title + intro are direct children of team-showcase and will be in the 2nd grid row -->
+        <h1 class="team-title animate-once" data-anim="reveal-up">TEAM<span class="sup">x</span></h1>
+        <p class="team-intro animate-once" data-anim="fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      </section>
+      
 
-    <!-- Team grid (mosaic with different row speeds) -->
-    <section class="team-grid container">
-      <div class="team-row row-a" data-speed="0.08">
-        <!-- 4 items per row, items are vertically offset by CSS classes -->
-        <article class="team-card card-h1" data-speed-mult="1">
-          <a href="#" class="card-link">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person1.png" alt="Person 1" class="portrait">
-              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 1">
-                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+    <!-- TEAM GRID (4 columns). We distribute the 37 portraits into 4 vertical columns:
+         col1: person1..person10 (10 items)
+         col2: person11..person19 (9 items)
+         col3: person20..person28 (9 items)
+         col4: person29..person37 (9 items)
+    -->
+    <section class="team-grid container" id="teamGrid">
+      <div class="cols">
+        <!-- COLUMN 1 (10 items) -->
+        <div class="col col-1">
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person1.png" alt="Name 1 — Position 1" >
+              <div class="card-label">
+                <span class="name">Name 1<span class="sup">x</span></span>
+                <span class="role">Position 1</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 1">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
               </a>
-              <div class="card-label"><span class="name">Anna<span class="sup">x</span></span> <span class="role">Founder</span></div>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h2" data-speed-mult="1">
-          <a href="#" class="card-link">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person2.png" alt="Person 2" class="portrait">
-              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 2">
-                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+          <!-- person2 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person2.png" alt="Name 2 — Position 2" >
+              <div class="card-label">
+                <span class="name">Name 2<span class="sup">x</span></span>
+                <span class="role">Position 2</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 2">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
               </a>
-              <div class="card-label"><span class="name">Ben<span class="sup">x</span></span> <span class="role">Design</span></div>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h1" data-speed-mult="1">
-          <a href="#" class="card-link">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person3.png" alt="Person 3" class="portrait">
-              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 3">
-                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+          <!-- person3 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person3.png" alt="Name 3 — Position 3" >
+              <div class="card-label">
+                <span class="name">Name 3<span class="sup">x</span></span>
+                <span class="role">Position 3</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 3">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
               </a>
-              <div class="card-label"><span class="name">Cara<span class="sup">x</span></span> <span class="role">Engineering</span></div>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h2" data-speed-mult="1">
-          <a href="#" class="card-link">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person4.png" alt="Person 4" class="portrait">
-              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 4">
-                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+          <!-- person4 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person4.png" alt="Name 4 — Position 4" >
+              <div class="card-label">
+                <span class="name">Name 4<span class="sup">x</span></span>
+                <span class="role">Position 4</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 4">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
               </a>
-              <div class="card-label"><span class="name">David<span class="sup">x</span></span> <span class="role">Marketing</span></div>
             </div>
-          </a>
-        </article>
-      </div>
+          </article>
 
-      <!-- second row - faster scroll -->
-      <div class="team-row row-b" data-speed="0.18">
-        <!-- duplicate same structure, other images -->
-        <!-- You can duplicate rows as needed; speeds alternate -->
-        <!-- Example: -->
-        <article class="team-card card-h2">
-          <a class="card-link" href="#">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person5.png" alt="Person 5" class="portrait">
-              <a class="linkedin" href="#" target="_blank"><img src="/assets/logos/social/LI-In-Bug.png" alt=""></a>
-              <div class="card-label"><span class="name">Elena<span class="sup">x</span></span> <span class="role">Ops</span></div>
+          <!-- person5 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person5.png" alt="Name 5 — Position 5" >
+              <div class="card-label">
+                <span class="name">Name 5<span class="sup">x</span></span>
+                <span class="role">Position 5</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 5">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h1">
-          <a class="card-link" href="#">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person6.png" alt="Person 6" class="portrait">
-              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
-              <div class="card-label"><span class="name">Felix<span class="sup">x</span></span> <span class="role">Finance</span></div>
+          <!-- person6 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person6.png" alt="Name 6 — Position 6" >
+              <div class="card-label">
+                <span class="name">Name 6<span class="sup">x</span></span>
+                <span class="role">Position 6</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 6">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h2">
-          <a class="card-link" href="#">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person7.png" alt="Person 7" class="portrait">
-              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
-              <div class="card-label"><span class="name">Greta<span class="sup">x</span></span> <span class="role">Product</span></div>
+          <!-- person7 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person7.png" alt="Name 7 — Position 7" >
+              <div class="card-label">
+                <span class="name">Name 7<span class="sup">x</span></span>
+                <span class="role">Position 7</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 7">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
             </div>
-          </a>
-        </article>
+          </article>
 
-        <article class="team-card card-h1">
-          <a class="card-link" href="#">
-            <div class="portrait-wrap">
-              <img src="/assets/images/team/portrait/person8.png" alt="Person 8" class="portrait">
-              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
-              <div class="card-label"><span class="name">Hadi<span class="sup">x</span></span> <span class="role">Support</span></div>
+          <!-- person8 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person8.png" alt="Name 8 — Position 8" >
+              <div class="card-label">
+                <span class="name">Name 8<span class="sup">x</span></span>
+                <span class="role">Position 8</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 8">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
             </div>
-          </a>
-        </article>
-      </div>
+          </article>
 
-      <!-- add more rows as needed... -->
+          <!-- person9 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person9.png" alt="Name 9 — Position 9" >
+              <div class="card-label">
+                <span class="name">Name 9<span class="sup">x</span></span>
+                <span class="role">Position 9</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 9">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person10 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person10.png" alt="Name 10 — Position 10" >
+              <div class="card-label">
+                <span class="name">Name 10<span class="sup">x</span></span>
+                <span class="role">Position 10</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 10">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+        </div> <!-- .col-1 -->
+
+        <!-- COLUMN 2 (9 items: 11..19) -->
+        <div class="col col-2">
+          <!-- person11 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person11.png" alt="Name 11 — Position 11" >
+              <div class="card-label">
+                <span class="name">Name 11<span class="sup">x</span></span>
+                <span class="role">Position 11</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 11">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person12 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person12.png" alt="Name 12 — Position 12" >
+              <div class="card-label">
+                <span class="name">Name 12<span class="sup">x</span></span>
+                <span class="role">Position 12</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 12">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person13 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person13.png" alt="Name 13 — Position 13" >
+              <div class="card-label">
+                <span class="name">Name 13<span class="sup">x</span></span>
+                <span class="role">Position 13</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 13">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person14 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person14.png" alt="Name 14 — Position 14" >
+              <div class="card-label">
+                <span class="name">Name 14<span class="sup">x</span></span>
+                <span class="role">Position 14</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 14">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person15 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person15.png" alt="Name 15 — Position 15" >
+              <div class="card-label">
+                <span class="name">Name 15<span class="sup">x</span></span>
+                <span class="role">Position 15</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 15">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person16 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person16.png" alt="Name 16 — Position 16" >
+              <div class="card-label">
+                <span class="name">Name 16<span class="sup">x</span></span>
+                <span class="role">Position 16</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 16">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person17 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person17.png" alt="Name 17 — Position 17" >
+              <div class="card-label">
+                <span class="name">Name 17<span class="sup">x</span></span>
+                <span class="role">Position 17</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 17">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person18 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person18.png" alt="Name 18 — Position 18" >
+              <div class="card-label">
+                <span class="name">Name 18<span class="sup">x</span></span>
+                <span class="role">Position 18</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 18">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person19 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person19.png" alt="Name 19 — Position 19" >
+              <div class="card-label">
+                <span class="name">Name 19<span class="sup">x</span></span>
+                <span class="role">Position 19</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 19">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+        </div> <!-- .col-2 -->
+
+        <!-- COLUMN 3 (9 items: 20..28) -->
+        <div class="col col-3">
+          <!-- person20 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person20.png" alt="Name 20 — Position 20" >
+              <div class="card-label">
+                <span class="name">Name 20<span class="sup">x</span></span>
+                <span class="role">Position 20</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 20">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person21 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person21.png" alt="Name 21 — Position 21" >
+              <div class="card-label">
+                <span class="name">Name 21<span class="sup">x</span></span>
+                <span class="role">Position 21</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 21">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person22 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person22.png" alt="Name 22 — Position 22" >
+              <div class="card-label">
+                <span class="name">Name 22<span class="sup">x</span></span>
+                <span class="role">Position 22</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 22">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person23 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person23.png" alt="Name 23 — Position 23" >
+              <div class="card-label">
+                <span class="name">Name 23<span class="sup">x</span></span>
+                <span class="role">Position 23</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 23">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person24 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person24.png" alt="Name 24 — Position 24" >
+              <div class="card-label">
+                <span class="name">Name 24<span class="sup">x</span></span>
+                <span class="role">Position 24</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 24">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person25 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person25.png" alt="Name 25 — Position 25" >
+              <div class="card-label">
+                <span class="name">Name 25<span class="sup">x</span></span>
+                <span class="role">Position 25</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 25">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person26 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person26.png" alt="Name 26 — Position 26" >
+              <div class="card-label">
+                <span class="name">Name 26<span class="sup">x</span></span>
+                <span class="role">Position 26</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 26">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person27 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person27.png" alt="Name 27 — Position 27" >
+              <div class="card-label">
+                <span class="name">Name 27<span class="sup">x</span></span>
+                <span class="role">Position 27</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 27">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person28 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person28.png" alt="Name 28 — Position 28" >
+              <div class="card-label">
+                <span class="name">Name 28<span class="sup">x</span></span>
+                <span class="role">Position 28</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 28">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+        </div> <!-- .col-3 -->
+
+        <!-- COLUMN 4 (9 items: 29..37) -->
+        <div class="col col-4">
+          <!-- person29 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person29.png" alt="Name 29 — Position 29" >
+              <div class="card-label">
+                <span class="name">Name 29<span class="sup">x</span></span>
+                <span class="role">Position 29</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 29">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person30 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person30.png" alt="Name 30 — Position 30" >
+              <div class="card-label">
+                <span class="name">Name 30<span class="sup">x</span></span>
+                <span class="role">Position 30</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 30">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person31 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person31.png" alt="Name 31 — Position 31" >
+              <div class="card-label">
+                <span class="name">Name 31<span class="sup">x</span></span>
+                <span class="role">Position 31</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 31">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person32 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person32.png" alt="Name 32 — Position 32" >
+              <div class="card-label">
+                <span class="name">Name 32<span class="sup">x</span></span>
+                <span class="role">Position 32</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 32">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person33 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person33.png" alt="Name 33 — Position 33" >
+              <div class="card-label">
+                <span class="name">Name 33<span class="sup">x</span></span>
+                <span class="role">Position 33</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 33">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person34 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person34.png" alt="Name 34 — Position 34" >
+              <div class="card-label">
+                <span class="name">Name 34<span class="sup">x</span></span>
+                <span class="role">Position 34</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 34">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person35 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person35.png" alt="Name 35 — Position 35" >
+              <div class="card-label">
+                <span class="name">Name 35<span class="sup">x</span></span>
+                <span class="role">Position 35</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 35">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person36 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person36.png" alt="Name 36 — Position 36" >
+              <div class="card-label">
+                <span class="name">Name 36<span class="sup">x</span></span>
+                <span class="role">Position 36</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 36">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+
+          <!-- person37 -->
+          <article class="team-card">
+            <div class="portrait-wrap animate-once" data-anim="slide-up">
+              <img class="portrait" src="/assets/images/team/portrait/person37.png" alt="Name 37 — Position 37" >
+              <div class="card-label">
+                <span class="name">Name 37<span class="sup">x</span></span>
+                <span class="role">Position 37</span>
+              </div>
+              <a class="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Name 37">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+              </a>
+            </div>
+          </article>
+        </div> <!-- .col-4 -->
+
+      </div> <!-- .cols -->
     </section>
 
   </main>
 
-  <!-- include global js (existing app.js) and page specific -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> TEDxKI. All rights reserved.</p>
+    </div>
+  </footer>
+
   <script src="/app.js" defer></script>
   <script src="/sites/team/team.js" defer></script>
+  <script>document.getElementById && (document.getElementById('year').textContent = new Date().getFullYear());</script>
 </body>
 </html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Team — TEDxKI</title>
+
+  <!-- global styles (bestehende) -->
+  <link rel="stylesheet" href="/styles.css"/>
+  <!-- page specific -->
+  <link rel="stylesheet" href="/sites/team/team.css"/>
+
+  <!-- favicon etc. -->
+</head>
+<body>
+
+  <!-- HEADER: wiederverwenden deiner existierenden header/nav markup -->
+  <!-- Achte darauf, dass hier die selben Klassen verwendet werden wie auf der Hauptseite -->
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">
+        <a href="/"><img src="/assets/logos/logo.png" alt="Logo"></a>
+      </div>
+
+      <nav class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/team.html" aria-current="page">Team</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+
+        <div class="controls">
+          <!-- Theme toggle (same structure as main site) -->
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <span class="theme-track">
+              <img class="theme-img theme-img-sun" src="/assets/icons/sun.png" alt="">
+              <img class="theme-img theme-img-moon" src="/assets/icons/moon.png" alt="">
+              <span class="theme-thumb" aria-hidden="true"></span>
+            </span>
+          </button>
+
+          <!-- hamburger (uses same markup / classes so CSS toggles work) -->
+          <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- mobile menu placeholder (same structure as main site if used) -->
+    <div id="mobileMenu" class="mobile-menu" hidden>
+      <div class="mobile-top">
+        <div class="logo"><a href="/"><img src="/assets/logos/logo_light.png" alt="Logo"></a></div>
+        <button class="mobile-close" aria-label="Close menu">Close</button>
+      </div>
+      <a href="/">Home</a>
+      <a href="/team.html" aria-current="page">Team</a>
+      <a href="/about.html">About</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Floating accent rectangle + overlapping team image + heading -->
+    <section class="team-hero">
+      <div class="container">
+        <div class="hero-stack">
+
+          <!-- floating accent rectangle -->
+          <div class="accent-rect" aria-hidden="true"></div>
+
+          <!-- the overlapping image (PNG with transparency) -->
+          <div class="hero-media">
+            <img src="/assets/images/team/team_dummy.png" alt="Team hero" class="hero-img" />
+          </div>
+
+          <!-- stacked heading (parallax) -->
+          <h1 class="team-title">TEAM<span class="sup">x</span></h1>
+
+          <!-- short intro paragraph -->
+          <p class="team-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Team grid (mosaic with different row speeds) -->
+    <section class="team-grid container">
+      <div class="team-row row-a" data-speed="0.08">
+        <!-- 4 items per row, items are vertically offset by CSS classes -->
+        <article class="team-card card-h1" data-speed-mult="1">
+          <a href="#" class="card-link">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person1.png" alt="Person 1" class="portrait">
+              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 1">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+              </a>
+              <div class="card-label"><span class="name">Anna<span class="sup">x</span></span> <span class="role">Founder</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h2" data-speed-mult="1">
+          <a href="#" class="card-link">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person2.png" alt="Person 2" class="portrait">
+              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 2">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+              </a>
+              <div class="card-label"><span class="name">Ben<span class="sup">x</span></span> <span class="role">Design</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h1" data-speed-mult="1">
+          <a href="#" class="card-link">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person3.png" alt="Person 3" class="portrait">
+              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 3">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+              </a>
+              <div class="card-label"><span class="name">Cara<span class="sup">x</span></span> <span class="role">Engineering</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h2" data-speed-mult="1">
+          <a href="#" class="card-link">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person4.png" alt="Person 4" class="portrait">
+              <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn Person 4">
+                <img src="/assets/logos/social/LI-In-Bug.png" alt="">
+              </a>
+              <div class="card-label"><span class="name">David<span class="sup">x</span></span> <span class="role">Marketing</span></div>
+            </div>
+          </a>
+        </article>
+      </div>
+
+      <!-- second row - faster scroll -->
+      <div class="team-row row-b" data-speed="0.18">
+        <!-- duplicate same structure, other images -->
+        <!-- You can duplicate rows as needed; speeds alternate -->
+        <!-- Example: -->
+        <article class="team-card card-h2">
+          <a class="card-link" href="#">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person5.png" alt="Person 5" class="portrait">
+              <a class="linkedin" href="#" target="_blank"><img src="/assets/logos/social/LI-In-Bug.png" alt=""></a>
+              <div class="card-label"><span class="name">Elena<span class="sup">x</span></span> <span class="role">Ops</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h1">
+          <a class="card-link" href="#">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person6.png" alt="Person 6" class="portrait">
+              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
+              <div class="card-label"><span class="name">Felix<span class="sup">x</span></span> <span class="role">Finance</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h2">
+          <a class="card-link" href="#">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person7.png" alt="Person 7" class="portrait">
+              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
+              <div class="card-label"><span class="name">Greta<span class="sup">x</span></span> <span class="role">Product</span></div>
+            </div>
+          </a>
+        </article>
+
+        <article class="team-card card-h1">
+          <a class="card-link" href="#">
+            <div class="portrait-wrap">
+              <img src="/assets/images/team/portrait/person8.png" alt="Person 8" class="portrait">
+              <a class="linkedin" href="#" target="_blank"><img src="/assets/icons/linkedin.svg" alt=""></a>
+              <div class="card-label"><span class="name">Hadi<span class="sup">x</span></span> <span class="role">Support</span></div>
+            </div>
+          </a>
+        </article>
+      </div>
+
+      <!-- add more rows as needed... -->
+    </section>
+
+  </main>
+
+  <!-- include global js (existing app.js) and page specific -->
+  <script src="/app.js" defer></script>
+  <script src="/sites/team/team.js" defer></script>
+</body>
+</html>

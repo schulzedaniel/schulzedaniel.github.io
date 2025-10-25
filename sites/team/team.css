@@ -173,10 +173,10 @@
 */
 
 .team-showcase {
-  --content-max-w: 980px;       /* content width for stack + text block */
-  --rect-h-fallback: clamp(120px, 12vw, 160px); /* fallback if JS not run */
-  --overhang-f: 0.20;           /* 20% of image height should stick out above rect */
-  --img-max-w: min(92vw, 920px);
+  --content-max-w: 1160px;       /* content width for stack + text block */
+  --rect-h-fallback: clamp(90px, 10vw, 120px);  /* was clamp(120px,12vw,160px) — now shallower */
+  --overhang-f: 0.28;              /* was 0.20 -> ~28% overhang */
+  --img-max-w: min(92vw, 1100px);  /* was min(92vw,920px) or similar */
 
   padding-top: calc(var(--nav-height, 68px) + 18px);
   padding-bottom: 1rem;
@@ -209,12 +209,12 @@
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  width: 70%;                       /* rectangle width relative to content width */
+  width: 78%;                      /* was 70% — more horizontal presence */
   max-width: calc(var(--content-max-w) * 0.98);
   height: var(--rect-h-fallback);   /* JS will override with pixel value */
   background: var(--accent);
   border-radius: 12px;
-  box-shadow: 0 22px 48px rgba(0,0,0,0.12);
+  box-shadow: 0 22px 40px rgba(0,0,0,0.25);
   z-index: 2;
 }
 

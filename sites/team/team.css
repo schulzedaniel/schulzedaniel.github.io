@@ -1,17 +1,5 @@
 /* team.css - updated */
 
-
-  /* Accent rect sits in the grid and is bottom-aligned via align-items:end above */
-  .accent-rect {
-    width: min(80%, 980px);
-    height: var(--rect-h);
-    border-radius: 12px;
-    background: var(--accent);
-    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
-    align-self: end;   /* ensures its bottom is at the grid baseline */
-    z-index: 2;
-  }
-
   /* Title and intro */
   .team-title {
     font-weight: 900;
@@ -177,138 +165,120 @@
   .is-visible { opacity: 1 !important; transform: translateY(0) !important; }
 
 
- /* =========================
-   team-showcase (visual block)
-   - rect + image bottoms aligned
-   - image sits above rect and overhangs from top
-   ========================= */
+/* ========== team-showcase: centered stack + left-aligned text below ==========
+   Purpose:
+   - .team-inner centers the area and sets the content max-width
+   - .team-stack absolutely places image and rect with bottom:0 so underkanten match
+   - JS will set .team-stack height = image height and rect height = imageH * (1 - f)
+*/
 
 .team-showcase {
-  --rect-h: clamp(120px, 12vw, 160px);   /* height of the red band */
-  --overhang: 20%;                       /* how much of the image height protrudes above rect */
-  --img-max-w: min(80%, 420px);          /* responsive image sizing */
+  --content-max-w: 980px;       /* content width for stack + text block */
+  --rect-h-fallback: clamp(120px, 12vw, 160px); /* fallback if JS not run */
+  --overhang-f: 0.20;           /* 20% of image height should stick out above rect */
+  --img-max-w: min(92vw, 920px);
 
-  display: grid;
-  grid-template-rows: auto auto;   /* top: visual stack, bottom: text */
-  justify-items: center;
-  gap: 0.9rem;
-  position: relative;
   padding-top: calc(var(--nav-height, 68px) + 18px);
-  padding-bottom: calc(var(--rect-h) * 0.6);
-  overflow: visible;
-  text-align: center;
+  padding-bottom: 1rem;
   background: transparent;
 }
 
-/* the stack keeps rect and image on the same baseline (their bottom edges coincide) */
-.team-showcase > .team-stack {
-  grid-row: 1;
+/* Centered inner column: provides consistent content width */
+.team-inner {
   width: 100%;
-  display: grid;
-  justify-items: center;
-  align-items: end;      /* key: bottom-aligned children => bottoms coincide */
+  max-width: var(--content-max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+/* stack is the visual area: children positioned absolute and bottom:0 */
+.team-stack {
   position: relative;
+  width: 100%;
+  min-height: var(--rect-h-fallback); /* safe fallback height */
+  overflow: visible;
   pointer-events: none;
 }
 
-/* red rectangle */
-.team-stack > .team-bg-rect {
-  width: min(80%, 980px);
-  height: var(--rect-h);
+/* red rectangle: centered horizontally, bottom aligned to stack */
+.team-bg-rect {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 70%;                       /* rectangle width relative to content width */
+  max-width: calc(var(--content-max-w) * 0.98);
+  height: var(--rect-h-fallback);   /* JS will override with pixel value */
   background: var(--accent);
   border-radius: 12px;
   box-shadow: 0 22px 48px rgba(0,0,0,0.12);
-  align-self: end;
   z-index: 2;
 }
 
-/* image wrapper (same baseline but above rect) */
-.team-stack > .team-image-wrap {
-  align-self: end;                      /* aligns image bottom with rect bottom */
-  z-index: 3;                           /* on top of rect */
-  transform: translateY(calc(-1 * var(--overhang))); /* lifts image up so it overhangs from top */
-  will-change: transform;
+/* image wrapper: centered horizontally, bottom aligned; image above rect due to higher z-index */
+.team-image-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;   /* critical: bottom:0 matches rect bottom:0 -> underkanten bündig */
+  z-index: 3;
   pointer-events: none;
+  overflow: visible;
 }
 
-/* the hero image sizing */
+/* the hero image: responsive; we let natural width & height scale.
+   JS will set stack height and rect height based on actual image height.
+*/
 .team-image {
-  width: var(--img-max-w);
-  max-width: 92vw;
-  height: auto;
   display: block;
+  width: min(var(--img-max-w), 100%);
+  height: auto;
+  max-width: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 24px 36px rgba(0,0,0,0.28));
+  filter: drop-shadow(0 30px 44px rgba(0,0,0,0.32));
   -webkit-backface-visibility: hidden;
 }
 
-/* Title + intro (second grid row) */
-.team-showcase > .team-title,
-.team-showcase > .team-intro {
-  grid-row: 2;
-  z-index: 4;
-  pointer-events: auto;
+/* TEXT block: left-aligned inside the same centered width */
+.team-text {
+  margin-top: calc(0.6rem);
+  text-align: left;       /* IMPORTANT: title + intro are left-aligned under the centered visual block */
 }
 
-/* Team title */
+/* title and intro visuals (unchanged, animation-ready) */
 .team-title {
   font-weight: 900;
   font-size: clamp(2rem, 5.6vw, 3.2rem);
   color: var(--accent);
-  margin: 0.45rem 0 0.05rem;
+  margin: 0 0 0.2rem 0;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
 }
-.team-title .sup {
-  font-size: 0.52em;
-  vertical-align: super;
-  display: inline-block;
-  margin-left: 0.06em;
-  position: relative;
-  top: -0.08em;
-}
+.team-title .sup { font-size:0.52em; vertical-align:super; margin-left:0.06em; position:relative; top:-0.08em; }
 
-/* Intro paragraph */
 .team-intro {
   max-width: 68ch;
-  margin: 0.45rem auto 1.4rem;
+  margin: 0;
   color: var(--muted);
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
 }
 
-/* reveal state (intersection observer adds .is-visible) */
-.team-title.is-visible,
-.team-intro.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* reveal state toggled by JS */
+.team-title.is-visible, .team-intro.is-visible { opacity: 1; transform: translateY(0); }
 
-/* responsive: reduce overhang on small screens to avoid clipping */
-@media (max-width: 760px) {
-  .team-showcase { --overhang: 12%; padding-bottom: calc(var(--rect-h) * 0.45); }
-  .team-image { width: min(84%, 360px); }
+/* responsive tweaks */
+@media (max-width: 900px) {
+  .team-bg-rect { width: 78%; }
+  .team-inner { padding-left: 0.75rem; padding-right: 0.75rem; }
 }
-@media (max-width: 420px) {
-  .team-showcase { padding-top: calc(var(--nav-height, 68px) + 12px); }
-  .team-image { width: min(88%, 320px); }
-}
-
-/* =========== Portrait pill: name accent color =========== */
-/* keep existing portrait look but ensure the name uses accent color */
-.card-label .name {
-  font-weight: 900;
-  font-size: 0.95rem;
-  color: var(--accent);
-}
-.card-label .name .sup {
-  font-size: 0.56em;
-  margin-left: 0.06em;
-  vertical-align: super;
-  display: inline-block;
-  position: relative;
-  top: -0.06em;
-  color: var(--accent);
+@media (max-width: 520px) {
+  .team-bg-rect { width: 92%; border-radius: 10px; }
+  .team-image { width: min(92%, 360px); }
+  .team-text { margin-top: 0.6rem; }
 }

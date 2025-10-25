@@ -85,27 +85,30 @@
     </aside>
 
   <main>
-      <!-- ===== team-showcase (replace old hero) ===== -->
-      <section class="team-showcase" aria-label="Team Showcase">
-        <!-- Row 1: visual stack (rect + image) -->
+    <!-- ===== team-showcase (replace old hero) ===== -->
+    <section class="team-showcase" aria-label="Team Showcase">
+      <!-- Inner wrapper centers content and defines the content width -->
+      <div class="team-inner">
+        <!-- Row 1: visual stack (rect + image). Both absolutely positioned inside .team-stack -->
         <div class="team-stack" aria-hidden="true">
-          <div class="team-bg-rect"></div>
+          <div class="team-bg-rect" aria-hidden="true"></div>
 
-          <div class="team-image-wrap">
-            <img src="/assets/images/team/team_dummy.png" alt="Team hero" class="team-image" />
+          <div class="team-image-wrap" aria-hidden="true">
+            <img src="/assets/images/team/team_photo.png" alt="Team hero" class="team-image" />
           </div>
         </div>
 
-        <!-- Row 2: text content -->
-        <h1 class="team-title animate-once" data-anim="reveal-up">TEAM<span class="sup">x</span></h1>
+        <!-- Row 2: text content — left-aligned within same centered inner width -->
+        <div class="team-text">
+          <h1 class="team-title animate-once" data-anim="reveal-up">TEAM<span class="sup">x</span></h1>
 
-        <p class="team-intro animate-once" data-anim="fade-in">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-        </p>
-      </section>
-      <!-- ===== end team-showcase ===== -->
-
-      
+          <p class="team-intro animate-once" data-anim="fade-in">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+          </p>
+        </div>
+      </div>
+    </section>
+<!-- ===== end team-showcase ===== -->      
 
     <!-- TEAM GRID (4 columns). We distribute the 37 portraits into 4 vertical columns:
          col1: person1..person10 (10 items)

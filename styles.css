@@ -193,33 +193,6 @@ html[data-theme="dark"] .theme-toggle.small .theme-thumb{ left: calc(100% - 4px 
 .mobile-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; }
 .mobile-close{ background:none;border:0;padding:6px;font-weight:700;cursor:pointer; }
 
-/* hero */
-.hero{ position:relative; min-height:64vh; display:flex; align-items:center; overflow:hidden; }
-.hero-image{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
-  transition: transform 600ms cubic-bezier(.2,.9,.2,1);
-  /* no gradient overlay per request */
-}
-.hero-overlay{ position:relative; z-index:2; padding:5.0rem 1rem; max-width:var(--hero-max-width); color:white; }
-.hero-text{
-  font-weight:800; font-size: clamp(2.4rem, 6.6vw, 5.2rem); line-height:0.95; margin:0 0 1rem 0; text-align:left; color: #fff;
-  letter-spacing:-0.02em;
-  text-shadow: 0 10px 26px rgba(0,0,0,0.45);
-}
-.hero-sub{ margin-top:0.6rem; color:rgba(255,255,255,0.9); font-weight:500; text-align:left; }
-
-/* ensure line reveal animation unaffected */
-.line-inner {
-  display:inline-block;
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: transform 700ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease;
-}
-.line-inner.revealed { transform: translateX(0); opacity: 1; }
-
-
-/* accent span used in typing animation */
-.accent{ color:var(--accent); }
 
 /* content & layout */
 .content-list{ padding:3.0rem 1rem; }

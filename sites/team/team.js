@@ -119,7 +119,6 @@
         const overhangRatio = 0.20; // 20%
         // compute top inside teamHero so that image top = accentTopRel - (displayedH * (1 - overhangRatio))
         const imageTopInside = accentTopRel - (displayedH * (1 - overhangRatio));
-        heroMedia.style.top = `${Math.round(imageTopInside)}px`;
   
         // store CSS variable used by transform for combine translateY
         heroMedia.style.setProperty('--hero-base-overhang', `-${Math.round(overhangRatio * 100)}%`);

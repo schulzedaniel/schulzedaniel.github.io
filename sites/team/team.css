@@ -178,108 +178,137 @@
 
 
  /* =========================
-   TEAM SHOWCASE (Hero section)
-   clean, isolated – no global hero conflicts
+   team-showcase (visual block)
+   - rect + image bottoms aligned
+   - image sits above rect and overhangs from top
    ========================= */
 
-/* =========================
-   TEAM SHOWCASE (robust, namespaced)
-   - rect + image bottom-aligned, image above rect
-   - title + intro sit in a second row under the stack
-   ========================= */
+.team-showcase {
+  --rect-h: clamp(120px, 12vw, 160px);   /* height of the red band */
+  --overhang: 20%;                       /* how much of the image height protrudes above rect */
+  --img-max-w: min(80%, 420px);          /* responsive image sizing */
 
-   .team-showcase {
-    --rect-h: clamp(120px, 12vw, 160px);
-    --overhang: 20%;
-    --img-max-w: min(80%, 420px);
-  
-    /* two-row grid:
-       - row 1: stack where rect + image share same baseline
-       - row 2: content (title + intro) below
-    */
-    display: grid;
-    grid-template-rows: auto auto;
-    justify-items: center;
-    position: relative;
-    padding-top: calc(var(--nav-height) + 20px);
-    padding-bottom: calc(var(--rect-h) * 0.6);
-    overflow: visible;
-    text-align: center;
-  }
-  
-  /* Put the visual stack in the first grid row */
-  .team-showcase > .team-stack {
-    grid-row: 1;
-    width: 100%;
-    display: grid;
-    justify-items: center;
-    align-items: end; /* bottom-aligned children -> bottoms coincide */
-    position: relative;
-    pointer-events: none;
-  }
-  
-  /* the rect (red box) — bottom aligned inside .team-stack */
-  .team-stack > .team-bg-rect {
-    width: min(80%, 980px);
-    height: var(--rect-h);
-    background: var(--accent);
-    border-radius: 12px;
-    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
-    align-self: end; /* bottoms aligned with stack baseline */
-    z-index: 2;
-  }
-  
-  /* the image wrapper — same grid cell (stack), but one layer above */
-  .team-stack > .team-image-wrap {
-    align-self: end; /* bottom aligned */
-    z-index: 3;      /* above the rect */
-    transform: translateY(calc(-1 * var(--overhang))); /* lifts image upwards */
-    will-change: transform;
-  }
-  
-  /* image sizing - responsive */
-  .team-image {
-    width: var(--img-max-w);
-    max-width: 92vw;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 28px 42px rgba(0,0,0,0.35));
-  }
-  
-  /* Title + intro go into second grid row (below the stack) */
-  .team-showcase > .team-title,
-  .team-showcase > .team-intro {
-    grid-row: 2;
-    z-index: 4;
-  }
-  
-  /* reveal styles (unchanged) */
-  .team-title {
-    font-weight: 900;
-    font-size: clamp(2rem, 5.6vw, 3.2rem);
-    color: var(--accent);
-    margin: 0.8rem 0 0.2rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
-  }
-  .team-intro {
-    max-width: 68ch;
-    margin: 0.6rem auto 1.6rem;
-    color: var(--muted);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
-  }
-  
-  /* reveal state */
-  .team-title.is-visible,
-  .team-intro.is-visible { opacity: 1; transform: translateY(0); }
-  
-  /* smaller screens: reduce overhang to avoid clipping */
-  @media (max-width: 600px) {
-    .team-showcase { --overhang: 12%; padding-bottom: calc(var(--rect-h) * 0.4); }
-    .team-image { width: min(84%, 340px); }
-  }
-  
+  display: grid;
+  grid-template-rows: auto auto;   /* top: visual stack, bottom: text */
+  justify-items: center;
+  gap: 0.9rem;
+  position: relative;
+  padding-top: calc(var(--nav-height, 68px) + 18px);
+  padding-bottom: calc(var(--rect-h) * 0.6);
+  overflow: visible;
+  text-align: center;
+  background: transparent;
+}
+
+/* the stack keeps rect and image on the same baseline (their bottom edges coincide) */
+.team-showcase > .team-stack {
+  grid-row: 1;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: end;      /* key: bottom-aligned children => bottoms coincide */
+  position: relative;
+  pointer-events: none;
+}
+
+/* red rectangle */
+.team-stack > .team-bg-rect {
+  width: min(80%, 980px);
+  height: var(--rect-h);
+  background: var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.12);
+  align-self: end;
+  z-index: 2;
+}
+
+/* image wrapper (same baseline but above rect) */
+.team-stack > .team-image-wrap {
+  align-self: end;                      /* aligns image bottom with rect bottom */
+  z-index: 3;                           /* on top of rect */
+  transform: translateY(calc(-1 * var(--overhang))); /* lifts image up so it overhangs from top */
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* the hero image sizing */
+.team-image {
+  width: var(--img-max-w);
+  max-width: 92vw;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 36px rgba(0,0,0,0.28));
+  -webkit-backface-visibility: hidden;
+}
+
+/* Title + intro (second grid row) */
+.team-showcase > .team-title,
+.team-showcase > .team-intro {
+  grid-row: 2;
+  z-index: 4;
+  pointer-events: auto;
+}
+
+/* Team title */
+.team-title {
+  font-weight: 900;
+  font-size: clamp(2rem, 5.6vw, 3.2rem);
+  color: var(--accent);
+  margin: 0.45rem 0 0.05rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
+}
+.team-title .sup {
+  font-size: 0.52em;
+  vertical-align: super;
+  display: inline-block;
+  margin-left: 0.06em;
+  position: relative;
+  top: -0.08em;
+}
+
+/* Intro paragraph */
+.team-intro {
+  max-width: 68ch;
+  margin: 0.45rem auto 1.4rem;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* reveal state (intersection observer adds .is-visible) */
+.team-title.is-visible,
+.team-intro.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* responsive: reduce overhang on small screens to avoid clipping */
+@media (max-width: 760px) {
+  .team-showcase { --overhang: 12%; padding-bottom: calc(var(--rect-h) * 0.45); }
+  .team-image { width: min(84%, 360px); }
+}
+@media (max-width: 420px) {
+  .team-showcase { padding-top: calc(var(--nav-height, 68px) + 12px); }
+  .team-image { width: min(88%, 320px); }
+}
+
+/* =========== Portrait pill: name accent color =========== */
+/* keep existing portrait look but ensure the name uses accent color */
+.card-label .name {
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+.card-label .name .sup {
+  font-size: 0.56em;
+  margin-left: 0.06em;
+  vertical-align: super;
+  display: inline-block;
+  position: relative;
+  top: -0.06em;
+  color: var(--accent);
+}

@@ -85,20 +85,26 @@
     </aside>
 
   <main>
-    <!-- ========== TEAM SHOWCASE (Hero Replacement) ========== -->
-    <section class="team-showcase">
-        <!-- stack row: both children in the same baseline grid -->
-        <div class="team-stack">
-          <div class="team-bg-rect" aria-hidden="true"></div>
-          <div class="team-image-wrap" aria-hidden="true">
-            <img src="/assets/images/team/team_photo.png" alt="Team hero" class="team-image" />
+      <!-- ===== team-showcase (replace old hero) ===== -->
+      <section class="team-showcase" aria-label="Team Showcase">
+        <!-- Row 1: visual stack (rect + image) -->
+        <div class="team-stack" aria-hidden="true">
+          <div class="team-bg-rect"></div>
+
+          <div class="team-image-wrap">
+            <img src="/assets/images/team/team_dummy.png" alt="Team hero" class="team-image" />
           </div>
         </div>
-      
-        <!-- title + intro are direct children of team-showcase and will be in the 2nd grid row -->
+
+        <!-- Row 2: text content -->
         <h1 class="team-title animate-once" data-anim="reveal-up">TEAM<span class="sup">x</span></h1>
-        <p class="team-intro animate-once" data-anim="fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+
+        <p class="team-intro animate-once" data-anim="fade-in">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+        </p>
       </section>
+      <!-- ===== end team-showcase ===== -->
+
       
 
     <!-- TEAM GRID (4 columns). We distribute the 37 portraits into 4 vertical columns:

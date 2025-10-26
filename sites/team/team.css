@@ -183,91 +183,6 @@
   background: transparent;
 }
 
-/* Centered inner column: provides consistent content width */
-.team-inner {
-  width: 100%;
-  max-width: var(--content-max-w);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  box-sizing: border-box;
-}
-
-/* stack is the visual area: children positioned absolute and bottom:0 */
-.team-stack {
-  position: relative;
-  width: 100%;
-  min-height: var(--rect-h-fallback); /* safe fallback height */
-  overflow: visible;
-  pointer-events: none;
-}
-
-/* red rectangle: centered horizontally, bottom aligned to stack */
-.team-bg-rect {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: 78%;                      /* was 70% — more horizontal presence */
-  max-width: calc(var(--content-max-w) * 0.98);
-  height: var(--rect-h-fallback);   /* JS will override with pixel value */
-  background: var(--accent);
-  border-radius: 12px;
-  box-shadow: 0 22px 40px rgba(0,0,0,0.25);
-  z-index: 2;
-}
-
-/* image wrapper: centered horizontally, bottom aligned; image above rect due to higher z-index */
-.team-image-wrap {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;   /* critical: bottom:0 matches rect bottom:0 -> underkanten bündig */
-  z-index: 3;
-  pointer-events: none;
-  overflow: visible;
-}
-
-/* the hero image: responsive; we let natural width & height scale.
-   JS will set stack height and rect height based on actual image height.
-*/
-.team-image {
-  display: block;
-  width: min(var(--img-max-w), 100%);
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 30px 44px rgba(0,0,0,0.32));
-  -webkit-backface-visibility: hidden;
-}
-
-/* TEXT block: left-aligned inside the same centered width */
-.team-text {
-  margin-top: calc(0.6rem);
-  text-align: left;       /* IMPORTANT: title + intro are left-aligned under the centered visual block */
-}
-
-/* title and intro visuals (unchanged, animation-ready) */
-.team-title {
-  font-weight: 900;
-  font-size: clamp(2rem, 5.6vw, 3.2rem);
-  color: var(--accent);
-  margin: 0 0 0.2rem 0;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
-}
-.team-title .sup { font-size:0.52em; vertical-align:super; margin-left:0.06em; position:relative; top:-0.08em; }
-
-.team-intro {
-  max-width: 68ch;
-  margin: 0;
-  color: var(--muted);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);
-}
 
 /* reveal state toggled by JS */
 .team-title.is-visible, .team-intro.is-visible { opacity: 1; transform: translateY(0); }
@@ -282,3 +197,115 @@
   .team-image { width: min(92%, 360px); }
   .team-text { margin-top: 0.6rem; }
 }
+
+/* -------------------------
+   Team-showcase: Desktop-safe + Mobile tuned
+   - Desktop defaults keep the current proportions (image never exceeds rect)
+   - Mobile overrides make rect ~88vw and image ~84vw (visually aligned)
+   ------------------------- */
+
+   .team-showcase {
+    /* general spacing for the section */
+    padding: 3.5rem 0;
+    overflow: visible;
+    position: relative;
+    background: transparent;
+  }
+  
+  /* inner centered wrapper */
+  .team-inner {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* text left-aligned inside centered column as you requested */
+    gap: 1.25rem;
+  }
+  
+  /* visual stack (rect + image) */
+  .team-stack {
+    position: relative;
+    width: 100%;
+    max-width: 980px; /* desktop max width of visual stack */
+    margin: 0 auto;
+    /* variables controlling widths (desktop defaults) */
+    --rect-w: 70%;   /* rect width relative to stack on desktop */
+    --img-w: 52%;    /* image width relative to stack on desktop (keeps image smaller than rect) */
+  }
+  
+  /* background rectangle */
+  .team-bg-rect {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: var(--rect-w);
+    height: clamp(120px, 12vw, 160px);
+    background: var(--accent);
+    border-radius: 12px;
+    z-index: 1;
+    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
+  }
+  
+  /* image wrapper: bottom-aligned, above rect */
+  .team-image-wrap {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: var(--img-w);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  /* the image itself */
+  .team-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: drop-shadow(0 30px 44px rgba(0,0,0,0.32));
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Text block below (keeps left alignment inside centered column) */
+  .team-text {
+    width: 100%;
+    max-width: 720px;
+    margin-top: calc(clamp(120px, 12vw, 160px) * 0.18); /* ensure some gap from visual stack */
+  }
+  
+  /* title/intro styling kept minimal — your existing rules can stay */
+  .team-title { font-weight: 900; font-size: clamp(2rem, 5.6vw, 3.2rem); color: var(--accent); margin: 0 0 0.25rem; transform: translateY(10px);   transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);}
+  .team-title .sup { font-size: 0.52em; vertical-align: super; color: var(--accent); }
+  .team-intro { color: var(--muted); margin: 0.5rem 0 0;  transform: translateY(6px); transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1); }
+  
+  /* ========== MOBILE OVERRIDE ========== */
+  /* On small screens override the variables so rect and image become viewport-based */
+  @media (max-width: 640px) {
+    .team-inner { align-items: center; text-align: center; } /* center text under visuals on mobile */
+  
+    .team-stack {
+      max-width: none;
+      /* set rect & image widths using viewport units for predictable mobile behaviour */
+      --rect-w: 88vw;   /* red rectangle ~88% of viewport */
+      --img-w: 84vw;    /* image slightly narrower so it visually 'sits' on the rect */
+    }
+  
+    /* tune rect height on mobile */
+    .team-bg-rect {
+      height: clamp(120px, 28vw, 200px);
+      border-radius: 12px;
+    }
+  
+    /* ensure text sits comfortably on mobile */
+    .team-text { max-width: 92vw; padding: 0 1rem; }
+  }
+  
+  /* extra protective rule: never let image overflow the visual stack boundaries */
+  .team-stack,
+  .team-image-wrap,
+  .team-bg-rect { box-sizing: border-box; }
+  .team-image { max-width: 100%; display:block; }

@@ -364,3 +364,32 @@ a.hyper-link{ color:var(--accent); text-decoration:none; font-weight:700; }
 
 /* utility */
 .hidden{ display:none !important; }
+
+/* -----------------------
+   Explicit Safe Padding
+   Use the .safe-pad class to opt-in to horizontal padding
+   (preferred over global "apply to everything except X")
+   ----------------------- */
+
+/* responsive safe gutter: min 16px, scales a bit with width, max 48px */
+:root { --safe-gutter-min: 16px; --safe-gutter-max: 48px; }
+
+/* a single helper to compute the padding (you can tune the middle value) */
+.safe-pad {
+  padding-left: clamp(var(--safe-gutter-min), 4vw, var(--safe-gutter-max));
+  padding-right: clamp(var(--safe-gutter-min), 4vw, var(--safe-gutter-max));
+  box-sizing: border-box;
+}
+
+/* smaller gutter on very narrow screens */
+@media (max-width:420px) {
+  .safe-pad { padding-left: 12px; padding-right: 12px; }
+}
+
+/* ensure container default gutter (if you keep container's padding) doesn't conflict:
+   if you want .container to not apply its own gutter when used with .safe-pad,
+   you can explicitly reset it (optional) */
+.container.safe-pad {
+  padding-left: clamp(var(--safe-gutter-min), 4vw, var(--safe-gutter-max));
+  padding-right: clamp(var(--safe-gutter-min), 4vw, var(--safe-gutter-max));
+}

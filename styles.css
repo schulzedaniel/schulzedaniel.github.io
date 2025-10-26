@@ -7,7 +7,7 @@
 /* ------------------ font ------------------ */
 @font-face {
   font-family: "InterVar";
-  src: url("./Font/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  src: url("/assets/Font/Inter/Inter-VariableFont_opsz\,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;

@@ -1,311 +1,295 @@
-/* team.css - updated */
-
-  /* Title and intro */
-  .team-title {
-    font-weight: 900;
-    font-size: clamp(2rem, 5.6vw, 3.2rem);
-    color: var(--accent);
-    margin: 0.8rem 0 0.2rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
-    z-index: 8;
-  }
-  .team-title .sup {
-    font-size: 0.52em;
-    vertical-align: super;
-    display: inline-block;
-    margin-left: 0.06em;
-    position: relative;
-    top: -0.08em;
-  }
-  
-  /* intro paragraph */
-  .team-intro {
-    max-width: 68ch;
-    margin: 0.6rem auto 1.6rem;
-    color: var(--muted);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1);
-    z-index: 8;
-  }
-  
-  /* visible states added by JS */
-  .team-title.is-visible { opacity:1; transform: translateY(0); }
-  .team-intro.is-visible { opacity:1; transform: translateY(0); }
-  
-  /* ---------- GRID / COLUMNS ---------- */
-  .team-grid { padding: 2rem 0 4rem; position: relative; z-index: 1; }
-  .cols {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    align-items: start;
-  }
-  
-  /* Each column stacks its items vertically */
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    will-change: transform;
-  }
-  
-  /* portrait card - the fade-in now applies to the whole .portrait-wrap */
-  .team-card { width: 100%; }
-  .portrait-wrap {
-    position: relative;
-    overflow: hidden;
-    border-radius: 14px;
-    background: var(--surface);
-    box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-    transform: translateY(14px);   /* starting offset (mosaic is applied via column offsets too) */
-    opacity: 0;                    /* initial hidden state */
-    transition: transform .62s cubic-bezier(.2,.9,.2,1), opacity .62s ease, box-shadow .24s ease;
-  }
-  .portrait-wrap:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(2,6,23,0.12); }
-  
-  /* the image itself no longer controls the reveal — it is visible but uses object-fit */
-  .portrait {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-    border-radius: 10px;
-    height: auto;
-    transform: none;
-    opacity: 1;
-    transition: none;
-  }
-  
-  /* When JS reveals: the whole card fades up into place */
-  .portrait-wrap.revealed {
-    opacity: 1;
-    transform: translateY(0) !important;
-  }
-  
-  /* card label: modern background (glass pill) with left accent stripe */
-  .card-label {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
-    z-index: 8;
-
-  
-    /* modern glassy gradient + subtle border */
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.04);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 20px rgba(2,6,23,0.04);
-  }
-  
-  /* small colored accent bar on the left (pseudo element) */
-  .card-label::before {
-    content: "";
-    display: block;
-    width: 4px;
-    height: 70%;
-    background: var(--accent);
-    border-radius: 2px;
-    margin-right: 8px;
-    align-self: center;
-  }
-  
-  /* typography inside the pill */
-  .card-label .name { font-weight: 900; font-size: 0.95rem; color: var(--accent); }
-  .card-label .name .sup { font-size: 0.56em; margin-left: 0.06em; vertical-align: super; display:inline-block; position:relative; top:-0.06em; color: var(--accent); }
-  .card-label .role { color: var(--muted); font-weight:700; font-size:0.82rem; margin-left: 0.2rem; }
-  
-  /* LinkedIn icon bottom-right */
-  .portrait-wrap .linkedin {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    width: 40px; height: 40px;
-    display: grid; place-items: center;
-    background: rgba(255,255,255,0.06);
-    border-radius: 8px;
-    transition: transform .18s ease, background .18s ease;
-    z-index: 8;
-  }
-  .portrait-wrap .linkedin img { width: 20px; height: 20px; object-fit: contain; }
-  .portrait-wrap .linkedin:hover, .portrait-wrap .linkedin:focus { transform: translateY(-2px); background: rgba(255,255,255,0.10); }
-  
-  /* subtle column-based resting offsets to create the mosaic (these are overridden by .revealed on reveal) */
-  .col-1 .portrait-wrap:nth-child(odd) { transform: translateY(0); }
-  .col-1 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
-  .col-2 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
-  .col-2 .portrait-wrap:nth-child(even) { transform: translateY(0); }
-  .col-3 .portrait-wrap:nth-child(odd) { transform: translateY(0); }
-  .col-3 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
-  .col-4 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
-  .col-4 .portrait-wrap:nth-child(even) { transform: translateY(0); }
-  
-  /* RESPONSIVE */
-  @media (max-width: 1200px) {
-    .cols { grid-template-columns: repeat(3,1fr); }
-  }
-  @media (max-width: 900px) {
-    .cols { grid-template-columns: repeat(2,1fr); }
-  }
-  @media (max-width: 520px) {
-    .cols { grid-template-columns: 1fr; }
-    /* optionally restore natural spacing on single column */
-    .col { gap: 1.25rem; }
-    .portrait-wrap { transform: translateY(0); } /* easier UX on mobile */
-  }
-  
-  /* small helpers */
-  .is-visible { opacity: 1 !important; transform: translateY(0) !important; }
+/* =========================================================
+   TEAM SECTION — FINAL VERSION
+   Features:
+   - Team-showcase hero block (red rectangle + image)
+   - Animated title + intro text
+   - Scroll-fade reveal for portrait cards
+   - Responsive mosaic grid (4→3→2→2→1 columns)
+   - Glassy label background with accent stripe
+   - LinkedIn icon repositioned to top-right
+   ========================================================= */
 
 
-/* ========== team-showcase: centered stack + left-aligned text below ==========
-   Purpose:
-   - .team-inner centers the area and sets the content max-width
-   - .team-stack absolutely places image and rect with bottom:0 so underkanten match
-   - JS will set .team-stack height = image height and rect height = imageH * (1 - f)
-*/
-
+/* ---------- TEAM SHOWCASE ---------- */
 .team-showcase {
-  --content-max-w: 1160px;       /* content width for stack + text block */
-  --rect-h-fallback: clamp(90px, 10vw, 120px);  /* was clamp(120px,12vw,160px) — now shallower */
-  --overhang-f: 0.28;              /* was 0.20 -> ~28% overhang */
-  --img-max-w: min(92vw, 1100px);  /* was min(92vw,920px) or similar */
+  --content-max-w: 1160px;
+  --rect-h-fallback: clamp(90px, 10vw, 120px);
+  --overhang-f: 0.28;
+  --img-max-w: min(92vw, 1100px);
 
   padding-top: calc(var(--nav-height, 68px) + 18px);
-  padding-bottom: 1rem;
+  padding-bottom: 2.5rem;
   background: transparent;
+  position: relative;
+  overflow: visible;
 }
 
-
-/* reveal state toggled by JS */
-.team-title.is-visible, .team-intro.is-visible { opacity: 1; transform: translateY(0); }
-
-/* responsive tweaks */
-@media (max-width: 900px) {
-  .team-bg-rect { width: 78%; }
-  .team-inner { padding-left: 0.75rem; padding-right: 0.75rem; }
-}
-@media (max-width: 520px) {
-  .team-bg-rect { width: 92%; border-radius: 10px; }
-  .team-image { width: min(92%, 360px); }
-  .team-text { margin-top: 0.6rem; }
+/* inner centered wrapper */
+.team-inner {
+  position: relative;
+  max-width: var(--content-max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
 }
 
-/* -------------------------
-   Team-showcase: Desktop-safe + Mobile tuned
-   - Desktop defaults keep the current proportions (image never exceeds rect)
-   - Mobile overrides make rect ~88vw and image ~84vw (visually aligned)
-   ------------------------- */
+/* visual stack (rect + image) */
+.team-stack {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  --rect-w: 70%;
+  --img-w: 52%;
+}
 
-   .team-showcase {
-    /* general spacing for the section */
-    padding: 3.5rem 0;
-    overflow: visible;
-    position: relative;
-    background: transparent;
-  }
-  
-  /* inner centered wrapper */
+/* red background rectangle */
+.team-bg-rect {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: var(--rect-w);
+  height: clamp(120px, 12vw, 160px);
+  background: var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.12);
+  z-index: 1;
+}
+
+/* hero image (bottom-aligned) */
+.team-image-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: var(--img-w);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.team-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.35));
+}
+
+/* text below hero */
+.team-text {
+  width: 100%;
+  max-width: 720px;
+  margin-top: calc(clamp(120px, 12vw, 160px) * 0.18);
+}
+
+.team-title {
+  font-weight: 900;
+  font-size: clamp(2rem, 5.6vw, 3.2rem);
+  color: var(--accent);
+  margin: 0 0 0.25rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2, .9, .2, 1);
+}
+.team-title .sup {
+  font-size: 0.52em;
+  vertical-align: super;
+  color: var(--accent);
+}
+.team-intro {
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.2, .9, .2, 1);
+}
+
+.team-title.is-visible,
+.team-intro.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- MOBILE OVERRIDES ---------- */
+@media (max-width: 640px) {
   .team-inner {
-    position: relative;
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* text left-aligned inside centered column as you requested */
-    gap: 1.25rem;
+    align-items: center;
+    text-align: center;
   }
-  
-  /* visual stack (rect + image) */
   .team-stack {
-    position: relative;
-    width: 100%;
-    max-width: 980px; /* desktop max width of visual stack */
-    margin: 0 auto;
-    /* variables controlling widths (desktop defaults) */
-    --rect-w: 70%;   /* rect width relative to stack on desktop */
-    --img-w: 52%;    /* image width relative to stack on desktop (keeps image smaller than rect) */
+    max-width: none;
+    --rect-w: 88vw;
+    --img-w: 84vw;
   }
-  
-  /* background rectangle */
   .team-bg-rect {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-    width: var(--rect-w);
-    height: clamp(120px, 12vw, 160px);
-    background: var(--accent);
+    height: clamp(120px, 28vw, 200px);
     border-radius: 12px;
-    z-index: 1;
-    box-shadow: 0 22px 48px rgba(0,0,0,0.12);
   }
-  
-  /* image wrapper: bottom-aligned, above rect */
-  .team-image-wrap {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-    width: var(--img-w);
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  /* the image itself */
-  .team-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: drop-shadow(0 30px 44px rgba(0,0,0,0.32));
-    -webkit-backface-visibility: hidden;
-  }
-  
-  /* Text block below (keeps left alignment inside centered column) */
   .team-text {
-    width: 100%;
-    max-width: 720px;
-    margin-top: calc(clamp(120px, 12vw, 160px) * 0.18); /* ensure some gap from visual stack */
+    max-width: 92vw;
+    padding: 0 1rem;
   }
-  
-  /* title/intro styling kept minimal — your existing rules can stay */
-  .team-title { font-weight: 900; font-size: clamp(2rem, 5.6vw, 3.2rem); color: var(--accent); margin: 0 0 0.25rem; transform: translateY(10px);   transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1);}
-  .team-title .sup { font-size: 0.52em; vertical-align: super; color: var(--accent); }
-  .team-intro { color: var(--muted); margin: 0.5rem 0 0;  transform: translateY(6px); transition: opacity 420ms ease, transform 420ms cubic-bezier(.2,.9,.2,1); }
-  
-  /* ========== MOBILE OVERRIDE ========== */
-  /* On small screens override the variables so rect and image become viewport-based */
-  @media (max-width: 640px) {
-    .team-inner { align-items: center; text-align: center; } /* center text under visuals on mobile */
-  
-    .team-stack {
-      max-width: none;
-      /* set rect & image widths using viewport units for predictable mobile behaviour */
-      --rect-w: 88vw;   /* red rectangle ~88% of viewport */
-      --img-w: 84vw;    /* image slightly narrower so it visually 'sits' on the rect */
-    }
-  
-    /* tune rect height on mobile */
-    .team-bg-rect {
-      height: clamp(120px, 28vw, 200px);
-      border-radius: 12px;
-    }
-  
-    /* ensure text sits comfortably on mobile */
-    .team-text { max-width: 92vw; padding: 0 1rem; }
-  }
-  
-  /* extra protective rule: never let image overflow the visual stack boundaries */
-  .team-stack,
-  .team-image-wrap,
-  .team-bg-rect { box-sizing: border-box; }
-  .team-image { max-width: 100%; display:block; }
+}
+
+/* ---------- TEAM GRID ---------- */
+.team-grid {
+  padding: 2rem 0 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  will-change: transform;
+}
+
+/* ---------- TEAM CARDS ---------- */
+.team-card {
+  width: 100%;
+}
+
+.portrait-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+  transform: translateY(14px);
+  opacity: 0;
+  transition: transform .62s cubic-bezier(.2, .9, .2, 1), opacity .62s ease, box-shadow .24s ease;
+}
+.portrait-wrap:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(2, 6, 23, 0.12);
+}
+
+/* the portrait image */
+.portrait {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+/* fade-in reveal */
+.portrait-wrap.revealed {
+  opacity: 1;
+  transform: translateY(0) !important;
+}
+
+/* card label */
+.card-label {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  z-index: 8;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+}
+.card-label::before {
+  content: "";
+  width: 4px;
+  height: 70%;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-right: 8px;
+}
+.card-label .name {
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+.card-label .name .sup {
+  font-size: 0.56em;
+  vertical-align: super;
+  color: var(--accent);
+}
+.card-label .role {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+/* LinkedIn icon – top-right */
+.portrait-wrap .linkedin {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  z-index: 9;
+
+  /* --- Glassy, visible background --- */
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.08);
+
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.portrait-wrap .linkedin img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+}
+
+.portrait-wrap .linkedin:hover,
+.portrait-wrap .linkedin:focus {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.10));
+  box-shadow: 0 10px 26px rgba(2,6,23,0.12);
+}
+
+/* mosaic staggering */
+.col-1 .portrait-wrap:nth-child(even),
+.col-3 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
+.col-2 .portrait-wrap:nth-child(odd),
+.col-4 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
+
+/* ---------- RESPONSIVE GRID ---------- */
+@media (max-width: 1200px) {
+  .cols { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .cols { grid-template-columns: 1fr; }
+  .col { gap: 1.25rem; }
+  .portrait-wrap { transform: translateY(0); }
+}
+
+/* ---------- Helpers ---------- */
+.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}

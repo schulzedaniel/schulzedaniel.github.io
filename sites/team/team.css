@@ -226,7 +226,7 @@
   color: var(--accent);
 }
 .card-label .role {
-  color: var(--muted);
+  color: #1e252f;
   font-weight: 700;
   font-size: 0.82rem;
 }

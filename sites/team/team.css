@@ -160,21 +160,6 @@
   width: 100%;
 }
 
-.portrait-wrap {
-  position: relative;
-  overflow: hidden;
-  border-radius: 14px;
-  background: var(--surface);
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
-  transform: translateY(14px);
-  opacity: 0;
-  transition: transform .62s cubic-bezier(.2, .9, .2, 1), opacity .62s ease, box-shadow .24s ease;
-}
-.portrait-wrap:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 44px rgba(2, 6, 23, 0.12);
-}
-
 /* the portrait image */
 .portrait {
   width: 100%;
@@ -184,10 +169,40 @@
   border-radius: 10px;
 }
 
-/* fade-in reveal */
+/* Portrait card: smooth GPU-friendly reveal */
+.portrait-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+
+  /* Mosaic offset via CSS variable, NOT separate transform rules */
+  --mosaic-offset: 0px;
+
+  /* Start state (will be committed via .pre-reveal) */
+  opacity: 0;
+  transform: translate3d(0, calc(var(--mosaic-offset) + 16px), 0);
+
+  transition:
+    transform .56s cubic-bezier(.22,.61,.36,1),
+    opacity  .52s ease,
+    box-shadow .24s ease .10s; /* shadow ramps slightly after */
+}
+
+.portrait-wrap.pre-reveal {
+  /* ensures the browser commits start state before .revealed is added */
+  will-change: transform, opacity;
+}
+
 .portrait-wrap.revealed {
   opacity: 1;
-  transform: translateY(0) !important;
+  transform: translate3d(0, var(--mosaic-offset), 0);
+}
+
+.portrait-wrap:hover {
+  transform: translate3d(0, calc(var(--mosaic-offset) - 6px), 0);
+  box-shadow: 0 20px 44px rgba(2, 6, 23, 0.12);
 }
 
 /* card label */
@@ -265,11 +280,12 @@
   box-shadow: 0 10px 26px rgba(2,6,23,0.12);
 }
 
-/* mosaic staggering */
+/* Mosaic staggering via CSS variable (no transform conflict) */
 .col-1 .portrait-wrap:nth-child(even),
-.col-3 .portrait-wrap:nth-child(even) { transform: translateY(8px); }
+.col-3 .portrait-wrap:nth-child(even) { --mosaic-offset: 8px; }
+
 .col-2 .portrait-wrap:nth-child(odd),
-.col-4 .portrait-wrap:nth-child(odd) { transform: translateY(8px); }
+.col-4 .portrait-wrap:nth-child(odd) { --mosaic-offset: 8px; }
 
 /* ---------- RESPONSIVE GRID ---------- */
 @media (max-width: 1200px) {

@@ -359,7 +359,39 @@ html[data-theme="dark"] .contact-card{
 }
 
 /* small polish */
-.footer-inner{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.4rem 0; }
+.footer-inner{ display:flex; 
+  display: flex;
+  align-items: flex-end; /* puts the badge visually at the bottom edge */
+  justify-content:space-between;
+  gap:1rem;
+  padding:1.4rem 0;
+}
+
+.footer-badge img {
+  display: block;
+  height: auto;
+  width: clamp(120px, 14vw, 220px);
+}
+
+
+/* Dark mode image swap (same technique as navbar logo) */
+html[data-theme="dark"] .footer-badge img{
+  content: url("/assets/logos/TEDxWithDisclaimer_dark.png");
+}
+
+/* Optional: tighten on very small screens */
+@media (max-width: 420px){
+  .footer-badge img{
+    width: clamp(110px, 40vw, 200px);
+  }
+}
+
+@media (max-width: 600px) {
+  .site-footer {
+    padding-bottom: 60px; /* enough space for the social icons */
+  }
+}
+
 a.hyper-link{ color:var(--accent); text-decoration:none; font-weight:700; }
 
 /* utility */

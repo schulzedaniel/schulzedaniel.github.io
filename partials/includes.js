@@ -78,7 +78,10 @@ class SiteFooter extends HTMLElement {
     this.innerHTML = `
 <footer class="site-footer safe-pad">
   <div class="container footer-inner">
-    <p>© <span id="year"></span> TEDxKI. All rights reserved.</p>
+    <p>© <span id="year"></span> TEDxKI. All rights reserved. | x = independently organized TED event</p>
+    <a class="footer-badge" href="/index.html" aria-label="Go to homepage">
+      <img src="/assets/logos/TEDxWithDisclaimer_light.png" alt="TEDxKI Logo (with disclaimer: x = independently organized TED event)" width="1194" height="364" decoding="async" loading="lazy" />
+    </a>
   </div>
 </footer>`;
   }

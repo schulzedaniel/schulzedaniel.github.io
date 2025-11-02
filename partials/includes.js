@@ -6,7 +6,7 @@ class SiteHeader extends HTMLElement {
     <header class="site-header" id="top" role="banner">
     <nav class="nav container" role="navigation" aria-label="Main navigation">
         <a class="logo" href="/index.html" aria-label="Go to homepage">
-        <img id="site-logo" src="/assets/logos/logo.png" alt="Project Logo" width="1176" height="252">
+        <img id="site-logo" src="/assets/logos/logo.png" alt="Project Logo" width="1176" height="252" loading="eager">
         </a>
         <ul class="nav-links" role="menubar">
         <li><a href="/sites/about/about.html">ABOUT</a></li>
@@ -80,7 +80,7 @@ class SiteFooter extends HTMLElement {
   <div class="container footer-inner">
     <p>© <span id="year"></span> TEDxKI. All rights reserved. | x = independently organized TED event</p>
     <a class="footer-badge" href="/index.html" aria-label="Go to homepage">
-      <img src="/assets/logos/TEDxWithDisclaimer_light.png" alt="TEDxKI Logo (with disclaimer: x = independently organized TED event)" width="1194" height="364" decoding="async" loading="lazy" />
+      <img src="/assets/logos/TEDxWithDisclaimer_light.png" alt="TEDxKI Logo (with disclaimer: x = independently organized TED event)" width="1194" height="364" decoding="async"/>
     </a>
   </div>
 </footer>`;

@@ -213,8 +213,10 @@
   padding: 8px 12px;
   border-radius: 10px;
   display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 0.12rem;
+  max-width: min(88%, 260px);
   z-index: 8;
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   border: 1px solid rgba(255,255,255,0.04);
@@ -233,6 +235,8 @@
   font-weight: 900;
   font-size: 0.95rem;
   color: var(--accent);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 .card-label .name .sup {
   font-size: 0.56em;
@@ -243,6 +247,9 @@
   color: #1e252f;
   font-weight: 700;
   font-size: 0.82rem;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  padding-left: 0.18rem; /* slight indent to visually balance stripe */
 }
 
 /* LinkedIn icon – top-right */

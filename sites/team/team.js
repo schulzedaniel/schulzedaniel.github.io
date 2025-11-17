@@ -60,6 +60,184 @@
     document.querySelectorAll('.animate-once').forEach(n => io.observe(n));
   });
 
+// NEW Team Grid Fetch
+
+// ---------- Team grid from Contentful via PHP proxy ----------
+
+// Set the year you want to display:
+const TEAM_YEAR = 2025; // adjust as needed
+
+// Content type ID in Contentful: newTeamMemberCard
+const TEAM_QUERY = `
+  query TeamByYear($year: Int!) {
+    newTeamMemberCardCollection(
+      where: { year: $year }
+      order: [team_ASC, isLead_DESC, firstName_ASC]
+      limit: 200
+    ) {
+      items {
+        firstName
+        positionTitle
+        team
+        year
+        isLead
+        linkedInUrl
+        portrait {
+          url
+          description
+        }
+      }
+    }
+  }
+`;
+
+// Small helper to safely escape text for HTML
+function escapeHtml(str) {
+  return String(str || "").replace(/[&<>"']/g, c => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+async function buildTeamGridForYear(year) {
+  const grid = document.getElementById("teamGrid");
+  if (!grid) return;
+
+  const colsWrapper = grid.querySelector(".cols");
+  if (!colsWrapper) return;
+
+  try {
+    const res = await fetch("/contentful-proxy.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: TEAM_QUERY,
+        variables: { year }
+      })
+    });
+
+    const text = await res.text();
+    console.log("[team] RAW RESPONSE:", text);
+
+    const parsed = JSON.parse(text);
+    const { data, errors } = parsed || {};
+
+    if (errors && errors.length) {
+      console.error("[team] GraphQL errors:", errors);
+      return;
+    }
+
+    const items = data?.newTeamMemberCardCollection?.items || [];
+    if (!items.length) {
+      console.warn("[team] No team members found for year", year);
+      return;
+    }
+
+    // Re-fetch columns after potential responsive rebuilds
+    let colEls = Array.from(colsWrapper.querySelectorAll(".col"));
+    if (!colEls.length) {
+      // fallback: build 4 cols if somehow missing
+      colsWrapper.innerHTML = "";
+      for (let i = 1; i <= 4; i++) {
+        const col = document.createElement("div");
+        col.className = `col col-${i}`;
+        colsWrapper.appendChild(col);
+      }
+      colEls = Array.from(colsWrapper.querySelectorAll(".col"));
+    }
+    if (!colEls.length) return;
+
+    // 1) Group by team so people from same team stay together
+    const teamsMap = new Map();
+    for (const m of items) {
+      const teamName = m.team || "Other";
+      if (!teamsMap.has(teamName)) teamsMap.set(teamName, []);
+      teamsMap.get(teamName).push(m);
+    }
+
+    // 2) Within each team: sort leads first, then by firstName
+    const ordered = [];
+    const sortedTeamNames = Array.from(teamsMap.keys()).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
+    );
+
+    for (const teamName of sortedTeamNames) {
+      const members = teamsMap.get(teamName);
+      members.sort((a, b) => {
+        const leadA = !!a.isLead;
+        const leadB = !!b.isLead;
+        if (leadA !== leadB) return leadA ? -1 : 1; // leads first
+        return (a.firstName || "").localeCompare(b.firstName || "", undefined, { sensitivity: "base" });
+      });
+      ordered.push(...members);
+    }
+
+    // 3) Distribute ordered members across 4 columns (round-robin) to balance length
+    colEls.forEach(col => col.innerHTML = ""); // clear any placeholder content
+
+    ordered.forEach((m, index) => {
+      const colIndex = index % colEls.length;
+      const colEl = colEls[colIndex];
+
+      const firstName = escapeHtml(m.firstName);
+      const position = escapeHtml(m.positionTitle);
+      const teamName = escapeHtml(m.team);
+      const portraitUrl = m.portrait?.url || "";
+      const portraitDesc = escapeHtml(m.portrait?.description || `${firstName} — ${position}`);
+      const linkedInUrl = m.linkedInUrl || "";
+
+      // everyone gets an <span class="sup">x</span>, regardless of isLead
+      const cardHtml = `
+        <article class="team-card">
+          <div class="portrait-wrap animate-once" data-anim="slide-up">
+            <img
+              class="portrait"
+              src="${portraitUrl}"
+              alt="${portraitDesc}"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="card-label">
+              <span class="name">
+                ${firstName}<span class="sup">x</span>
+              </span>
+              <span class="role">${position}</span>
+            </div>
+            ${linkedInUrl
+              ? `<a class="linkedin"
+                    href="${escapeHtml(linkedInUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn ${firstName}">
+                  <img src="/assets/logos/social/LI-In-Bug.png" alt="LinkedIn">
+                 </a>`
+              : ""
+            }
+          </div>
+        </article>
+      `;
+
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = cardHtml.trim();
+      const cardEl = wrapper.firstElementChild;
+      colEl.appendChild(cardEl);
+
+      // Ensure new portraits participate in the reveal animation
+      const portraitEl = cardEl.querySelector(".portrait-wrap");
+      if (portraitEl) io.observe(portraitEl);
+    });
+
+    console.log(`[team] Rendered ${ordered.length} members for year ${year}.`);
+  } catch (err) {
+    console.error("[team] Fetch failed:", err);
+  }
+}
+
+// Hook into DOMContentLoaded without breaking your existing listeners
+document.addEventListener("DOMContentLoaded", () => {
+  buildTeamGridForYear(TEAM_YEAR);
+});
+
+
 
   /* =========================================================
      2) HERO SIZING (unverändert)

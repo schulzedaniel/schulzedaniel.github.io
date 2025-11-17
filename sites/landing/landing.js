@@ -197,4 +197,73 @@ function reserveMaskHeight(lineMaskEl, htmlString) {
     });
   })();
 })();
+
+// -------- Static images from Contentful via PHP proxy --------
+const STATIC_IMAGE_QUERY = `
+  query GetStaticImage($code: String!) {
+    imageStaticCollection(where: { code: $code }, limit: 1) {
+      items {
+        code
+        altDiscription
+        file {
+          url
+          description
+        }
+      }
+    }
+  }
+`;
+
+async function loadStaticImage(code, elementId) {
+  const imgEl = document.getElementById(elementId);
+  if (!imgEl) {
+    console.warn(`[static-img] Element not found for id "${elementId}"`);
+    return;
+  }
+
+  try {
+    const res = await fetch("/contentful-proxy.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: STATIC_IMAGE_QUERY, variables: { code } })
+    });
+
+    const text = await res.text();
+    console.log("[static-img] RAW RESPONSE:", text);
+
+    const parsed = JSON.parse(text);
+    const { data, errors } = parsed || {};
+
+    if (errors && errors.length) {
+      console.error("[static-img] GraphQL errors:", errors);
+      return;
+    }
+
+    const item = data?.imageStaticCollection?.items?.[0];   
+    if (!item) {
+      console.warn(`[static-img] No entry found for code "${code}"`);
+      return;
+    }
+
+    const url = item.file?.url;                             
+    const desc = item.altDiscription || item.file?.description || "";
+
+    if (url) {
+      imgEl.src = url;
+      if (!imgEl.alt && desc) imgEl.alt = desc;
+      console.log(`[static-img] Updated #${elementId} → src="${imgEl.src}" alt="${imgEl.alt}"`);
+    } else {
+      console.warn(`[static-img] No image URL returned for code "${code}"`);
+    }
+  } catch (err) {
+    console.error("[static-img] Fetch failed:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadStaticImage("hero-background", "hero-background", {params: "?w=1920&q=1080&fm=webp"});
+  // loadStaticImage("footer-logo", "footer-logo");
+});
+
+
 })();

@@ -65,7 +65,7 @@
 // ---------- Team grid from Contentful via PHP proxy ----------
 
 // Set the year you want to display:
-const TEAM_YEAR = 2025; // adjust as needed
+const TEAM_YEAR = 2026; // adjust as needed
 
 // Content type ID in Contentful: newTeamMemberCard
 const TEAM_QUERY = `

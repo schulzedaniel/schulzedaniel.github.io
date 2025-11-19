@@ -10,6 +10,7 @@ class SiteHeader extends HTMLElement {
         </a>
         <ul class="nav-links" role="menubar">
         <li><a href="/sites/about/about.html">ABOUT</a></li>
+        <li><a href="/sites/events/events.html">EVENTS</a></li>
         <li><a href="/sites/team/team.html">TEAM</a></li>
         <li><a href="/sites/sponsors/sponsors.html">SPONSORS</a></li>
         <li><a href="/sites/watch/watch.html">WATCH</a></li>
@@ -40,6 +41,7 @@ class SiteHeader extends HTMLElement {
         <button id="mobileClose" class="mobile-close" aria-label="Close menu">Close</button>
         </div>
         <a href="/sites/about/about.html">ABOUT</a>
+        <a href="/sites/events/events.html">EVENTS</a>
         <a href="/sites/team/team.html">TEAM</a>
         <a href="/sites/sponsors/sponsors.html">SPONSORS</a>
         <a href="/sites/watch/watch.html">WATCH</a>

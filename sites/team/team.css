@@ -218,7 +218,7 @@
   row-gap: 0.12rem;
   max-width: min(88%, 260px);
   z-index: 8;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255,255,255,0.02));
   border: 1px solid rgba(255,255,255,0.04);
   backdrop-filter: blur(6px);
   box-shadow: 0 6px 20px rgba(2,6,23,0.04);
@@ -244,7 +244,7 @@
   color: var(--accent);
 }
 .card-label .role {
-  color: #1e252f;
+  color: #ffffff;
   font-weight: 700;
   font-size: 0.82rem;
   line-height: 1.1;

@@ -98,6 +98,15 @@ function escapeHtml(str) {
   ));
 }
 
+// Ensure external URLs have a protocol so they don't resolve relative
+function normalizeUrl(url) {
+  if (!url) return "";
+  const trimmed = String(url).trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 async function buildTeamGridForYear(year) {
   const grid = document.getElementById("teamGrid");
   if (!grid) return;
@@ -183,7 +192,8 @@ async function buildTeamGridForYear(year) {
       const teamName = escapeHtml(m.team);
       const portraitUrl = m.portrait?.url || "";
       const portraitDesc = escapeHtml(m.portrait?.description || `${firstName} — ${position}`);
-      const linkedInUrl = m.linkedInUrl || "";
+      const linkedInUrl =normalizeUrl(m.linkedInUrl);
+
 
       // everyone gets an <span class="sup">x</span>, regardless of isLead
       const cardHtml = `

@@ -1,0 +1,16 @@
+{
+  "name": "tedxki-site",
+  "version": "1.0.0",
+  "description": "Static build pipeline for the TEDxKI site",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "render:events": "node scripts/render-events.js",
+    "render:team": "node scripts/render-team.js",
+    "render:landing": "node scripts/render-landing.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "jsdom": "^24.0.0"
+  }
+}

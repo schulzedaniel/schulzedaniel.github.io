@@ -1,56 +1,60 @@
 # TEDxKI Website
 
-Static marketing site for the TEDxKI event. The site is pure HTML/CSS/JS with a small PHP proxy that pulls structured content from Contentful (team, hero assets). Everything lives in this repo – no build step.
+Static marketing site for the TEDxKI event. The source is plain HTML/CSS/JS but a small Node-based build step now pulls structured content from Contentful and pre-renders the pages into `dist/` so the final deploy is a fully static site (no PHP proxy required).
 
 ## How things are structured
-- Entry points: `index.html` (home) plus section pages in `sites/<section>` (about, team, sponsors, watch, contact). Each page pulls in shared CSS/JS from the project root.
-- Shared layout: `partials/includes.js` defines custom elements for the header, social strip, and footer so the nav is maintained in one place.
-- Global behavior: `app.js` handles theme toggle, the mobile menu, scroll fade-ins, sponsor marquee, contact-form helper, and auto-updated copyright year.
+- Entry points live in `index.html` (home) plus section pages in `sites/<section>` (about, team, sponsors, watch, contact). Each template pulls in shared CSS/JS from the project root.
+- Shared layout: `partials/includes.js` defines custom elements (header, social strip, footer) so the navigation lives in one place.
+- Global behavior: `app.js` handles the theme toggle, mobile menu, scroll fade-ins, sponsor marquee, contact helper, etc.
 - Page-specific behavior:
-  - Landing hero/static assets from Contentful: `sites/landing/landing.js` fetches images by `code` (see below).
-  - Team grid from Contentful: `sites/team/team.js` fetches people for a given year and builds a balanced masonry grid.
-  - Watch page: `sites/watch/watch.js` controls the modal video player and year filter. The grid itself is currently static HTML.
-- Styling: `styles.css` holds the shared design system and layout. Each page has its own CSS next to the HTML (e.g., `sites/team/team.css`).
-- Assets: images/logos/icons under `assets/`; videos under `assets/videos/`; working files (e.g., GIMP) live under `assets/GIMP_Files/`.
+  - Landing page (`index.html` + `sites/landing/landing.js`) now just handles hero animations; the hero background URL/alt text is baked in during the build.
+  - Team page (`sites/team/team.html/js`) relies on pre-rendered cards; the script only controls animations and responsive masonry layout.
+  - Events page (`sites/events/events.html/js`) receives its entire dataset inline (JSON script tag) and the JS simply wires up the year switcher + hero sizing animations.
+  - Other sections (watch, sponsors, contact, etc.) remain pure static HTML.
+- Build logic lives in `scripts/`. `render-*.js` files fetch from Contentful via GraphQL and mutate the HTML templates with `jsdom` before writing to `dist/`.
 
 ## Contentful integration
-- Proxy: `contentful-proxy.php` posts GraphQL requests to Contentful and returns the JSON (requires PHP + cURL on the server). It currently hardcodes `spaceId`, `envId`, and an access token—move these to environment variables or a server-only config for production.
-- Team data:
-  - Content type: `newTeamMemberCard` with fields `firstName`, `positionTitle`, `team`, `year`, `isLead`, `linkedInUrl`, `portrait`.
-  - The year is set via `TEAM_YEAR` in `sites/team/team.js`; records are filtered and sorted (team, leads first, name) before rendering.
-- Static images:
-  - Content type: `imageStatic` queried by a `code` field. `sites/landing/landing.js` calls `loadStaticImage('hero-background', 'hero-background')` to fill the landing hero image/alt text.
-  - Add new assets in Contentful, then call `loadStaticImage('<code>', '<element-id>')` for other placeholders.
-- If the proxy is not reachable (e.g., local `file://`), pages still load but dynamic bits (hero image, team grid) will stay empty or use placeholders.
+- Copy `.env.example` to `.env` and fill:
+  - `CONTENTFUL_SPACE_ID`, `CONTENTFUL_ENVIRONMENT` (usually `master`) and `CONTENTFUL_ACCESS_TOKEN` (Content Delivery token).
+  - `TEAM_YEAR` – cohort rendered on the Team page.
+  - `LANDING_HERO_ASSET_CODE` – `imageStatic.code` used for the landing hero background asset.
+- GraphQL queries live in `scripts/queries/`. They pull:
+  - `eventCollection` (full detail) for the events page, including speakers/hosts/performers/teams.
+  - `newTeamMemberCardCollection` filtered by year for the team grid.
+  - `imageStaticCollection` for the landing hero asset.
+- Results are serialized directly into the destination HTML so the deployed files have real markup + an inline JSON payload (`<script id="event-data">`) for any client-side interactions (event switching) without further network calls.
 
 ## Requirements
-- PHP 8+ with cURL enabled (for the Contentful proxy).
-- Any static web server. No Node/build tooling is required.
-- Internet access for Contentful and any externally hosted images/videos.
+- Node.js 18+ (the scripts rely on the built-in `fetch` API and `fs.cp`).
+- A Contentful space with the content types referenced above and a valid CDA token.
+- Optional: any static file server (for previewing the `dist/` output locally).
 
-## Run locally
-1) Ensure PHP is installed (`php -v`).
-2) From the repo root, run `php -S localhost:8000`.
-3) Open `http://localhost:8000/index.html`. Dynamic data (hero image, team grid) will load via `contentful-proxy.php` if the token/space/env are valid.
+## Build & preview locally
+1. `cp .env.example .env` and fill in your Contentful credentials.
+2. Install dependencies: `npm install` (creates `node_modules/`).
+3. Run the build: `npm run build`.
+4. Serve the generated site in `dist/` using any static server (`npx serve dist`, `python -m http.server --directory dist`, etc.).
+
+The build script performs:
+- Clean `dist/`.
+- Copy static assets (CSS, JS, HTML templates, partials, etc.).
+- Render landing, events, and team pages with live data from Contentful and write them back into `dist/`.
 
 ## Editing and adding content
-- Navigation/footer/social links: edit `partials/includes.js` once; all pages pick it up.
+- Navigation/footer/social links: edit `partials/includes.js` once and re-run the build.
 - Shared look and feel: adjust `styles.css`.
-- Page copy/layout: edit the HTML inside `index.html` or `sites/<section>/<section>.html`. Keep the `<script defer>` tags that pull in shared and page JS.
-- Images/icons: drop files into `assets/` and reference them with root-relative paths (e.g., `/assets/images/foo.jpg`). For Contentful-managed images, upload to Contentful and reference via `loadStaticImage`.
-- Watch page: update the cards in `sites/watch/watch.html` (`data-year`, `data-youtube`, titles, thumbnails) and add/remove year options in the `<select>` when a new season is added.
-- Contact CTA/form: the main contact block is a `mailto:` in `index.html`. `app.js` includes a generic form helper that posts to a `data-form-endpoint` URL if you add a real form element.
+- Page copy/layout: edit the HTML in `index.html` or `sites/<section>/<section>.html`. Templates are the source of truth; `dist/` is disposable output.
+- Images/icons: drop files into `assets/` and reference via root-relative paths (e.g., `/assets/images/foo.jpg`). For Contentful-managed assets update the relevant entries in Contentful; the next build will pick them up.
+- Watch page: cards are static HTML (`sites/watch/watch.html`); adjust them + the `<select>` as needed.
+- Contact CTA/form: still a `mailto:` block in `index.html`; update copy there.
 
 ## Maintaining for future years
-- Team rollover:
-  - Create/update `newTeamMemberCard` entries in Contentful for the new year (set `year` and `team` consistently).
-  - Change `TEAM_YEAR` in `sites/team/team.js` to the active year so the correct cohort renders.
-- Hero/background assets: add new `imageStatic` entries (e.g., `hero-background`) and ensure the target element IDs exist in the HTML.
-- Watch archive: add the new year to the filter dropdown and add cards for each talk with the right `data-year` and YouTube IDs.
-- Sponsors/partners: swap marquee logos in `index.html` (or move them to Contentful and query similarly to the team/static image patterns).
-- Tokens/secrets: rotate the Contentful access token and keep secrets out of version control; inject via environment/config on the hosting server.
-- Quick smoke test each season: load `/index.html` and `/sites/team/team.html` locally with the PHP server running and watch the console for Contentful errors.
+- **Team**: add/update `newTeamMemberCard` entries in Contentful for the new year, set `TEAM_YEAR` in `.env`, then rerun the build.
+- **Events**: add new `event` entries in Contentful (with speakers/hosts/performers/teams). The newest year is chosen automatically, but you can override via `EVENT_YEAR` env var if needed.
+- **Landing hero**: create/update an `imageStatic` entry and set `LANDING_HERO_ASSET_CODE` accordingly.
+- **Watch archive / sponsors**: update the static HTML directly.
+- After any Contentful/content changes simply rerun `npm run build` and deploy the refreshed `dist/` directory.
 
 ## Deployment notes
-- Host on a server that can run PHP so `contentful-proxy.php` works. If deploying to a static-only host, dynamic Contentful data will not load; consider replacing the proxy with a serverless function or pre-rendering data during CI.
-- Keep the proxy endpoint path the same (`/contentful-proxy.php`) unless you also update the fetch calls in `sites/landing/landing.js` and `sites/team/team.js`.
+- Deploy the contents of `dist/` to any static host (GitHub Pages, Netlify, Vercel static, S3, etc.). No PHP or runtime data fetching is required.
+- Keep `.env`/tokens out of version control. CI/CD can inject these env vars before running `npm run build` to generate production artifacts.

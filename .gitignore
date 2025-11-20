@@ -2,5 +2,7 @@
 /assets/GIMP_Files/
 notes.md
 /assets/images/team/portrait/
-.contentful-proxy.php
+node_modules/
+dist/
+.env
 contentful-proxy.php

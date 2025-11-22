@@ -3,11 +3,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Contact — TEDxKI</title>
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/sites/team/team.css">
+  <link rel="stylesheet" href="/sites/contact/contact.css">
   <link rel="icon" href="/assets/favicon.ico">
   <script defer="" src="/partials/includes.js"></script>
   <script src="/app.js" defer=""></script>
-  <script src="/sites/team/team.js" defer=""></script>
+  <script src="/sites/contact/contact.js" defer=""></script>
 </head>
 <body>
 
@@ -17,9 +17,104 @@
 
   <main>
 
-    <!-- Centered image at 50% width -->
-    <section style="width:100%; margin:2rem 0; background:transparent;">
-        <img src="/assets/images/UnderConstruction.png" alt="Descriptive alt text" style="width:40%; display:block; margin:0 auto; height:auto; border-radius:12px; object-fit:cover;">
+    <section class="contact-hero safe-pad">
+      <div class="container contact-hero__grid">
+        <div class="contact-hero__copy scroll-fade">
+          <p class="contact-eyebrow">Get in touch</p>
+          <h1 class="contact-title">We're here to listen.</h1>
+          <p class="contact-lede">
+            Reach the team for partnerships, stage ideas, or volunteering. Tell us what you need and we'll route it to the right person.
+          </p>
+          <div class="contact-pills" aria-label="Ways to connect">
+            <span class="pill">Partners</span>
+            <span class="pill">Speakers</span>
+            <span class="pill">Students</span>
+          </div>
+          <div class="contact-actions">
+            <a class="cta" href="#forms">Open the forms</a>
+            <a class="btn ghost" href="#email">Email us</a>
+          </div>
+        </div>
+
+        <div class="contact-hero__panel scroll-fade" aria-label="Direct contact details">
+          <div class="contact-hero__card">
+            <p class="contact-card__label">Direct line</p>
+            <h3>executiveteam@tedxki.com</h3>
+            <p class="contact-card__meta">We aim to reply within two business days.</p>
+            <div class="contact-hero__meta">
+              <p>Need a direct conversation? Drop us a line and we'll connect you with the right person.</p>
+              <a class="mailto cta" href="mailto:executiveteam@tedxki.com?subject=Contact%20via%20Website" aria-label="Send an email to executiveteam at tedxki dot com">
+                ✉️ Email us
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="forms" class="contact-forms safe-pad">
+      <div class="container">
+        <header class="contact-forms__header scroll-fade">
+          <p class="contact-eyebrow">Choose your path</p>
+          <h2>Pick the form that fits what you want to do.</h2>
+          <p class="contact-lede">Tabs keep things tidy. We'll only load a form when you select it.</p>
+        </header>
+
+        <noscript>
+          <p class="noscript-note">
+            JavaScript is disabled. Open the forms directly:
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-vl86zbqAkTRcGb1xheiDVFnkIkYRVpVRP4EJ7GlnyESAow/viewform">Contact us</a>,
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfLz6YWr4o4jhXQ10VH4F0d4fMSnM_YAmaEejxcaxS7xS4B5A/viewform">Become a speaker</a>,
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSesy4dwyks4tXU2TzkT0glqUrLmMTzZi8DatNrzzZZMzhIaqg/viewform">Get involved as a student</a>.
+          </p>
+        </noscript>
+
+        <div class="form-layout">
+          <div class="form-options" role="tablist" aria-label="Contact options">
+            <button class="form-option scroll-fade is-active" data-form-option="" data-key="contact" data-src="https://docs.google.com/forms/d/e/1FAIpQLSc-vl86zbqAkTRcGb1xheiDVFnkIkYRVpVRP4EJ7GlnyESAow/viewform?embedded=true" data-height="1160" data-title="Contact us" data-desc="Questions about the event, partnerships, or press? Drop us a note here." data-link="https://docs.google.com/forms/d/e/1FAIpQLSc-vl86zbqAkTRcGb1xheiDVFnkIkYRVpVRP4EJ7GlnyESAow/viewform" aria-selected="true">
+              <span class="form-option__eyebrow">General inquiries</span>
+              <h3>Contact us</h3>
+              <p>Questions about the event, partnerships, or press? Drop us a note here.</p>
+            </button>
+
+            <button class="form-option scroll-fade" data-form-option="" data-key="speaker" data-src="https://docs.google.com/forms/d/e/1FAIpQLSfLz6YWr4o4jhXQ10VH4F0d4fMSnM_YAmaEejxcaxS7xS4B5A/viewform?embedded=true" data-height="1392" data-title="Become a speaker" data-desc="Tell us about your idea worth spreading and how you would like to shape the stage." data-link="https://docs.google.com/forms/d/e/1FAIpQLSfLz6YWr4o4jhXQ10VH4F0d4fMSnM_YAmaEejxcaxS7xS4B5A/viewform" aria-selected="false">
+              <span class="form-option__eyebrow">Speakers</span>
+              <h3>Become a speaker</h3>
+              <p>Tell us about your idea worth spreading and how you would like to shape the stage.</p>
+            </button>
+
+            <button class="form-option scroll-fade" data-form-option="" data-key="student" data-src="https://docs.google.com/forms/d/e/1FAIpQLSesy4dwyks4tXU2TzkT0glqUrLmMTzZi8DatNrzzZZMzhIaqg/viewform?embedded=true" data-height="1143" data-title="Get involved as a student" data-desc="Join the crew, help run the experience, and learn from the inside." data-link="https://docs.google.com/forms/d/e/1FAIpQLSesy4dwyks4tXU2TzkT0glqUrLmMTzZi8DatNrzzZZMzhIaqg/viewform" aria-selected="false">
+              <span class="form-option__eyebrow">Students</span>
+              <h3>Get involved as a student</h3>
+              <p>Join the crew, help run the experience, and learn from the inside.</p>
+            </button>
+          </div>
+
+          <div class="form-viewer" id="formViewer" role="tabpanel" aria-live="polite" aria-labelledby="">
+            <div class="form-viewer__header">
+              <p class="form-tag">Now viewing</p>
+              <h3 id="formTitle">Contact us</h3>
+              <p class="form-desc" id="formDesc">Questions about the event, partnerships, or press? Drop us a note here.</p>
+            </div>
+            <div class="form-embed">
+              <iframe id="formFrame" title="Contact us form" src="https://docs.google.com/forms/d/e/1FAIpQLSc-vl86zbqAkTRcGb1xheiDVFnkIkYRVpVRP4EJ7GlnyESAow/viewform?embedded=true" data-active-src="" height="1160" frameborder="0" marginheight="0" marginwidth="0" loading="lazy" allowfullscreen=""></iframe>
+            </div>
+            <p class="form-caption">Prefer a full tab? <a id="formDirectLink" href="https://docs.google.com/forms/d/e/1FAIpQLSc-vl86zbqAkTRcGb1xheiDVFnkIkYRVpVRP4EJ7GlnyESAow/viewform" target="_blank" rel="noreferrer">Open in a new window</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="email" class="container contact safe-pad scroll-fade">
+      <h2>Prefer to write to us directly?</h2>
+      <div class="contact-card" role="region" aria-labelledby="contact-head">
+        <h3 id="contact-head">Otherwise, we are happy if you just leave us an email.</h3>
+        <p>Click the button to open your mail app and we will get back to you soon.</p>
+        <a class="mailto cta" href="mailto:executiveteam@tedxki.com?subject=Contact%20via%20Website" aria-label="Send an email to executiveteam at tedxki dot com">
+          ✉️ executiveteam@tedxki.com
+        </a>
+        <p class="privacy-note">We read every message. If it is urgent, include your phone number and topic so we can route it quickly.</p>
+      </div>
     </section>
 
   </main>

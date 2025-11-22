@@ -101,30 +101,19 @@
 
   /* =========================================================
      3) RESPONSIVE MASONRY BALANCING
-        - Liest gewünschte Spaltenanzahl aus Breakpoints aus
-        - Verteilt Karten in jeweils kürzeste Spalte (height-based)
-        - Reflow nur wenn sich die Spaltenanzahl ändert
+        - Unterstützt mehrere Grids (je Team-Sektion)
+        - Immer mindestens 2 Spalten auch auf kleinen Screens
      ========================================================= */
-  const colsWrap = document.querySelector('.team-grid .cols');
-  if (!colsWrap) return;
-
-  // Breakpoints -> Ziel-Spalten
   const mq4 = window.matchMedia('(min-width: 1201px)'); // 4 Spalten
   const mq3 = window.matchMedia('(min-width: 901px) and (max-width: 1200px)'); // 3
-  const mq2a = window.matchMedia('(min-width: 641px) and (max-width: 900px)'); // 2
-  const mq2b = window.matchMedia('(max-width: 640px) and (min-width: 421px)');  // 2
-  const mq1 = window.matchMedia('(max-width: 420px)'); // 1
 
   function targetCols() {
     if (mq4.matches) return 4;
     if (mq3.matches) return 3;
-    if (mq2a.matches || mq2b.matches) return 2;
-    if (mq1.matches) return 1;
-    return 4;
+    return 2; // Mobile bleibt zweispaltig
   }
 
-  // Alle Cards einsammeln (egal in welcher Spalte sie aktuell stecken)
-  function collectCards() {
+  function collectCards(colsWrap) {
     const cards = [];
     colsWrap.querySelectorAll('.col').forEach(col => {
       col.querySelectorAll('.team-card').forEach(card => cards.push(card));
@@ -132,8 +121,7 @@
     return cards;
   }
 
-  // Spaltencontainer neu aufbauen
-  function buildCols(n) {
+  function buildCols(colsWrap, n) {
     colsWrap.innerHTML = '';
     for (let i = 1; i <= n; i++) {
       const col = document.createElement('div');
@@ -142,17 +130,9 @@
     }
   }
 
-  // Hilfsfunktion: aktuelle Spaltenhöhen messen (Summe der Card-Höhen)
-  function colHeights() {
-    return Array.from(colsWrap.querySelectorAll('.col')).map(col => {
-      // clientHeight reicht; Cards haben feste aspect-ratio -> stabile Höhen
-      return col.clientHeight;
-    });
-  }
-
-  // Karte in die kürzeste Spalte stecken
-  function appendToShortest(card) {
+  function appendToShortest(colsWrap, card) {
     const columns = Array.from(colsWrap.querySelectorAll('.col'));
+    if (!columns.length) return;
     let minIdx = 0;
     let minH = columns[0].clientHeight;
     for (let i = 1; i < columns.length; i++) {
@@ -162,34 +142,45 @@
     columns[minIdx].appendChild(card);
   }
 
-  let lastCols = -1;
-  function relayoutIfNeeded() {
+  function relayoutGrid(state) {
     const want = targetCols();
-    if (want === lastCols) return;
+    if (!state || !state.colsWrap) return;
+    if (want === state.lastCols) return;
 
-    const cards = collectCards();
-    buildCols(want);
+    const cards = collectCards(state.colsWrap);
+    buildCols(state.colsWrap, want);
 
-    // Re-insert with balancing (kürzeste Spalte zuerst), in DOM-Reihenfolge
-    // Tipp: rAF erlaubt Layout-Batch
     requestAnimationFrame(() => {
-      cards.forEach(card => appendToShortest(card));
+      cards.forEach(card => appendToShortest(state.colsWrap, card));
     });
 
-    lastCols = want;
+    state.lastCols = want;
   }
 
-  // Initiale Verteilung nach DOMContentLoaded, dann auf resize
-  document.addEventListener('DOMContentLoaded', () => {
-    // Kleines Timeout damit Fonts etc. gelayoutet sind
-    setTimeout(relayoutIfNeeded, 0);
-  });
+  function bindMasonry() {
+    const states = Array.from(document.querySelectorAll('.team-grid .cols')).map(colsWrap => ({
+      colsWrap,
+      lastCols: -1
+    }));
+    if (!states.length) return;
 
-  // Debounced resize
-  let resizeTO;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTO);
-    resizeTO = setTimeout(relayoutIfNeeded, 100);
-  });
+    const relayoutAll = () => states.forEach(relayoutGrid);
+
+    // Kleines Timeout damit Fonts etc. gelayoutet sind
+    setTimeout(relayoutAll, 0);
+
+    // Debounced resize
+    let resizeTO;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTO);
+      resizeTO = setTimeout(relayoutAll, 100);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindMasonry);
+  } else {
+    bindMasonry();
+  }
 
 })();

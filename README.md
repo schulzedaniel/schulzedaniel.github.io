@@ -55,6 +55,21 @@ The build script performs:
 - **Watch archive / sponsors**: update the static HTML directly.
 - After any Contentful/content changes simply rerun `npm run build` and deploy the refreshed `dist/` directory.
 
+## Using Contentful static images (ImageStatic)
+- Content type: `imageStatic` with fields `code` (unique), `altDiscription`, and `file` (asset link).
+- Quick HTML usage: add `data-static-code="your-code"` to any `img` (or `source`/`picture` child). Optional helpers:
+  - `data-static-params="fm=webp&q=85&w=1400"` to append URL params.
+  - `data-static-alt="Custom alt"` to override alt.
+  - `data-placeholder="/assets/fallback.jpg"` and/or `src="/assets/fallback.jpg"` as a local fallback if fetch fails.
+- The build prerender fills `src`/`alt` using Contentful and writes the result into `dist/`. No client fetch is done at runtime.
+- Explicit targets already wired:
+  - Landing hero: `LANDING_HERO_ASSET_CODE` (default `hero-background`) -> `#hero-background` with params `fm=webp&q=86&w=1400`.
+  - About page: `ABOUT_HERO_IMAGE_CODE` and `ABOUT_STORY_IMAGE_CODE` (or `ABOUT_IMAGE_CODES` comma list) -> `#aboutHeroImage` / `#aboutStoryImage` with params baked in.
+- Generic support: `render-team.js`, `render-events.js`, and the “static” pages (contact, sponsors, watch) run `injectStaticImages` with `[data-static-code]`. Add the attribute and rebuild to pull any ImageStatic asset.
+- Adding a new page: either
+  1) Add `data-static-code` images and include the page path in `STATIC_PAGES` inside `scripts/build.js` so it prerenders, or
+  2) Create a small `scripts/render-<page>.js` that calls `injectStaticImages(document, ...)` for custom targets and add a build step.
+
 ## Deployment notes
 - Deploy the contents of `dist/` to any static host (GitHub Pages, Netlify, Vercel static, S3, etc.). No PHP or runtime data fetching is required.
 - Keep `.env`/tokens out of version control. CI/CD can inject these env vars before running `npm run build` to generate production artifacts.

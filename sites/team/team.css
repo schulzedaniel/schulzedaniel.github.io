@@ -4,7 +4,7 @@
    - Team-showcase hero block (red rectangle + image)
    - Animated title + intro text
    - Scroll-fade reveal for portrait cards
-   - Responsive mosaic grid (4→3→2→2→1 columns)
+   - Responsive mosaic grid (4→3→2, mobile bleibt zweispaltig)
    - Glassy label background with accent stripe
    - LinkedIn icon repositioned to top-right
    ========================================================= */
@@ -139,6 +139,35 @@
   padding: 2rem 0 4rem;
   position: relative;
   z-index: 1;
+}
+
+.team-sections {
+  padding: 2rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.team-section {
+  width: 100%;
+}
+
+.team-section__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.team-section__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.team-section .team-grid {
+  padding: 0;
 }
 
 .cols {
@@ -302,11 +331,13 @@
   .cols { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
+  .team-sections { gap: 2rem; }
+  .team-section__header { justify-content: center; }
   .cols { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 420px) {
-  .cols { grid-template-columns: 1fr; }
-  .col { gap: 1.25rem; }
+  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .col { gap: 1.1rem; }
   .portrait-wrap { transform: translateY(0); }
 }
 

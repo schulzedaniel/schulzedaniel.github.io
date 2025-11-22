@@ -74,7 +74,8 @@ function observeForReveal(el) {
   revealObserver.observe(el);
 }
 
-function primeStaticReveals() {
+function primeStaticReveals({ resetIndices = false } = {}) {
+  if (resetIndices) revealIndexSeed = 0;
   const targets = document.querySelectorAll('.animate-once');
   if (!targets.length) return;
   targets.forEach(observeForReveal);
@@ -150,6 +151,7 @@ function loadEvent(year) {
   }
   activeYear = year;
   renderEventContent(document, event, { fallbackYear: year });
+  primeStaticReveals({ resetIndices: true });
   setActiveEventOption(year);
   queueHeroSizing();
   return true;

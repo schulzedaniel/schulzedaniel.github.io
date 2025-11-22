@@ -1,0 +1,235 @@
+/************************************************************
+ * ABOUT PAGE STYLING
+ * - Hero split layout with accent glow
+ * - Two info panels in the middle of the page
+ * - Closing story block with second Contentful image
+ ************************************************************/
+
+.sup { font-size: 0.52em; vertical-align: super; color: var(--accent); }
+.brand { white-space: nowrap; }
+.brand-mark { color: var(--accent); font-weight: 900; }
+.brand-tail { color: var(--text); font-weight: 500; }
+
+.about-eyebrow {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.about-title {
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.about-lede {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  margin: 0 0 0.75rem;
+  color: var(--text);
+}
+
+.about-body {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.about-hero {
+  position: relative;
+  padding-top: calc(var(--nav-height) + 26px);
+  padding-bottom: 3rem;
+  background:
+    radial-gradient(1200px 600px at 8% 10%, rgba(235, 0, 40, 0.10), transparent 42%),
+    radial-gradient(800px 420px at 86% 14%, rgba(15, 23, 42, 0.08), transparent 52%),
+    var(--bg);
+}
+
+.about-hero__grid {
+  max-width: min(1180px, 96vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 3.6rem);
+}
+
+.about-hero__content {
+  z-index: 2;
+}
+
+.about-hero__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.about-hero__glow {
+  position: absolute;
+  inset: 8% -10%;
+  background: radial-gradient(circle at 60% 40%, rgba(235, 0, 40, 0.18), rgba(235, 0, 40, 0.0));
+  filter: blur(50px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.about-figure {
+  position: relative;
+  width: min(520px, 94vw);
+  border-radius: 18px;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(235, 0, 40, 0.14));
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.22);
+}
+
+html[data-theme="dark"] .about-figure {
+  background: linear-gradient(145deg, rgba(20, 23, 28, 0.9), rgba(235, 0, 40, 0.24));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.about-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.about-panels {
+  padding: 1.5rem 0 3rem;
+}
+
+.about-panels__grid {
+  max-width: min(1180px, 96vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.about-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: clamp(1.4rem, 2.2vw, 1.65rem);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="dark"] .about-card {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.about-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+  color: var(--text);
+}
+.about-card h2.about-tight {
+  line-height: 1.1;
+}
+
+.about-card p {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.about-card--accent {
+  background: linear-gradient(145deg, rgba(235, 0, 40, 0.06), rgba(235, 0, 40, 0.0), var(--surface));
+}
+
+.about-names {
+  margin-bottom: 0;
+}
+
+.about-story {
+  padding: 0 0 4rem;
+}
+
+.about-story__grid {
+  max-width: min(1180px, 96vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 3.4rem);
+}
+
+.about-story__media {
+  position: relative;
+}
+
+.about-story__frame {
+  position: absolute;
+  inset: 8% 10% auto auto;
+  width: 86%;
+  height: 78%;
+  border-radius: 16px;
+  background: var(--accent);
+  opacity: 0.12;
+  filter: blur(1px);
+  transform: translateY(10%);
+}
+
+.about-story__media img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 540px;
+  display: block;
+  border-radius: 14px;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.about-story__content p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+@media (max-width: 948px) {
+  .about-hero__grid,
+  .about-story__grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .about-hero__media,
+  .about-story__media {
+    order: -1;
+  }
+
+  .about-figure {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-hero {
+    padding-top: calc(var(--nav-height) + 18px);
+  }
+
+  .about-panels {
+    padding-top: 0.8rem;
+  }
+
+  .about-figure {
+    padding: 8px;
+  }
+
+  .about-card {
+    padding: 1.25rem;
+  }
+}

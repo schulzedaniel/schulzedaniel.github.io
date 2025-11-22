@@ -48,9 +48,11 @@
     radial-gradient(1200px 600px at 8% 10%, rgba(235, 0, 40, 0.10), transparent 42%),
     radial-gradient(800px 420px at 86% 14%, rgba(15, 23, 42, 0.08), transparent 52%),
     var(--bg);
+  overflow: hidden; /* keep the glow from widening the page on small screens */
 }
 
 .about-hero__grid {
+  width: 100%;
   max-width: min(1180px, 96vw);
   margin: 0 auto;
   display: grid;
@@ -82,7 +84,8 @@
 
 .about-figure {
   position: relative;
-  width: min(520px, 94vw);
+  width: 100%;
+  max-width: 520px;
   border-radius: 18px;
   padding: 10px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(235, 0, 40, 0.14));
@@ -109,6 +112,7 @@ html[data-theme="dark"] .about-figure {
 }
 
 .about-panels__grid {
+  width: 100%;
   max-width: min(1180px, 96vw);
   margin: 0 auto;
   display: grid;
@@ -157,6 +161,7 @@ html[data-theme="dark"] .about-card {
 }
 
 .about-story__grid {
+  width: 100%;
   max-width: min(1180px, 96vw);
   margin: 0 auto;
   display: grid;
@@ -197,6 +202,13 @@ html[data-theme="dark"] .about-card {
   margin: 0 0 1rem;
   color: var(--muted);
   line-height: 1.75;
+}
+
+.about-hero .container,
+.about-panels__grid,
+.about-story__grid {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 @media (max-width: 948px) {

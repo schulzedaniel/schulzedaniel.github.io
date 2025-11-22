@@ -65,6 +65,7 @@ body{
   -moz-osx-font-smoothing:grayscale;
   line-height:1.45;
   transition: background var(--transition), color var(--transition);
+  overflow-x:hidden; /* avoid stray horizontal scroll on mobile */
 }
 
 /* helpers */

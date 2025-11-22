@@ -31,7 +31,8 @@
 .contact-hero__grid {
   position: relative;
   z-index: 1;
-  max-width: min(1200px, 96vw);
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -415,6 +416,11 @@ html[data-theme="dark"] .contact-card {
 @media (max-width: 720px) {
   .contact-hero {
     padding-top: calc(var(--nav-height, 68px) + 12px);
+  }
+
+  .contact-hero__grid,
+  .contact-forms > .container {
+    max-width: 100%;
   }
 
   .contact-actions {

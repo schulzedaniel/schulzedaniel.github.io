@@ -68,6 +68,11 @@ body{
   overflow-x:hidden; /* avoid stray horizontal scroll on mobile */
 }
 
+.sup { font-size: 0.52em; vertical-align: super; color: var(--accent); }
+.brand { white-space: nowrap; }
+.brand-mark { color: var(--accent); font-weight: 900; }
+.brand-tail { color: var(--text); font-weight: 500; }
+
 /* helpers */
 .container{ width:100%; max-width:var(--hero-max-width); margin:0 auto; padding:0 1rem; }
 .visually-hidden{ position:absolute!important; clip:rect(1px,1px,1px,1px); padding:0!important; border:0!important; height:1px!important; width:1px!important; overflow:hidden!important; white-space:nowrap!important; }

@@ -5,10 +5,7 @@
  * - Closing story block with second Contentful image
  ************************************************************/
 
-.sup { font-size: 0.52em; vertical-align: super; color: var(--accent); }
-.brand { white-space: nowrap; }
-.brand-mark { color: var(--accent); font-weight: 900; }
-.brand-tail { color: var(--text); font-weight: 500; }
+
 
 .about-eyebrow {
   letter-spacing: 0.22em;

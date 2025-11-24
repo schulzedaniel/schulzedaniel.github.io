@@ -280,6 +280,21 @@ html[data-theme="dark"] .video-card{
 .consent-copy ul{ margin:.35rem 0 1rem 1.1rem; padding:0; color:var(--muted); }
 .consent-copy li{ margin-bottom:.25rem; }
 .modal-actions{ display:flex; gap:.65rem; flex-wrap:wrap; align-items:center; }
+.consent-modal .btn{
+  background: var(--surface);
+  color: var(--text);
+  border:1px solid rgba(0,0,0,0.08);
+}
+html[data-theme="dark"] .consent-modal .btn{
+  background:#1d2024;
+  color:#f5f7fa;
+  border:1px solid rgba(255,255,255,0.08);
+}
+.consent-modal .btn:hover,
+.consent-modal .btn:focus{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
 
 @media (max-width: 1024px){
   .panel{ padding:.9rem 1rem; }

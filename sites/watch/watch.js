@@ -6,6 +6,7 @@
 */
 
 (function(){
+  const BRAND_HTML = '<span class="brand-mark">TED<span class="sup">x</span></span><span class="brand-tail">KI</span>';
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const CONSENT_KEY = 'tedxki_youtube_consent';
@@ -360,12 +361,8 @@
   function initSupercut() {
     if (!supercut) return;
     supercut.addEventListener('canplay', () => {
-      const SHOW_MS = 5200;
       try { supercut.play().catch(() => {}); } catch (e) {}
-      setTimeout(() => {
-        if (!supercut.paused) supercut.pause();
-        supercut.style.opacity = '0.98';
-      }, SHOW_MS);
+      supercut.style.opacity = '0.98';
     });
   }
 
@@ -390,4 +387,3 @@
     bootstrap();
   }
 })();
-  const BRAND_HTML = '<span class="brand-mark">TED<span class="sup">x</span></span><span class="brand-tail">KI</span>';

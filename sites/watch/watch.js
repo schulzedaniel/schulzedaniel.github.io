@@ -360,10 +360,27 @@
 
   function initSupercut() {
     if (!supercut) return;
-    supercut.addEventListener('canplay', () => {
+    supercut.autoplay = true;
+    supercut.muted = true;
+    supercut.playsInline = true;
+    supercut.setAttribute('playsinline', '');
+    supercut.setAttribute('webkit-playsinline', '');
+
+    const tryPlay = () => {
       try { supercut.play().catch(() => {}); } catch (e) {}
       supercut.style.opacity = '0.98';
-    });
+    };
+
+    supercut.addEventListener('canplay', tryPlay, { once: true });
+
+    // iOS may require a user gesture; fall back to first interaction
+    const unlock = () => {
+      tryPlay();
+      window.removeEventListener('touchstart', unlock, true);
+      window.removeEventListener('click', unlock, true);
+    };
+    window.addEventListener('touchstart', unlock, true);
+    window.addEventListener('click', unlock, true);
   }
 
   function bootstrap() {

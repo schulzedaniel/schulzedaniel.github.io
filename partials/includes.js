@@ -1,4 +1,4 @@
-<!-- /partials/includes.js -->
+//<!-- /partials/includes.js -->
 
 class SiteHeader extends HTMLElement {
   connectedCallback(){
@@ -9,6 +9,7 @@ class SiteHeader extends HTMLElement {
         <img id="site-logo" src="/assets/logos/logo.png" alt="Project Logo" width="1176" height="252" loading="eager">
         </a>
         <ul class="nav-links" role="menubar">
+        <li><a href="/index.html">HOME</a></li>
         <li><a href="/sites/about/about.html">ABOUT</a></li>
         <li><a href="/sites/events/events.html">EVENTS</a></li>
         <li><a href="/sites/team/team.html">TEAM</a></li>
@@ -40,6 +41,7 @@ class SiteHeader extends HTMLElement {
         </button>
         <button id="mobileClose" class="mobile-close" aria-label="Close menu">Close</button>
         </div>
+        <a href="/index.html">HOME</a>
         <a href="/sites/about/about.html">ABOUT</a>
         <a href="/sites/events/events.html">EVENTS</a>
         <a href="/sites/team/team.html">TEAM</a>

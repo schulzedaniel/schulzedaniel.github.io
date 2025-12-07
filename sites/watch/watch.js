@@ -123,7 +123,7 @@
     overlay.innerHTML = `
       <span class="spark" aria-hidden="true"></span>
       <span class="play-icon" aria-hidden="true">▶</span>
-      <span class="play-label">Watch talk</span>
+      <span class="play-label">Watch now</span>
     `;
     btn.appendChild(overlay);
 

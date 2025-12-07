@@ -121,8 +121,8 @@ function reserveMaskHeight(lineMaskEl, htmlString) {
 /* ---------------- HERO: typing + reveal (works reliably) ---------------- */
 (function () {
   const maskSel = '.line-mask';
-  const FINAL1 = 'Spread <span class="accent">science</span>,';
-  const FINAL2 = '<span class="accent">connect</span> the world.';
+  const FINAL1 = 'Ideas <span class="accent">change</span>';
+  const FINAL2 = 'everything.';
   const CHAR_DELAY = 70;
 
   async function initHero() {

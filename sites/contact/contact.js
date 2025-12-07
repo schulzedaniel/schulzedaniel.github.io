@@ -5,6 +5,10 @@
   const titleEl = document.getElementById('formTitle');
   const descEl = document.getElementById('formDesc');
   const linkEl = document.getElementById('formDirectLink');
+  const emailBlock = document.getElementById('formEmailBlock');
+  const emailNoteEl = document.getElementById('formEmailNote');
+  const emailTextEl = document.getElementById('formEmailText');
+  const emailButton = document.getElementById('formEmailButton');
 
   if (!options.length || !frame) return;
 
@@ -25,6 +29,39 @@
     if (titleEl) titleEl.textContent = nextTitle;
     const nextDesc = desc || btn.querySelector('p')?.textContent || '';
     if (descEl) descEl.textContent = nextDesc;
+
+    if (emailBlock) {
+      const mailTarget = btn.dataset.email || '';
+      const mailNote = btn.dataset.emailNote || '';
+      const mailText = btn.dataset.emailText || '';
+      const mailSubject = btn.dataset.emailSubject || `${nextTitle} inquiry`;
+      const hasMail = Boolean(mailTarget);
+
+      emailBlock.hidden = !hasMail;
+      emailBlock.style.display = hasMail ? '' : 'none';
+      emailBlock.setAttribute('aria-hidden', hasMail ? 'false' : 'true');
+
+      if (emailNoteEl) {
+        emailNoteEl.hidden = !mailNote;
+        emailNoteEl.textContent = mailNote || '';
+      }
+
+      if (emailTextEl) {
+        emailTextEl.hidden = !mailText;
+        emailTextEl.textContent = mailText || '';
+      }
+
+      if (emailButton) {
+        if (hasMail) {
+          const encodedSubject = mailSubject ? `?subject=${encodeURIComponent(mailSubject)}` : '';
+          emailButton.href = `mailto:${mailTarget}${encodedSubject}`;
+          emailButton.textContent = `✉️ ${mailTarget}`;
+        } else {
+          emailButton.removeAttribute('href');
+          emailButton.textContent = '';
+        }
+      }
+    }
 
     if (frame) {
       const nextSrc = src || '';

@@ -214,12 +214,15 @@ html[data-theme="dark"] .contact-hero__card {
   border-radius: 14px;
   background: var(--surface);
   border: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--text);
   text-align: left;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 200ms ease, border-color 160ms ease;
 }
 
+
 html[data-theme="dark"] .form-option {
+  color: var(--text);
   border-color: rgba(255, 255, 255, 0.08);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
@@ -248,6 +251,7 @@ html[data-theme="dark"] .form-option {
 .form-option h3 {
   margin: 0;
   font-size: 1.2rem;
+  color: var(--text);
 }
 
 .form-option p {
@@ -310,6 +314,43 @@ html[data-theme="dark"] .form-tag {
 .form-desc {
   margin: 0;
   color: var(--muted);
+}
+
+.form-email {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.15rem 0;
+  border: 0;
+  background: transparent;
+}
+
+.form-email[hidden] {
+  display: none !important;
+}
+
+html[data-theme="dark"] .form-email {
+  background: transparent;
+  border: 0;
+}
+
+.form-email__note {
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.form-email__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.form-email__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 .form-embed {

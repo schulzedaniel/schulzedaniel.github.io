@@ -270,7 +270,7 @@
       // Make sure the click wasn't a tiny accidental move by verifying moved < threshold
       if (moved < DRAG_THRESHOLD) {
         // navigate (relative)
-        window.location.href = 'sponsors.html';
+        window.location.href = '/sites/sponsors/sponsors.html';
       } else {
         // tiny move but not considered dragging? schedule resume
         if (resumeTimer) { clearTimeout(resumeTimer); }

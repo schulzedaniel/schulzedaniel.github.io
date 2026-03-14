@@ -1,167 +1,173 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>TEDxKI - Home</title>
-  <link rel="icon" type="image/png" href="/assets/logos/favicon.png">
-  <!-- place this at the very top of <head> BEFORE styles.css to avoid FOUC -->
-  <script>
-    (function(){
-      try {
-        var saved = localStorage.getItem('site-theme'); // 'dark'|'light' or null
-        if (saved === 'dark') {
-          document.documentElement.setAttribute('data-theme','dark');
-        } else if (saved === 'light') {
-          document.documentElement.removeAttribute('data-theme');
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.setAttribute('data-theme','dark');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profiles</title>
+    <style>
+        /* CSS Variables for easy theme switching */
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --bsky-color: #01A6FF;
+            --linkedin-color: #0A66C2;
         }
-      } catch (e) { /* ignore errors */ }
-    })();
-  </script>
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/sites/landing/landing.css">
-  <script defer="" src="/partials/includes.js"></script>
-  <script defer="" src="/app.js"></script>
-  <script defer="" src="/sites/landing/landing.js"></script>
+
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Mobile-First Card Container */
+        .card-container {
+            max-width: 400px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            text-align: center;
+            
+            /* Initial state for JS animation */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        /* Class added by JavaScript */
+        .card-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Profile Avatar / Icon */
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #e5e7eb;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .welcome-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        /* Links/Buttons Layout */
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .social-btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-linkedin {
+            background-color: var(--linkedin-color);
+            box-shadow: 0 4px 15px rgba(10, 102, 194, 0.25);
+        }
+
+        .btn-bluesky {
+            background-color: var(--bsky-color);
+            box-shadow: 0 4px 15px rgba(1, 166, 255, 0.25);
+        }
+
+        .social-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Call to Action */
+        .cta-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-main);
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 12px;
+        }
+    </style>
 </head>
 <body>
 
-  <site-header></site-header>
-
-  <social-strip></social-strip>
-
-
-  <main>
-    <!-- Hero -->
-    <section id="hero" class="hero" aria-label="Hero section">
-      <img id="hero-background" class="hero-image" src="https://images.ctfassets.net/4fo2kk5ozptr/bQjEu7ALVToD1DwOJsjbq/f22094dbc9cd17a791cc7cb1a84de3b2/LandingHeroBackground.jpg?fm=webp&amp;q=86&amp;w=1400" alt="Hero background" data-static-code="hero-background" data-static-params="fm=webp&amp;q=86&amp;w=1400">
-      <div class="hero-overlay container">
-        <div class="hero-copy">
-          <h1 class="hero-text">
-            <span class="line-mask"><span id="line1" class="line-inner"></span></span>
-            <br>
-            <span class="line-mask"><span id="line2" class="line-inner"></span></span>
-          </h1>
-          <p class="hero-sub">From Thought to Action: The Power of Ideas to Transform the World.</p>
+    <div class="card-container" id="mainCard">
+        <div class="avatar">👋</div>
+        <h1>Hello there!</h1>
+        <p class="welcome-text">Hey, thanks for checking out the QR Code! Here you can find my LinkedIn and Bluesky profiles.</p>
+        
+        <div class="links-wrapper">
+            <!-- Replace "#" with your actual LinkedIn URL -->
+            <a href="https://www.linkedin.com/in/daniel-a-schulze-550910205" class="social-btn btn-linkedin" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+                LinkedIn
+            </a>
+            
+            <!-- Replace "#" with your actual Bluesky URL -->
+            <a href="https://bsky.app/profile/daniel-schulze.bsky.social" class="social-btn btn-bluesky" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"><path d="M180 141.964C163.699 104.662 117.552 20.6201 43.903 0.244236C5.56422 -10.3662 0 4.95872 0 32.222C0 98.7115 11.602 114.718 87.311 133.582C43.323 140.476 0.1001 154.685 0.0024 199.153C-0.1069 248.86 43.323 273.909 84.75 240.214C122.115 209.824 162.77 150.155 180 141.964C197.23 150.155 237.885 209.824 275.25 240.214C316.677 273.909 360.107 248.86 360.002 199.153C359.9 154.685 316.677 140.476 272.689 133.582C348.398 114.718 360 98.7115 360 32.222C360 4.95872 354.436 -10.3662 316.097 0.244236C242.448 20.6201 196.301 104.662 180 141.964Z"/></svg>
+                Bluesky
+            </a>
         </div>
-      </div>
-    </section>
+        
+        <p class="cta-text">I count on your vote! 🗳️</p>
+    </div>
 
-    <!-- Content / example sections -->
-    <section class="container content-list">
-      <article class="content-section scroll-fade">
-        <div class="content-inner">
-          <div class="content-media">
-            <img src="https://images.ctfassets.net/4fo2kk5ozptr/4YUvYiqNqv82Y9fIJC83I6/f1fddc1e28918ecb9b8c3af061f3b3f3/Copy_of_IMG_2911.JPG" alt="Hosts on Stage" data-static-code="HostsOnStage (1)">
-          </div>
-          <div class="content-body">
-            <h2>Ideas Change Everything</h2>
-            <p>At TEDxKI, we believe in the power of ideas to spark curiosity, shift perspectives, and transform our world. Through our events, carefully curated with exceptional speakers, meaningful themes, and unforgettable performances, we invite our community to explore new ways of thinking.</p>
-            <p>Founded in 2020, TEDxKI is a volunteer-driven, student-led organisation powered by an international team of curious, motivated learners. United by our passion for innovation and meaningful conversations, it is our mission to amplify bold ideas that challenge assumptions and inspire progress. We work year-round to bring high-quality content and moments of inspiration to our community. Today, we proudly organize some of the largest TED events in the Nordics, creating experiences that bring people together.</p>
-            <a class="cta" href="/sites/team/team.html">Meet the team</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Sponsor marquee -->
-      <section class="sponsor-band" aria-label="Partners &amp; sponsors">
-        <h2>Our Sponsors in 2025</h2>
-        <div class="marquee" id="marquee">
-          <div class="marquee-track" id="marqueeTrack" aria-hidden="true">
-            <!-- real sponsor logos -->
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/39twKdX6ABdaxG0CbxjKX0/189497c2e70e1c28a1ad393c5e8d20de/Pureness-Logo-1-Black__1_.png" alt="Partner 1" data-static-code="Spon-Pureness-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2Pp1I0rvquBbl4MtWmAurh/9cff1f7825871834395874ef43507a24/The_Humble_Co_-_Logo_-_Black.png" alt="Partner 2" data-static-code="Spon-Humble-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/7CIJIzEtYs4UrFSkTZYi0G/27a743a56a12cc785989df56c0480a3e/VW_logo_2rad_CMYK_svart.png" alt="Partner 3" data-static-code="Spon-VitaminWell-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1kGUDbouKQ8lUK04JgJLY5/03746b2f184a460a91fcf428a43f38b8/pink_logo__2_.png" alt="Partner 4" data-static-code="Spon-Nicks-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/3w6H5ZeZIQMUydk8VnbNLQ/0bfa687868649a01905f66ac742fdedc/Skinome_logo_black_RGB.jpg" alt="Partner 5" data-static-code="Spon-Skinome-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1yCDNOZ8f23pYQ8CwjMGLx/c3a958d2a75d0bce74746dc5fe7c5e3c/GE_logo_black_RGB.png" alt="Partner 6" data-static-code="Spon-GreatEarth-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/WvpWKyevr7lJzM89hLTrI/8616da23a8cfb5bd8ba56a48147a51f4/03-Dig-Logo-Stamp-Black-CMYK.png" alt="Partner 7" data-static-code="Spon-DIG-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/7nBk76XqGcPFcSOQwgwDL5/344156c54baf4a98cfe677aecdb2d8dd/billetto_logo_text_dark.png" alt="Partner 8" data-static-code="Spon-Billetto-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6BxJviIxJ4IK1HlMGCubKC/8d435153c843a065e5bd18bb43483105/KI_digital_logotyp_positiv_RGB.png" alt="Partner 9" data-static-code="Spon-KarolinskaInstitutet-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/IO8ld11PpwfjWyXQhQoMt/d5d3cc19cab322f0bc5cb263448e800a/pixelgen_logo_horisontal_black_Title.png" alt="Partner 10" data-static-code="Spon-Pixelgen-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/3pTDleh3fieGxnilXOZAun/fe8e855b5d6064c5a22290e4d63ea119/Centiro_logo_black.png" alt="Partner 11" data-static-code="Spon-Centiro-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6OFVBmJMVLXFx5sRGdpbq1/935c86d6063b7f4547088b587a658546/DIS_Main_Organizational_Logo__Large_.png" alt="Partner 12" data-static-code="Spon-DIS-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2uSlWXrSIzpcTdwwUZed2V/d3334604506abf93a3d4a54077308169/A.Catalyst_AZ_combined_logo_RGB.png" alt="Partner 13" data-static-code="Spon-Astra-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1KoWq7QJW1jVqKLSRQzjWu/476d39bfefd522ef4288bfdcacb5770f/NPH_logo_black.png" alt="Partner 14" data-static-code="Spon-NPH-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4QipX0phZ0ftvUeg0JSEoF/22fd2abd6b129c8ddae802f5ada36bb5/Logo-vertical.png" alt="Partner 15" data-static-code="Spon-Xperience-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6ArALL3hvJzzuPXR8VHn6O/a1d1936376da4a1da6a0630a3535e6fd/NorthX_tworow_color_RGB.png" alt="Partner 16" data-static-code="Spon-NorthX-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1Gr9zjfZOrmD2q9C0OVlJI/510d661515e081247ea3a056b7a4cbac/City_Apotek_logo_page-0001.jpg" alt="Partner 17" data-static-code="Spon-PharmacyMatch-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4zJ4A4pN3txOeeYWdPL6Bs/4f06d663f1d70f9a29fb84e56af8dc73/BKM-loggo-black.png" alt="Partner 18" data-static-code="Spon-BKM-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6A55caz7WUr9ZRNV5KM4mN/d67cfdecc95d7f0491aa7f955f41320c/Whitelines_svart.png" alt="Partner 19" data-static-code="Spon-Whitelines-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4bBBdII0MKarZGMoIwaUcB/1a35e7048cec98599e3549d9abed0547/image__1_.png" alt="Partner 20" data-static-code="Spon-ThePark-2025"></div>            
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6TDypVDvFZQi9ewAgh2VHY/5a40c53615812b2b15fe88b820aa38ef/UD_Deli_Red.png" alt="Partner 21" data-static-code="Spon-UrbanDeli-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2BZvgi1eWXrPy5p43IyqVD/1f14bc497bcf80d997b4d655cd86e21f/Logo_Transparent.png" alt="Partner 22" data-static-code="Spon-HawaiiPoke-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/12oAVyPG7vkJO4vZc6mVUZ/781f7c2a08a622462a5e892bfc9f0e95/1.png" alt="Partner 23" data-static-code="Spon-HagaFlower-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/5gr3rRp45ef5NSfRXFEbiD/112714ff4760f1c391eebf8ff5701ebd/reco.png" alt="Partner 24" data-static-code="Spon-Reco-2025"></div>                                    
-            <!-- duplicate for seamless loop (JS also duplicates if needed) -->
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/39twKdX6ABdaxG0CbxjKX0/189497c2e70e1c28a1ad393c5e8d20de/Pureness-Logo-1-Black__1_.png" alt="Partner 1" data-static-code="Spon-Pureness-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2Pp1I0rvquBbl4MtWmAurh/9cff1f7825871834395874ef43507a24/The_Humble_Co_-_Logo_-_Black.png" alt="Partner 2" data-static-code="Spon-Humble-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/7CIJIzEtYs4UrFSkTZYi0G/27a743a56a12cc785989df56c0480a3e/VW_logo_2rad_CMYK_svart.png" alt="Partner 3" data-static-code="Spon-VitaminWell-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1kGUDbouKQ8lUK04JgJLY5/03746b2f184a460a91fcf428a43f38b8/pink_logo__2_.png" alt="Partner 4" data-static-code="Spon-Nicks-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/3w6H5ZeZIQMUydk8VnbNLQ/0bfa687868649a01905f66ac742fdedc/Skinome_logo_black_RGB.jpg" alt="Partner 5" data-static-code="Spon-Skinome-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1yCDNOZ8f23pYQ8CwjMGLx/c3a958d2a75d0bce74746dc5fe7c5e3c/GE_logo_black_RGB.png" alt="Partner 6" data-static-code="Spon-GreatEarth-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/WvpWKyevr7lJzM89hLTrI/8616da23a8cfb5bd8ba56a48147a51f4/03-Dig-Logo-Stamp-Black-CMYK.png" alt="Partner 7" data-static-code="Spon-DIG-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/7nBk76XqGcPFcSOQwgwDL5/344156c54baf4a98cfe677aecdb2d8dd/billetto_logo_text_dark.png" alt="Partner 8" data-static-code="Spon-Billetto-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6BxJviIxJ4IK1HlMGCubKC/8d435153c843a065e5bd18bb43483105/KI_digital_logotyp_positiv_RGB.png" alt="Partner 9" data-static-code="Spon-KarolinskaInstitutet-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/IO8ld11PpwfjWyXQhQoMt/d5d3cc19cab322f0bc5cb263448e800a/pixelgen_logo_horisontal_black_Title.png" alt="Partner 10" data-static-code="Spon-Pixelgen-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/3pTDleh3fieGxnilXOZAun/fe8e855b5d6064c5a22290e4d63ea119/Centiro_logo_black.png" alt="Partner 11" data-static-code="Spon-Centiro-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6OFVBmJMVLXFx5sRGdpbq1/935c86d6063b7f4547088b587a658546/DIS_Main_Organizational_Logo__Large_.png" alt="Partner 12" data-static-code="Spon-DIS-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2uSlWXrSIzpcTdwwUZed2V/d3334604506abf93a3d4a54077308169/A.Catalyst_AZ_combined_logo_RGB.png" alt="Partner 13" data-static-code="Spon-Astra-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1KoWq7QJW1jVqKLSRQzjWu/476d39bfefd522ef4288bfdcacb5770f/NPH_logo_black.png" alt="Partner 14" data-static-code="Spon-NPH-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4QipX0phZ0ftvUeg0JSEoF/22fd2abd6b129c8ddae802f5ada36bb5/Logo-vertical.png" alt="Partner 15" data-static-code="Spon-Xperience-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6ArALL3hvJzzuPXR8VHn6O/a1d1936376da4a1da6a0630a3535e6fd/NorthX_tworow_color_RGB.png" alt="Partner 16" data-static-code="Spon-NorthX-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/1Gr9zjfZOrmD2q9C0OVlJI/510d661515e081247ea3a056b7a4cbac/City_Apotek_logo_page-0001.jpg" alt="Partner 17" data-static-code="Spon-PharmacyMatch-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4zJ4A4pN3txOeeYWdPL6Bs/4f06d663f1d70f9a29fb84e56af8dc73/BKM-loggo-black.png" alt="Partner 18" data-static-code="Spon-BKM-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6A55caz7WUr9ZRNV5KM4mN/d67cfdecc95d7f0491aa7f955f41320c/Whitelines_svart.png" alt="Partner 19" data-static-code="Spon-Whitelines-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/4bBBdII0MKarZGMoIwaUcB/1a35e7048cec98599e3549d9abed0547/image__1_.png" alt="Partner 20" data-static-code="Spon-ThePark-2025"></div>            
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/6TDypVDvFZQi9ewAgh2VHY/5a40c53615812b2b15fe88b820aa38ef/UD_Deli_Red.png" alt="Partner 21" data-static-code="Spon-UrbanDeli-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/2BZvgi1eWXrPy5p43IyqVD/1f14bc497bcf80d997b4d655cd86e21f/Logo_Transparent.png" alt="Partner 22" data-static-code="Spon-HawaiiPoke-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/12oAVyPG7vkJO4vZc6mVUZ/781f7c2a08a622462a5e892bfc9f0e95/1.png" alt="Partner 23" data-static-code="Spon-HagaFlower-2025"></div>
-            <div class="sponsor-logo"><img src="https://images.ctfassets.net/4fo2kk5ozptr/5gr3rRp45ef5NSfRXFEbiD/112714ff4760f1c391eebf8ff5701ebd/reco.png" alt="Partner 24" data-static-code="Spon-Reco-2025"></div>
-          </div>
-        </div>
-        <p class="marquee-hint">Visit our <a class="hyper-link" href="/sites/sponsors/sponsors.html">Sponsorship</a> page to explore how you can support our work in the coming year.</p>
-      </section>
-
-      <!-- more content -->
-      <article class="content-section reverse scroll-fade">
-        <div class="content-inner">
-          <div class="content-media">
-            <img src="https://images.ctfassets.net/4fo2kk5ozptr/114kOYwn1YoWE6hmPCtHeS/608a7b37d1e4ca8a46aec29dee48425d/Copy_of_IMG_3319.JPG" alt="Speaker on stage" data-static-image-code="SpeakerOnStage (2)">
-          </div>
-          <div class="content-body">
-            <h2>What is <span class="brand-mark">TED</span>?</h2>
-            <p>TEDx is part of the TED initiative, a global movement of independently organised events licensed by TED, created to share ideas worth spreading within local communities.<br>Organised by volunteers who follow TED’s guidelines for quality and format, TEDx gatherings can range from small, intimate sessions to large, full-scale conferences. Each event is uniquely shaped by its community, but all share the same goal: to explore ideas that broaden perspectives and inspire action. At TEDx, we bring this mission to life by hosting talks that span science, technology, the arts, health, social issues, and more. Always in 18 minutes or less.</p>
-            <a class="cta" href="/sites/about/about.html">Learn more</a>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- Contact --> 
-    <section id="contact" class="container contact scroll-fade safe-pad">
-      <h2>Contact</h2>
-
-      <div class="contact-card" role="region" aria-labelledby="contact-head">
-        <h3 id="contact-head">Want to get in touch?</h3>
-        <p>We'd love to hear from you!<br>Whether it's a question, partnership idea or press inquiry. Click the button and send us a message.</p>
-
-        <!-- mailto CTA -->
-        <a class="mailto cta" href="mailto:executiveteam@tedxki.com?subject=Contact%20via%20Website" aria-label="Send an email to executiveteam at tedxki dot com">
-          ✉️ executiveteam@tedxki.com
-        </a>
-
-        <p>...or explore more ways to <a class="hyper-link" href="/sites/contact/contact.html">get in touch</a>.</p>
-        <p></p>
-      </div>
-    </section>
-
-  </main>
-
-  <site-footer></site-footer>
-
-
-
-</body></html>
+    <!-- JavaScript for UI enhancements -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adds a smooth pop-in animation when the user opens the page
+            setTimeout(() => {
+                document.getElementById('mainCard').classList.add('visible');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

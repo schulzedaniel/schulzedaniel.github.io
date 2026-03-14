@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profiles</title>
+    <title>Vote for Me! | My Profiles</title>
     <style>
-        /* CSS Variables for easy theme switching */
+        /* CSS Variables */
         :root {
-            --bg-color: #f7f9fc;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #4b5563;
             --bsky-color: #01A6FF;
             --linkedin-color: #0A66C2;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-color: #ffffff;
         }
 
         /* Basic Reset */
@@ -23,150 +22,240 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
+        /* Animated Gradient Background */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background: linear-gradient(-45deg, #1f2937, #4f46e5, #0ea5e9, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow: hidden;
         }
 
-        /* Mobile-First Card Container */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ambient floating orbs for extra depth */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #e81cff;
+            top: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #40c9ff;
+            bottom: -100px;
+            right: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(30px) scale(1.1); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+
+        /* Glassmorphism Card Container */
         .card-container {
-            max-width: 400px;
+            position: relative;
+            z-index: 10;
+            max-width: 420px;
             width: 100%;
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 45px 35px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
             text-align: center;
             
-            /* Initial state for JS animation */
+            /* Staggered JS Animation Init */
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            transform: scale(0.95);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Class added by JavaScript */
         .card-container.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        /* Profile Avatar / Icon */
+        /* Profile Avatar */
         .avatar {
-            width: 80px;
-            height: 80px;
-            background: #e5e7eb;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+            border: 2px solid var(--glass-border);
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 36px;
+            font-size: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         /* Typography */
         h1 {
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 26px;
+            font-weight: 800;
             margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .welcome-text {
             font-size: 16px;
-            line-height: 1.5;
-            color: var(--text-muted);
-            margin-bottom: 32px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 35px;
+            font-weight: 400;
         }
 
         /* Links/Buttons Layout */
         .links-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 18px;
+            margin-bottom: 35px;
         }
 
         .social-btn {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             width: 100%;
-            padding: 16px;
-            border-radius: 14px;
+            padding: 18px;
+            border-radius: 16px;
             text-decoration: none;
             color: #ffffff;
             font-weight: 600;
             font-size: 16px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-btn:hover::before {
+            opacity: 1;
         }
 
         .social-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         .btn-linkedin {
             background-color: var(--linkedin-color);
-            box-shadow: 0 4px 15px rgba(10, 102, 194, 0.25);
+            box-shadow: 0 8px 25px rgba(10, 102, 194, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .btn-bluesky {
             background-color: var(--bsky-color);
-            box-shadow: 0 4px 15px rgba(1, 166, 255, 0.25);
+            box-shadow: 0 8px 25px rgba(1, 166, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* Dynamic SVG Scaling Fix */
         .social-btn svg {
-            width: 24px;
             height: 24px;
+            width: auto; /* Allows SVGs with non-square viewBoxes to scale naturally */
             fill: currentColor;
+            z-index: 1;
+        }
+        
+        .social-btn span {
+            z-index: 1;
         }
 
-        /* Call to Action */
+        /* Call to Action Badge */
+        .cta-wrapper {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border: 1px solid var(--glass-border);
+            padding: 16px;
+            border-radius: 16px;
+            display: inline-block;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
         .cta-text {
             font-weight: 700;
             font-size: 18px;
-            color: var(--text-main);
-            background: #f3f4f6;
-            padding: 12px;
-            border-radius: 12px;
+            color: #ffffff;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
 
+    <!-- Ambient background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
     <div class="card-container" id="mainCard">
         <div class="avatar">👋</div>
         <h1>Hello there!</h1>
-        <p class="welcome-text">Hey, thanks for checking out the QR Code! Here you can find my LinkedIn and Bluesky profiles.</p>
+        <p class="welcome-text">Thanks for checking out the QR Code! Here you can find my social profiles.</p>
         
         <div class="links-wrapper">
-            <!-- Replace "#" with your actual LinkedIn URL -->
+            <!-- LinkedIn Button -->
             <a href="https://www.linkedin.com/in/daniel-a-schulze-550910205" class="social-btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-                LinkedIn
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+                </svg>
+                <span>LinkedIn</span>
             </a>
             
-            <!-- Replace "#" with your actual Bluesky URL -->
+            <!-- Official Bluesky Butterfly Logo (Original curve path restored) -->
             <a href="https://bsky.app/profile/daniel-schulze.bsky.social" class="social-btn btn-bluesky" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"><path d="M180 141.964C163.699 104.662 117.552 20.6201 43.903 0.244236C5.56422 -10.3662 0 4.95872 0 32.222C0 98.7115 11.602 114.718 87.311 133.582C43.323 140.476 0.1001 154.685 0.0024 199.153C-0.1069 248.86 43.323 273.909 84.75 240.214C122.115 209.824 162.77 150.155 180 141.964C197.23 150.155 237.885 209.824 275.25 240.214C316.677 273.909 360.107 248.86 360.002 199.153C359.9 154.685 316.677 140.476 272.689 133.582C348.398 114.718 360 98.7115 360 32.222C360 4.95872 354.436 -10.3662 316.097 0.244236C242.448 20.6201 196.301 104.662 180 141.964Z"/></svg>
-                Bluesky
+                <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M180 141.964C163.699 104.662 117.552 20.6201 43.903 0.244236C5.56422 -10.3662 0 4.95872 0 32.222C0 98.7115 11.602 114.718 87.311 133.582C43.323 140.476 0.1001 154.685 0.0024 199.153C-0.1069 248.86 43.323 273.909 84.75 240.214C122.115 209.824 162.77 150.155 180 141.964C197.23 150.155 237.885 209.824 275.25 240.214C316.677 273.909 360.107 248.86 360.002 199.153C359.9 154.685 316.677 140.476 272.689 133.582C348.398 114.718 360 98.7115 360 32.222C360 4.95872 354.436 -10.3662 316.097 0.244236C242.448 20.6201 196.301 104.662 180 141.964Z"/>
+                </svg>
+                <span>Bluesky</span>
             </a>
         </div>
         
-        <p class="cta-text">I count on your vote! 🗳️</p>
+        <div class="cta-wrapper">
+            <p class="cta-text">I count on your vote! 🗳️</p>
+        </div>
     </div>
 
-    <!-- JavaScript for UI enhancements -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Adds a smooth pop-in animation when the user opens the page
             setTimeout(() => {
                 document.getElementById('mainCard').classList.add('visible');
-            }, 100);
+            }, 150);
         });
     </script>
 </body>

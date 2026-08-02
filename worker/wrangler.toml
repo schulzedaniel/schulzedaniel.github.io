@@ -1,0 +1,17 @@
+name = "email-reveal"
+main = "email-worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+# Only these origins may ask for the address. Add your custom domain here too
+# if you point one at the site. Everything else gets a 403.
+# localhost and 127.0.0.1 are different origins to a browser, and people type
+# both — allow the usual local-preview ports so testing doesn't silently 403.
+[vars]
+ALLOWED_ORIGINS = "https://schulzedaniel.github.io,http://localhost:8000,http://127.0.0.1:8000,http://localhost:3000,http://127.0.0.1:3000"
+
+# TURNSTILE_SECRET and EMAIL are secrets, not vars — they must never be in this
+# file. Set them once, from the worker/ directory:
+#
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put EMAIL

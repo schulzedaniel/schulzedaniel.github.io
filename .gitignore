@@ -6,3 +6,6 @@ node_modules/
 dist/
 .env
 contentful-proxy.php
+
+# Keep README local only
+/README.md
